@@ -114,8 +114,8 @@ GLPlayer::draw(){
   glTranslatef(this->getX(),this->getY(),this->getZ());
 
 
-  glRotatef(-(double)m_dXvel*0.2, 0.0f, 1.0f, 0.0f);
-  glRotatef(-(double)m_dXvel*0.3, 0.0f, 0.0f, 1.0f);
+  glRotatef(-(this->getXtilt()), 0.0f, 1.0f, 0.0f);
+  glRotatef(-(this->getYtilt()), 0.0f, 0.0f, 1.0f);
 
   if(m_dOverrideY == 0){
     glRotatef((double)m_dYvel*0.2, 1.0f, 0.0f, 0.0f);
@@ -311,14 +311,25 @@ GLPlayer::move(const GLint &x, const GLint &y, const GLint &z){
     m_dEnergy = 100;
   }
 
-  this->tilt(m_dXvel, m_dYvel);
+//   if (this->getX() == -5){
+//     this->tilt(MAXSPEED, m_dYvel);
+//   }
+//   else if(this->getX() == 5){
+//     this->tilt(MAXSPEED, m_dYvel);
+//   }
+//   else{
+//     this->tilt(m_dXvel, m_dYvel);
+//   }
 
+  this->tilt(this->getX()*15, m_dYvel,  this->getX()*15 );
 
   this->shift(m_dXvel, m_dYvel);
 
 
   
 }
+
+
 
 
 void 

@@ -62,7 +62,7 @@ public:
 	void drawAll()const;
 	virtual void draw();
 	GLint shift(const GLdouble &x=0, const GLdouble &y=0, const GLdouble &z=0);
-	void tilt(const GLdouble &x=0, const GLdouble &y=0);
+	void tilt(const GLdouble &x=0, const GLdouble &y=0,const GLdouble &z=0 );
 
 // Access
 

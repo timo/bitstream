@@ -160,11 +160,10 @@ GLEntity::shift(const GLdouble &xvel,const GLdouble &yvel, const GLdouble &zvel 
 }
 
 void 
-GLEntity::tilt(const GLdouble &x, const GLdouble &y){
-
+GLEntity::tilt(const GLdouble &x, const GLdouble &y, const GLdouble &z){
   m_dXtilt = x/10;
   m_dYtilt = -y*(0.05);
-  m_dZtilt = m_dXtilt;
+  m_dZtilt = z;
 }
 
 
