@@ -1,8 +1,9 @@
 #########################################################################
 
-BIN = Unnamed
+BIN = bitstream
 CYGWIN_DIR=  
-SRCS = main.cpp GLEntity.cpp GLPlayer.cpp events.cpp GLMap.cpp gl.cpp
+SRCDIR = src
+SRCS = src/main.cpp src/GLEntity.cpp src/GLPlayer.cpp src/events.cpp src/GLMap.cpp src/gl.cpp
 
 CXX     = g++
 CFLAGS  = -g   -Wall  -ansi -DDEBUG
@@ -37,7 +38,7 @@ $(BIN):$(OBJS)
 	@echo "|          and linking libraries to"
 	@echo "|          create binary (executable) file: "$(BIN)	
 	@echo "+-----------------------------------------------------------------+"
-	$(CXX) $(CFLAGS) $(INCLUDE) $^ -o $@   $(LDFLAGS)
+	$(CXX) $(CFLAGS) $(INCLUDE) $^ -o $@  $(LDFLAGS)
 	@echo "+-----------------------------------------------------------------+"
 	@echo "|    Binary file: "$(BIN)" was successfully created."
 	@echo "|    This binary can be executed by running ./"$(BIN)
@@ -49,7 +50,7 @@ $(BIN):$(OBJS)
 	@echo "|          Compiling file: "$?
 	@echo "|          to create object file: "$@	
 	@echo "+-----------------------------------------------------------------+"
-	$(CXX) $(CFLAGS) $(INCLUDE)  -c $<
+	$(CXX) $(CFLAGS) $(INCLUDE)  -o $@ -c $<
 
 
 all:$(ALL)
@@ -58,7 +59,7 @@ clean:
 	@echo "+-----------------------------------------------------------------+"
 	@echo "|     Removing all  binaries and temp files"
 	@echo "+-----------------------------------------------------------------+"
-	@ rm -f *.o
+	@ rm -f src/*.o
 	@ rm -f *.dat
 	@ rm -f $(ALL)
 	@ rm -f $(BIN)
@@ -69,8 +70,5 @@ clean:
 
 
 
-#
-# makefile created  by Sean Leonard in '99
-# added EE445 specifics in '01
 
 
