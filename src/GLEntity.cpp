@@ -22,6 +22,8 @@
 
 //============================= Lifecycle ====================================
 
+static GLuint m_uTotal = 0;
+
 static GLdouble m_dXtilt;
 static GLdouble m_dYtilt;
 
@@ -35,7 +37,7 @@ GLEntity::GLEntity(const GLdouble &x, const GLdouble &y, const GLdouble &z)
   cout << "GLEntity created" << endl;
 #endif
 
-  //  m_uTotal += 1;
+  m_uTotal += 1;
 
 }// GLEntity
 
