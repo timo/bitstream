@@ -90,9 +90,11 @@ private:
 	GLdouble m_dX;
 	GLdouble m_dY;
 	GLdouble m_dZ;
+	GLuint m_uTotal;
 
-	//	static GLdouble m_dXtilt;
-	//	static GLdouble m_dYtilt;
+	GLdouble m_dXtilt;
+	GLdouble m_dYtilt;
+	GLdouble m_dZtilt;
 
 	GLint m_idraw;
 

@@ -39,11 +39,7 @@ using namespace std;
 
 //============================= Lifecycle ====================================
 
-static GLuint m_uTotal = 0;
 
-static GLdouble m_dXtilt;
-static GLdouble m_dYtilt;
-static GLdouble m_dZtilt;
 
 GLEntity::GLEntity(const GLdouble &x, const GLdouble &y, const GLdouble &z)
   :m_dX(x),
