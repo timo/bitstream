@@ -4,7 +4,7 @@
 #include <iostream>
 #include <GL/gl.h>
 #include <SDL/SDL.h>
-
+#include <fstream>
 #include "Texture.h"
 
 //Default Constructor
@@ -250,4 +250,179 @@ Texture::getID()const
 
   return ID;
 
+}
+
+unsigned char *readpcx( ifstream &file, unsigned char *palette,unsigned short int *length, unsigned short int *height);
+
+bool
+Texture::LoadPCX ( char* filename, const GLint &minFilter, const GLint &maxFilter)
+{
+
+  ifstream filepcx(filename, ios::binary);
+  if(!filepcx){
+
+    cout << "Unable to open file" << endl;
+    return false;
+
+  }
+    cout << &filepcx << endl;
+  unsigned char *image;
+  unsigned short int length, height;
+  unsigned char palette[768];
+  fprintf (stderr, "Attempting to load \"%s\"\n", filename);
+
+  if ((image=readpcx(filepcx,palette,&length,&height))==NULL)
+    {
+      printf("Error loading file!\n");
+      return(1);
+    }
+
+
+  cout << filepcx << endl;
+
+  if(filepcx)
+    {      
+      cout << "Closing file" << endl;
+      filepcx.close();
+    }
+  else
+    {
+      cout << "Texture load failed." << endl;
+    }
+
+
+  cout << length << "x" <<height << endl;
+
+  unsigned char *rgbimage;
+  rgbimage = new unsigned char[3*(length)*(height)];
+  
+  for(int i=0; i >=(length*height); i++){
+    cout << "Converting" << endl;
+    rgbimage[i*3] = palette[image[i]];
+
+  }
+
+  unsigned char *stretched = new unsigned char[3*(length)*(height)];
+
+  gluScaleImage(GL_RGB, length, height, GL_UNSIGNED_BYTE, rgbimage, 256, 256, GL_UNSIGNED_BYTE, stretched);
+
+ glGenTextures (1, &ID);
+ glBindTexture(GL_TEXTURE_2D, ID);
+
+ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  
+ glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+ glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, maxFilter);
+
+ cout << length << " x " << height << endl;
+
+ glTexImage2D (GL_TEXTURE_2D, 0,  3, 256, 256, 0, GL_RGB, GL_UNSIGNED_BYTE, stretched);
+
+ //Bind the texture to a texture object 
+  
+ fprintf (stderr, "Texture::LoadPCX: loaded \"%s\" correctly\n", filename);
+  
+ return true;
+ 
+    
+}
+
+
+
+void readpcximage( ifstream &file, unsigned char * target,const int &size)
+{
+  unsigned char buf;
+  unsigned int counter;
+  int i=0;
+  while(i<=size)  /* Image not entirely read? */
+    {
+      /* Get one byte */
+      file.read(&buf,1);
+      /* Check the 2 most significant bits */
+      if ((buf&192)==192)
+	{
+	  /* We have 11xxxxxx */
+	  counter=(buf&63);         /* Number of times to repeat next byte */
+	  file.read(&buf,1);     /* Get next byte */
+	  for(;counter>0;counter--) /* and copy it counter times */
+	    {
+	      ((char*)target)[i]=buf;
+	      i++;   /* increase the number of bytes written */
+	    }
+	}
+      else
+	{
+	  /* Just copy the byte */
+	  ((char*)target)[i]=buf;
+	  i++;   /* Increase the number of bytes written */
+	}
+    }
+
+}
+
+
+unsigned char *readpcx(ifstream &file,unsigned char *mypalette,unsigned short int *length, unsigned short int *height)
+{
+
+  typedef struct
+  {
+    char signature;
+    char version;
+    char encoding;
+    char bytes_per_pixel;
+    unsigned short int xmin;
+    unsigned short int ymin;
+    unsigned short int xmax;
+    unsigned short int ymax;
+    unsigned short int vres;
+    unsigned short int hres;
+    char palette[48];
+    char reserved;
+    char color_layers;
+    unsigned short int bytes_per_line;
+    unsigned short int palette_type;
+    char unused[58];
+  }PCX_Header;
+
+  /* Returns NULL if failed, otherwise a pointer to the loaded image */
+  PCX_Header header;
+  unsigned char *target;
+  // fseek(file,0,SEEK_SET);
+
+  file.seekg(0);
+  //  fread(&header,sizeof(PCX_Header),1,file);   /* read the header */
+  file.read(reinterpret_cast<char *>(&header),sizeof(PCX_Header));
+
+  /* Check if this file is in pcx format */
+  if((header.signature!=0x0a)||(header.version!=5)){
+    cout << "Invalid PCX" << endl;
+    return(NULL);
+  }
+  
+  else
+    {/* it is! */
+      /* Return height and length */
+
+      *length=header.xmax+1-header.xmin;
+      *height=header.ymax+1-header.ymin;
+
+      /* Allocate the sprite buffer */
+      //  target=(void *)malloc((*length)*(*height));
+
+      target = new unsigned char[(*length)*(*height)];
+      /* Read the image */
+
+      readpcximage(file,target,(*length)*(*height));
+
+      /* Get the palette */
+      // fread(palette,1,768,file);
+
+      file.seekg(768, ios::end);
+      file.read(mypalette, 768);
+
+      /* PCX succesfully read! */
+
+      return(target);
+    }
 }

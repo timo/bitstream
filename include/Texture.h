@@ -24,6 +24,7 @@ public:
 
 	bool LoadTGA(char* filename, const GLfloat &minFilter, const GLfloat &maxFilter);
 	bool LoadBMP(char* filename, const GLint &minFilter, const GLint &maxFilter);
+	bool LoadPCX(char* filename, const GLint &minFilter, const GLint &maxFilter);
 	unsigned int getID()const;
 
 protected:

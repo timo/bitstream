@@ -41,6 +41,8 @@ int GLDraw(const GLPlayer &Player1){
   glMatrixMode(GL_MODELVIEW);
 
   map1.draw();
+
+
   Player1.draw();
 
   SDL_GL_SwapBuffers();
@@ -56,7 +58,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
 
   //Textures
-  playerSkin.LoadBMP ("data/player/player.bmp", GL_LINEAR, GL_LINEAR);
+  playerSkin.LoadPCX ("data/player/player.pcx", GL_LINEAR, GL_LINEAR);
   gndSkin.LoadBMP("data/ground.bmp", GL_LINEAR, GL_LINEAR);
   skySkin.LoadBMP("data/sky.bmp", GL_LINEAR, GL_LINEAR);
 
@@ -79,6 +81,9 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
   glMatrixMode(GL_MODELVIEW);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+//   glPolygonMode (GL_FRONT, GL_FILL);
+//   glPolygonMode (GL_BACK, GL_FILL);
 
 //    glCullFace( GL_BACK );
 //    glFrontFace( GL_CCW );

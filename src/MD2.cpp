@@ -4,9 +4,9 @@
 
 #include "Math.h"
 #include "MD2.h"
+#include "Texture.h"
 
 MD2::MD2 () 
-
   :numGlCommands(0), 
    stateStart(IDLE1_START), 
    stateEnd(IDLE1_END),
