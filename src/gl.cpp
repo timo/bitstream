@@ -18,6 +18,7 @@ jm@icculus.org
 #include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GL/glx.h>
 #include <SDL/SDL.h>
 #include <math.h>
 #include <string>
@@ -42,6 +43,7 @@ static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
 
 //BSM player;
 BSM player;
+GLuint  base; /* Base Display List For The Font Set */
 vector < GLEntity * > shotptr;
 unsigned shotsize;
 GLPlayer *playerptr;
@@ -51,40 +53,66 @@ Texture skySkin;
 GLuint texture[3];
 GLuint sky[3];
 
+GLvoid buildFont( GLvoid );
+GLvoid glPrint( const char *fmt, ... );
+
+
 //========================== GLDraw() ===================================
 
 
 int GLDraw(GLPlayer &Player1){
 
   static GLMap map1;
+  static Uint32 Frames;
+  static Uint32 lasttime;
+  GLfloat seconds;
+  static GLfloat fps;
 
   playerptr = &Player1;
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glLoadIdentity();
+
   glMatrixMode(GL_MODELVIEW);
 
 
   glPushMatrix();  // Things affected by perspective
-    map1.draw();
-
-    for(unsigned i=0; i < shotsize; i++){  // Draw the firepower
-      shotptr[i]->draw();
-
-    }
-				       
-				       
-
+  map1.draw();
+  
+  for(unsigned i=0; i < shotsize; i++){  // Draw the firepower
+    shotptr[i]->draw();
+      
+  }
+  
+			        
   glPopMatrix();
-
-
+  
+  
   Player1.collide();  // Player stuff
   glEnable(GL_BLEND);
   Player1.draw();
 
+  //TEXT
 
+  glTranslatef(0.0f,0.0f,-1.0f);
+  glRasterPos2f( -0.5f, 0.36f );				       
+  glPrint("Bitstream pre-Alpha");
 
+  //FPS
+    Frames++;
+    {
+	GLint t = SDL_GetTicks();
+	if (t - lasttime >= 1000) {
+	    seconds = (GLfloat)(t - lasttime) / 1000.0;
+	    fps = (GLfloat)Frames / (GLfloat)seconds;
+	    lasttime = t;
+	    Frames = 0;
+	}
+    }
+
+  glRasterPos2f( 0.4f, 0.36f );
+  glPrint("fps: %3.2f", fps);
   SDL_GL_SwapBuffers();
 
   return 0;
@@ -137,6 +165,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glLightfv(GL_LIGHT1, GL_POSITION,LightPosition);	
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
 
+  buildFont();
 
   glBlendFunc(GL_SRC_ALPHA,GL_SRC_COLOR);
 
@@ -165,77 +194,77 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 // Shamelessly stolen from Ti Leggett's SDL port of NeHe tutorial 13
 
 
-// GLvoid KillFont( GLvoid )
-// {
-//     glDeleteLists( base, 96 );
+GLvoid KillFont( GLvoid )
+{
+    glDeleteLists( base, 96 );
 
-//     return;
-// }
+    return;
+}
 
 
-// GLvoid buildFont( GLvoid )
-// {
-//     Display *dpy;          /* Our current X display */
-//     XFontStruct *fontInfo; /* Our font info */
+GLvoid buildFont( GLvoid )
+{
+    Display *dpy;          /* Our current X display */
+    XFontStruct *fontInfo; /* Our font info */
 
-//     /* Sotrage for 96 characters */
-//     base = glGenLists( 96 );
+    /* Sotrage for 96 characters */
+    base = glGenLists( 96 );
 
-//     /* Get our current display long enough to get the fonts */
-//     dpy = XOpenDisplay( NULL );
+    /* Get our current display long enough to get the fonts */
+    dpy = XOpenDisplay( NULL );
 
-//     /* Get the font information */
-//     fontInfo = XLoadQueryFont( dpy, "-adobe-helvetica-medium-r-normal--18-*-*-*-p-*-iso8859-1" );
+    /* Get the font information */
+    fontInfo = XLoadQueryFont( dpy, "-adobe-helvetica-medium-r-normal--18-*-*-*-p-*-iso8859-1" );
 
-//     /* If the above font didn't exist try one that should */
-//     if ( fontInfo == NULL )
-// 	{
-// 	    fontInfo = XLoadQueryFont( dpy, "fixed" );
-// 	    /* If that font doesn't exist, something is wrong */
-// 	    if ( fontInfo == NULL )
-// 		{
-// 		    fprintf( stderr, "no X font available?\n" );
-// 		    Quit( 1 );
-// 		}
-// 	}
+    /* If the above font didn't exist try one that should */
+    if ( fontInfo == NULL )
+	{
+	    fontInfo = XLoadQueryFont( dpy, "fixed" );
+	    /* If that font doesn't exist, something is wrong */
+	    if ( fontInfo == NULL )
+		{
+		    fprintf( stderr, "no X font available?\n" );
+		    SDL_Quit();
+		}
+	}
 
-//     /* generate the list */
-//     glXUseXFont( fontInfo->fid, 32, 96, base );
+    /* generate the list */
+    glXUseXFont( fontInfo->fid, 32, 96, base );
 
-//     /* Recover some memory */
-//     XFreeFont( dpy, fontInfo );
+    /* Recover some memory */
+    XFreeFont( dpy, fontInfo );
 
-//     /* close the display now that we're done with it */
-//     XCloseDisplay( dpy );
+    /* close the display now that we're done with it */
+    XCloseDisplay( dpy );
 
-//     return;
-// }
+    return;
+}
 
-// /* Print our GL text to the screen */
-// GLvoid glPrint( const char *fmt, ... )
-// {
-//     char text[256]; /* Holds our string */
-//     va_list ap;     /* Pointer to our list of elements */
+/* Print our GL text to the screen */
+GLvoid glPrint( const char *fmt, ... )
+{
+    char text[256]; /* Holds our string */
+    va_list ap;     /* Pointer to our list of elements */
 
-//     /* If there's no text, do nothing */
-//     if ( fmt == NULL )
-// 	return;
+    /* If there's no text, do nothing */
+    if ( fmt == NULL )
+	return;
 
-//     /* Parses The String For Variables */
-//     va_start( ap, fmt );
-//       /* Converts Symbols To Actual Numbers */
-//       vsprintf( text, fmt, ap );
-//     va_end( ap );
+    /* Parses The String For Variables */
+    va_start( ap, fmt );
+      /* Converts Symbols To Actual Numbers */
+    vsprintf( text, fmt, ap );
+    va_end( ap );
 
-//     /* Pushes the Display List Bits */
-//     glPushAttrib( GL_LIST_BIT );
+    /* Pushes the Display List Bits */
+    glPushAttrib( GL_LIST_BIT );
 
-//     /* Sets base character to 32 */
-//     glListBase( base - 32 );
+    /* Sets base character to 32 */
+    glListBase( base - 32 );
 
-//     /* Draws the text */
-//     glCallLists( strlen( text ), GL_UNSIGNED_BYTE, text );
+    /* Draws the text */
+    glCallLists( strlen( text ), GL_UNSIGNED_BYTE, text );
 
-//     /* Pops the Display List Bits */
-//     glPopAttrib( );
-// }
+    /* Pops the Display List Bits */
+    glPopAttrib( );
+}

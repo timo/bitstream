@@ -119,7 +119,7 @@ int main(int argc,char * argv[])
     exit(2);
   }
 
-  SDL_WM_SetCaption("Bitstream", NULL);
+  SDL_WM_SetCaption("Bitstream Pre-Alpha", NULL);
 
   setup_opengl( width, height, bpp );
 
