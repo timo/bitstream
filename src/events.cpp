@@ -113,6 +113,7 @@ int process_events(GLPlayer &Player1)
 
       case SDL_KEYDOWN:
 
+	cout << SDL_GetKeyName(event.key.keysym.sym) << endl;
 	if (event.key.state == SDL_PRESSED){
 
 	  switch( event.key.keysym.sym ){
@@ -149,7 +150,7 @@ int process_events(GLPlayer &Player1)
 	y=keyy;
 
 	if((event.key.keysym.sym  & SDLK_RETURN) && 
-	   (event.key.keysym.mod & (KMOD_ALT | KMOD_CTRL) )         )
+	   (event.key.keysym.mod & (KMOD_ALT | KMOD_META) )         )
 	  {	   
 	    return 2; //Send video resize data.
 	  }

@@ -113,7 +113,7 @@ int GLDraw(GLPlayer &Player1){
 
     (*entityiter)->draw();
     // Check for collisions
-    for (entityiter2=entityptr.begin();entityiter2!=entityptr.end();entityiter2++){
+    for (entityiter2=entityiter;entityiter2!=entityptr.end();entityiter2++){
 
       if(entityiter!=entityiter2){
 	if(SphericalHit(**entityiter, **entityiter2)){
