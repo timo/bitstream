@@ -381,7 +381,9 @@ GLPlayer::DrawEnergy(const GLdouble &energy){
 GLdouble
 GLPlayer::GetLongestRadius(){
 
-  return m_model.GetLongestRadius();
+
+  return 2.236;
+  //  return m_model.GetLongestRadius();
 
 }
 
