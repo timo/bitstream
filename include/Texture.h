@@ -1,8 +1,10 @@
 /* -*- Mode: C++; tab-width: 3; indent-tabs-mode: t; c-basic-offset: 3 -*- */
+///////////////////////////////////////////////////////////////////////////
+// Name: Texture
+///////////////////////////////////////////////////////////////////////////
 
-
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#ifndef _Texture_h_
+#define _Texture_h_
 
 #include <GL/glu.h>
 
@@ -12,9 +14,21 @@
 //- The main texture class, has loading support for truevision	   -//
 //- targas (.tga), and the Microsoft Bitmap (.bmp) format.	   -//
 //------------------------------------------------------------------//
-class TEXTURE {
 
- public:
+class Texture {
+
+public:
+	Texture();
+   Texture(const Texture&);  // Copy Constructor
+	~Texture();
+
+	bool LoadTGA(char* filename, const GLfloat &minFilter, const GLfloat &maxFilter);
+	bool LoadBMP(char* filename, const GLint &minFilter, const GLint &maxFilter);
+	unsigned int getID()const;
+
+protected:
+
+private:
 
   GLubyte* data;			//Image data (up to 32 bits)
   unsigned int bpp;		//Image color depth in bits per pixel
@@ -22,12 +36,6 @@ class TEXTURE {
   unsigned int height;	//Image height
   unsigned int ID;		//Texture ID used to select a texture
 
-  bool LoadTGA(char* filename, GLfloat minFilter, GLfloat maxFilter);
-  bool LoadBMP(char* filename, GLfloat minFilter, GLfloat maxFilter);
-  
-  TEXTURE ();
-
-  ~TEXTURE();
 };
 
 #endif
