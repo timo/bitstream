@@ -116,16 +116,14 @@ int GLDraw(GLPlayer &Player1){
 	      delete *entityiter2;
 	      entityptr.erase(entityiter2--);  // Take it out of the list
 	  }
-
-	  if(!((*entityiter)->isAlive())){
-	      delete *entityiter;
-	      entityptr.erase(entityiter--);  // Take it out of the list
-	  } 
 	}
       }
     }
     
-
+	  if(!((*entityiter)->isAlive())){
+	      delete *entityiter;
+	      entityptr.erase(entityiter--);  // Take it out of the list
+	  } 
 
 
   }
