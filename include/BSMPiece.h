@@ -27,7 +27,7 @@ jm@icculus.org
 #define _BSMPiece_h_
 #include <vector>
 #include <GL/gl.h>
-
+using namespace std;
 // System Includes
 //
 
@@ -73,7 +73,7 @@ public:
 // Access
 
 	bool isAlive()const;
-   vector <GLint>  *get_vec();
+        vector < GLint > *get_vec();
 	unsigned size();
 
 // Inquiry

@@ -26,7 +26,7 @@ jm@icculus.org
 #ifndef _GLPlayer_h_
 #define _GLPlayer_h_
 #include <SDL/SDL.h>
-
+#include <vector>
 // System Includes
 //
 

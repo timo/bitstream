@@ -31,12 +31,14 @@ jm@icculus.org
 #include "GLPlayer.h" 
                                // class implemented
 #include <iostream>
+#include <vector>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <math.h>
 #include "Texture.h"
 #include "BSM.h"
 
+using namespace std;
 /////////////////////////////// Public ///////////////////////////////////////
 
 //============================= Lifecycle ====================================
