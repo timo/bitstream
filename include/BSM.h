@@ -62,7 +62,7 @@ public:
 // Operations
 
 	void draw();
-	void hit(const int &);
+	void hit(const GLdouble &);
 	bool isAlive(const int &)const;
 	bool LoadBSM(char *filename);
 	void addVertex(const double &);
@@ -78,6 +78,9 @@ public:
 	GLfloat* GetVert(GLint i);
 	GLdouble getDamage();
 	GLdouble GetLongestRadius();
+	void SetMainDamage(const GLdouble &);
+
+
 
 protected:
 // Protected Methods

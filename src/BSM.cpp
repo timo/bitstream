@@ -62,7 +62,8 @@ BSM::BSM(const BSM&)
 BSM::~BSM()
 {
   delete [] m_ptrVertex;	
-  delete [] m_ptrNormal;	
+  delete [] m_ptrNormal;
+
 }// ~BSM
 
 
@@ -105,16 +106,18 @@ BSM::draw(){
 
 
 void 
-BSM::hit(const int &region){
+BSM::hit(const GLdouble &damage){
 
-  if(region == 0){
-    m_mainDamage-=5;
-  }
+  m_mainDamage -= damage;
 
-  else{
-    m_mainDamage-=2;
-    m_vBSM[region].hit();
-  }
+//   if(region == 0){
+//     m_mainDamage-=5;
+//   }
+
+//   else{
+//     m_mainDamage-=2;
+//     m_vBSM[region].hit();
+//   }
 
 }
 
@@ -290,6 +293,13 @@ GLdouble
 BSM::GetLongestRadius(){
 
   return m_dLongestRadius;
+}
+
+void
+BSM::SetMainDamage(const GLdouble &dam){
+  
+  m_mainDamage = dam;
+
 }
 
 // //============================= Operations ===================================

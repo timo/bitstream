@@ -53,6 +53,7 @@ GLShot::GLShot()
    m_xAngle(0),
    m_yAngle(0),
    m_rho(0),
+   m_dDamage(10),
    m_HitGround(0),
    m_lastTime(0)
 {
@@ -61,7 +62,7 @@ GLShot::GLShot()
   if(!(playerptr->DrawEnergy(10))){
     m_rho = 200;
   }
-
+  m_model.SetMainDamage(5);
 
 }// GLShot
 
@@ -135,16 +136,17 @@ GLShot::draw(){
    if(hit.y < -5){
 
      if(m_HitGround==0){
-
        m_HitGround = 1;
        m_Blast.x = hit.x;
        m_Blast.y = hit.y;
        m_Blast.z = hit.z;
+       explosion(m_Blast, 1, 1, m_SourceExplosion);
+       m_rho=200;
      }
      else{
        m_Blast.z+=(double)( SDL_GetTicks() - m_lastTime )/32.0;
        //   cout << m_Blast.z << endl;
-       explosion(m_Blast, 1, 1, m_SourceExplosion);
+
      }
 
     //m_rho = 100;
@@ -192,8 +194,9 @@ GLShot::GetLongestRadius(){
 bool 
 GLShot::isAlive(){
 
-  if( m_rho > 195 ) return false;
-
+  //  cout << m_model.getDamage() << endl;
+  if( (m_rho > 195) || (m_model.getDamage() <= 0 )) return false;
+  
   return true;
   
 }
@@ -216,6 +219,25 @@ GLShot::getZ(){
   return m_zPos - 18;
 
 }
+
+void 
+GLShot::ApplyDamage(const GLdouble &damage){
+
+  m_model.hit(damage);
+
+}
+
+GLdouble 
+GLShot::GetHitDamage(){
+
+  return m_dDamage;
+
+}
+
+
+
+
+
 /////////////////////////////// Protected Methods ////////////////////////////
 
 /////////////////////////////// Private   Methods ////////////////////////////

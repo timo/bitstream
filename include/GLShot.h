@@ -72,6 +72,9 @@ public:
 	virtual GLdouble getZ();
 	virtual bool isAlive();
 
+	void ApplyDamage(const GLdouble &);
+	GLdouble GetHitDamage();
+
 protected:
 // Protected Methods
 private:
@@ -88,6 +91,7 @@ private:
 	GLdouble m_yPos;
 	GLdouble m_zPos;
 	GLdouble m_rho;
+	GLdouble m_dDamage;
 	int m_SourceExplosion;
 	int m_HitGround;
    position m_Blast;

@@ -73,6 +73,9 @@ public:
 	virtual GLdouble getY()=0;
 	virtual GLdouble getZ()=0;
 
+	virtual void ApplyDamage(const GLdouble &)=0;
+	virtual GLdouble GetHitDamage()=0;
+	virtual bool isAlive()=0;
 // Access
 
 // Inquiry

@@ -38,7 +38,7 @@ public:
    en_cube(const double &x=0, const double &y=0, const double &z=0);
    en_cube(const position &);
    en_cube(const en_cube&);            // copy constructor
-   ~en_cube();
+   virtual ~en_cube();
 
 // Operator
    
@@ -57,6 +57,9 @@ public:
 	GLdouble getY();
 	GLdouble getZ();
 
+	void ApplyDamage(const GLdouble &);
+   GLdouble GetHitDamage();
+	bool isAlive();
 protected:
 // Protected Methods
 private:
@@ -67,7 +70,8 @@ private:
    position m_Position;
    rotation m_Rotation;
    Uint32 m_LastTime;
-   double m_IdleTime;
+   GLdouble m_IdleTime;
+	GLdouble m_dDamage;
 
 //////////////////Removed
 };

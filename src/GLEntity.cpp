@@ -200,6 +200,16 @@ GLdouble
 GLEntity::GetLongestRadius(){
   return 0;
 }
+
+void 
+GLEntity::ApplyDamage(const GLdouble &){
+
+}
+	
+GLdouble 
+GLEntity::GetHitDamage(){
+  return 0;
+}
 //============================= Inquiry    ===================================
 /////////////////////////////// Protected Methods ////////////////////////////
 

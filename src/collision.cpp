@@ -31,7 +31,7 @@ bool SphericalHit(GLEntity &object1, GLEntity &object2){
 
   GLdouble distance, xdist, ydist, zdist, maxradius;
   static position avg;
-  static GLint expl_id=0;
+  GLint expl_id=0;
 
   xdist = fabs(object1.getX() - object2.getX());
   ydist = fabs(object1.getY() - object2.getY());
@@ -47,18 +47,13 @@ bool SphericalHit(GLEntity &object1, GLEntity &object2){
       avg.x = (object1.getX() + object2.getX())/2;
       avg.y = (object1.getY() + object2.getY())/2;
       avg.z = (object1.getZ() + object2.getZ())/2;
-      explosion(avg, 0.5, 1, expl_id);
+      explosion(avg, 0.5, 0.5, expl_id);
+      return true;
     }
     
   }
 
-  if((expl_id != 0) && (expl_id != 999)){
-    explosion(avg, 0.5, 1, expl_id);
-    return true;
-  }
-  else{
-    expl_id = 0;
-  }
+
 
   return false;
 }

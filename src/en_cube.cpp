@@ -15,6 +15,7 @@
 #include "en_cube.h"                                // class implemented
 #include "GLEntity.h"
 #include "physics.h"
+#include "effects.h"
 /////////////////////////////// Public ///////////////////////////////////////
 
 //============================= Lifecycle ====================================
@@ -47,6 +48,7 @@ en_cube::build(){
   m_model.LoadBSM("data/enemies/cube/cube.bsm");
   m_IdleTime = 0;
   m_Position.boundaries = 1;
+  m_dDamage = 5;
 }
 
 
@@ -56,6 +58,9 @@ en_cube::en_cube(const en_cube&)
 
 en_cube::~en_cube()
 {
+  int index=0;
+  explosion(m_Position, 2, 1, index);
+  cout << "Destroying a cube" << endl;
 }// ~en_cube
 
 
@@ -168,6 +173,29 @@ en_cube::getZ(){
   
 }
 
+
+
+void 
+en_cube::ApplyDamage(const GLdouble &hit){
+
+  m_model.hit(hit);
+
+}
+
+GLdouble 
+en_cube::GetHitDamage(){
+
+  return m_dDamage;
+}
+
+bool 
+en_cube::isAlive(){
+
+  if(m_model.getDamage()<=0) return false;
+
+  return true;
+  
+}
 //============================= Operations ===================================
 //============================= Access      ==================================
 //============================= Inquiry    ===================================

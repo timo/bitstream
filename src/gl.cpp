@@ -39,6 +39,7 @@ jm@icculus.org
 #include "en_cube.h"
 #include "hud.h"
 #include "collision.h"
+#include "effects.h"
 
 using namespace std;
 
@@ -95,20 +96,28 @@ int GLDraw(GLPlayer &Player1){
    }
 
   for (entityiter=entityptr.begin();entityiter!=entityptr.end();entityiter++){
-    (*entityiter)->draw();
-    glColor4f(0.0, 0.0, 0.0, 1.0);
 
     if(!((*entityiter)->isAlive())){
       delete *entityiter;
       entityptr.erase(entityiter--);  // Take it out of the list
     }
+
+    (*entityiter)->draw();
+
+
+    // Check for collisions
     for (entityiter2=entityptr.begin();entityiter2!=entityptr.end();entityiter2++){
       if(entityiter!=entityiter2){
-	SphericalHit(**entityiter, **entityiter2);
+	if(SphericalHit(**entityiter, **entityiter2)){
+	  (*entityiter)->ApplyDamage((*entityiter2)->GetHitDamage()); 
+	}
       }
     }
+    
 
   }
+
+  process_effects();
   
   Player1.collide();  // Player stuff
 

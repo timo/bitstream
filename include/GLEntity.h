@@ -76,6 +76,9 @@ public:
 
 	virtual GLdouble GetLongestRadius();
 
+	virtual void ApplyDamage(const GLdouble &);
+	virtual GLdouble GetHitDamage();
+
 // Inquiry
 
 protected:
