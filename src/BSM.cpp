@@ -138,6 +138,21 @@ BSM::hit(const int &region){
 
 }
 
+bool 
+BSM::isAlive(const int &region)const{
+
+  return m_vBSM[region].isAlive();
+
+}
+
+unsigned
+BSM::size()const{
+
+  return m_vBSM.size();
+
+}
+
+
   
   bool 
 BSM::LoadBSM(char *filename){

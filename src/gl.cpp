@@ -24,6 +24,7 @@ static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
 
 BSM player;
 
+
 Texture playerSkin;
 Texture gndSkin;
 Texture skySkin;

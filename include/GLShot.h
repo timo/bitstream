@@ -1,18 +1,17 @@
 /* -*- Mode: C++; tab-width: 3; indent-tabs-mode: t; c-basic-offset: 3 -*- */
 ///////////////////////////////////////////////////////////////////////////
-// Name: BSM 
+// Name: GLShot 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // Modifications:
 //
 //
 ///////////////////////////////////////////////////////////////////////////
-#ifndef _BSM_h_
-#define _BSM_h_
-#include <vector>
-#include <GL/gl.h>
-#include "BSMPiece.h"
-
+#ifndef _GLShot_h_
+#define _GLShot_h_
+#include <SDL/SDL.h>
+#include "GLEntity.h"
+#include "BSM.h"
 // System Includes
 //
 
@@ -26,33 +25,26 @@
 //
 
 /**   
-  *    Jeff Mrochuk
-  *    287048
+  *    @author 
+  *    @date 
   */
-class BSM
+class GLShot : public GLEntity
 {
 public:
 
 // Lifecycle
 
-   BSM();
-   BSM(const BSM&);            // copy constructor
-   ~BSM();
+   GLShot();
+   GLShot(const GLShot&);            // copy constructor
+   ~GLShot();
 
 // Operator
    
-   BSM&   operator=(const BSM&);     // assignment operator
+   GLShot&   operator=(const GLShot&);     // assignment operator
 
 // Operations
 
 	void draw();
-	void hit(const int &);
-	bool isAlive(const int &)const;
-	bool LoadBSM(char *filename);
-	void addVertex(const double &);
-	void addPoint(const int &);
-	unsigned size()const;
-
 
 // Access
 
@@ -61,15 +53,14 @@ public:
 protected:
 // Protected Methods
 private:
-
-	vector< float > m_ptrVertex;        //Vertex array
-	vector< BSMPiece > m_vBSM;
-	vector < int > m_ptrPoints;
-	GLdouble m_mainDamage;
-
 // Private Methods
 
-	GLvoid FindNormal( GLuint i, GLfloat *normals);
+	BSM shot;
+	GLdouble m_Vel;
+	GLdouble m_xAngle;
+	GLdouble m_yAngle;
+	GLdouble m_rho;
+
 
 //////////////////Removed
 };
@@ -79,4 +70,4 @@ private:
 // External References
 //
 
-#endif  // _BSM_h
+#endif  // _GLShot_h

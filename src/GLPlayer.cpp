@@ -26,7 +26,7 @@
 
 static const GLint ACCEL = 1;
 static const GLint SLOW = 1;
-static const GLdouble DRIFT = 0.5;
+static GLdouble DRIFT = 0.5;
 static const GLint MAXSPEED = 80;
 static const GLdouble DEGTORAD = 0.0349066;
 
@@ -232,7 +232,7 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
       m_dOverrideY = -2;
     }
 
-    if( abs(m_dYvel) <  0.5 ){
+    if( fabs(m_dYvel) <  0.7 ){
       m_dOverrideY=0;
     }
 
@@ -254,16 +254,23 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
     }
     else if(y==0 && m_dYvel < -DRIFT){
       m_dYvel += SLOW;
+
+      
+
     }
     else if(y==0 && m_dYvel == 0){
-    m_dYvel -= DRIFT;
+      
+      m_dYvel -= DRIFT;
+
     }
     
     if(y==-1){
       
       if(m_dYvel > -MAXSPEED){
 	m_dYvel -= ACCEL;
-      }
+
+	}
+      
     }
     
   }
