@@ -90,14 +90,15 @@ BSM::FindNormal( GLuint i, GLfloat *normals){
 void 
 BSM::draw(){
 
-
-
   for(unsigned j=0; j<m_vBSM.size(); j++){
+    
+    m_ptrPoints = *(m_vBSM[j].get_vec());
 
-    m_ptrPoints = m_vBSM[j]; 
+ 
+    cout << m_vBSM[j].size() << endl;
+
     GLfloat normal[3];
     GLfloat *ntemp = new GLfloat[3];
-
 
     
     glBegin(GL_TRIANGLES);
@@ -128,6 +129,9 @@ BSM::LoadBSM(char *filename){
     char *cTemp = new char[MAXDIG];
     char *comment = new char[COMMENT];
     int counter;
+
+    BSMPiece tempPiece;
+
     ifstream file(filename);
     if(!file){
       cout << "Unable to open file" << endl;
@@ -189,19 +193,24 @@ BSM::LoadBSM(char *filename){
 	}
 	    
 	    iTemp = atoi(cTemp);
-	    m_ptrPoints.push_back(iTemp);
+	    //	    cout << iTemp << " ";
+ 	    tempPiece.addVertex(iTemp);
 	  } 
 	}
-      
+
+	m_vBSM.push_back(tempPiece) ;
+
       }
+      tempPiece.clear_vec();  
     }
     
-    m_vBSM.push_back(m_ptrPoints);
-    m_ptrPoints.clear();
+
     cout << endl;
     file.close();
+
     delete cTemp;
     delete comment;
+
     return true;
   
   }

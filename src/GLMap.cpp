@@ -88,7 +88,7 @@ GLMap::draw()const{
       int x=0;
       for(int z=0; z <= 20; z++  ){
     
-	glColor3f(z*0.1f+0.2f, z*0.1f+0.2f, z*0.1f+0.2f);
+	//	glColor3f(z*0.1f+0.2f, z*0.1f+0.2f, z*0.1f+0.2f);
 	
 	glNormal3f(0.0f, 1.0f, 0.0f);
       

@@ -95,7 +95,7 @@ GLPlayer::draw()const{
   glRotatef(-(double)m_dXvel*0.3, 0.0f, 0.0f, 1.0f);
 
   if(m_dOverrideY == 0){
-    glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
+    glRotatef((double)m_dYvel*0.2, 1.0f, 0.0f, 0.0f);
   }
 
 
@@ -106,9 +106,19 @@ GLPlayer::draw()const{
 
   player.draw();
 
-
   glDisable(GL_TEXTURE_2D);
 
+  if(!m_collide)
+    {
+      glDisable(GL_BLEND);
+    }
+  if(m_collide){
+    
+    glColor4f(1.0f,1.0f,1.0f,1.0f);
+    glEnable(GL_BLEND);
+
+  }
+  
   glPopMatrix();
 
 
@@ -121,37 +131,43 @@ GLPlayer::collide(){
 
   double y_Lheight, xwing, ywing;
   double y_Rheight, y_Fheight, nose;
-  bool collide;
+
 
   ywing = 2*cos(-m_dXvel*0.3*DEGTORAD);
   xwing = 2*sin(-m_dXvel*0.3*DEGTORAD);
-  nose = 6*sin(m_dYvel*0.3*DEGTORAD);
+  nose = 6*sin(m_dYvel*0.2*DEGTORAD);
 
   y_Lheight = this->getY() - xwing - ywing;
   y_Rheight = this->getY() + xwing - ywing;
   y_Fheight = this->getY() + nose;
 
+  //Collision flash
+  if(m_collide){
+    m_collide+=1;
+    if(m_collide>3) m_collide=0;
+  }
 
   //ground collision
 
   if(y_Lheight < -5.0)
     {
       m_dOverrideY = 8;
-      //  m_dXvel = 0;
+      if(m_collide==0)  m_collide=1;
     }
 
   if(y_Rheight < -5.0)
     {
       m_dOverrideY = 8;
-      // m_dXvel = 0;
+      if(m_collide==0)  m_collide=1;
     }
 
   if(y_Fheight < -5.0)
     {
-      m_dOverrideY = 12;
-      m_dYvel=0;
-      // m_dXvel = 0;
+      m_dOverrideY = 8;
+      if(m_collide==0)  m_collide=1;
     }
+  
+
 }
 
 void 
@@ -182,7 +198,7 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
   if(x==-1){
     
     if(m_dXvel > -MAXSPEED){
-      m_dXvel -= ACCEL;
+       m_dXvel -= ACCEL;
     }
     
   }
@@ -190,20 +206,24 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
   
   // Y Speed manipulation
   
+  //Override
+
   if(m_dOverrideY != 0){
 
 
     m_dYvel += m_dOverrideY;
 
-    if(m_dYvel > MAXSPEED*1.5){
+    if(m_dYvel > MAXSPEED){
       m_dOverrideY = -2;
     }
 
-    if(m_dYvel < 0 ){
+    if( abs(m_dYvel) <  0.5 ){
       m_dOverrideY=0;
     }
 
   }
+
+  //Normal Operatin
   else{
 
     if(y==1){

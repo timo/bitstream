@@ -48,7 +48,7 @@ int GLDraw(GLPlayer &Player1){
   Player1.collide();
   glEnable(GL_BLEND);
   Player1.draw();
-  glDisable(GL_BLEND);
+
 
   SDL_GL_SwapBuffers();
 
@@ -99,7 +99,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glLightfv(GL_LIGHT1, GL_POSITION,LightPosition);	
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
 
-  glColor4f(1.0f,1.0f,1.0f,0.5f);
+
   glBlendFunc(GL_SRC_ALPHA,GL_SRC_COLOR);
 
 
