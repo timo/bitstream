@@ -3,12 +3,12 @@
 BIN = bitstream
 CYGWIN_DIR=  
 SRCDIR = src
-SRCS = src/main.cpp src/GLEntity.cpp src/GLPlayer.cpp src/events.cpp src/GLMap.cpp src/gl.cpp src/Texture.cpp src/Math.cpp src/BSM.cpp src/BSMPiece.cpp src/GLShot.cpp
+SRCS = src/main.cpp src/GLEntity.cpp src/GLPlayer.cpp src/events.cpp src/GLMap.cpp src/gl.cpp src/Texture.cpp src/BSM.cpp src/BSMPiece.cpp src/GLShot.cpp
 
 CXX     = g++
 CFLAGS  = -g   -Wall  -ansi -DDEBUG
 INCLUDE = -I. -Iinclude
-LDFLAGS = -Llib -L$(CYGWIN_DIR)/lib -lopengl32 -lglu32 `sdl-config --libs`
+LDFLAGS = -Llib -L$(CYGWIN_DIR)/lib -lGL -lGLU `sdl-config --libs`
 
 #############################################################################################
 # you should not need to edit anything below this line

@@ -1,3 +1,19 @@
+/*
+   Bitstream:  An OpenGL Space Action Game
+   http://icculus.org/bitstream/
+
+   Copyright (C) 2001, 2002 Jeff Mrochuk
+   
+   This file is part of bitstream.     Bitstream is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.     
+   
+   Bitstream is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.     
+   You should have received a copy of the GNU General Public License along with Bitstream; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Jeff Mrochuk
+jm@icculus.org
+
+*/
+
 //////////////////////////////////////////////////////////////////////////
 // Name: GLShot 
 //
@@ -31,7 +47,7 @@ GLShot::GLShot()
   :m_Vel(1),
    m_xAngle(0),
    m_yAngle(0),
-   m_rho(18),
+   m_rho(20),
    m_lastTime(0)
 {
 
@@ -69,12 +85,16 @@ GLShot::operator=(const GLShot&rhs)
 void 
 GLShot::draw(){
 
+  // This is ugly. Please don't harass me.
+
   if(!m_lastTime){
     m_lastTime=SDL_GetTicks(); 
+
     m_xBase = playerptr->getX();
     m_yBase = playerptr->getY();
-    //    m_xAngle = -playerptr->getYtilt();
-    //    m_yAngle = -playerptr->getXtilt();
+
+    m_xAngle = -2.2*playerptr->getYtilt();
+    m_yAngle = -playerptr->getXtilt();
   }
 
   m_rho += (SDL_GetTicks() - m_lastTime)/20.0 * m_Vel;

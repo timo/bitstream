@@ -1,3 +1,19 @@
+/*
+   Bitstream:  An OpenGL Space Action Game
+   http://icculus.org/bitstream/
+
+   Copyright (C) 2001, 2002 Jeff Mrochuk
+   
+   This file is part of bitstream.     Bitstream is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.     
+   
+   Bitstream is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.     
+   You should have received a copy of the GNU General Public License along with Bitstream; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Jeff Mrochuk
+jm@icculus.org
+
+*/
+
 #include <iostream>
 #include <stdlib.h>
 #include <GL/gl.h>
@@ -46,20 +62,22 @@ int main(int argc,char * argv[])
   height = 768;
   bpp = 0;
 
+  cout << "Test" << endl;
+
   //Initialize SDL
-if(  SDL_Init(SDL_INIT_EVERYTHING)< 0) 
-{
-   fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
-   exit(1);
-}
+  if(  SDL_Init(SDL_INIT_EVERYTHING)< 0) 
+    {
+       fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
+      exit(1);
+    }
+  
 
-
- atexit(SDL_Quit);
-
- SDL_ShowCursor(0);
-
+  atexit(SDL_Quit);
+  
+  SDL_ShowCursor(0);
+  
   //Initialize Joystick
-
+  
   SDL_Joystick *joy;
   // Check for joystick
   if(SDL_NumJoysticks()>0){
