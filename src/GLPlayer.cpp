@@ -123,7 +123,7 @@ GLPlayer::draw()const{
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, playerSkin.getID());
 
-  glScalef(0.05f, 0.05f, 0.05f);
+   glScalef(0.05f, 0.05f, 0.05f);
   glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
 
   player.Animate(player.stateStart, player.stateEnd, 0.05f);

@@ -265,10 +265,12 @@ Texture::LoadPCX ( char* filename, const GLint &minFilter, const GLint &maxFilte
     return false;
 
   }
-    cout << &filepcx << endl;
+
+  cout << &filepcx << endl;
   unsigned char *image;
   unsigned short int length, height;
   unsigned char palette[768];
+
   fprintf (stderr, "Attempting to load \"%s\"\n", filename);
 
   if ((image=readpcx(filepcx,palette,&length,&height))==NULL)
@@ -276,33 +278,27 @@ Texture::LoadPCX ( char* filename, const GLint &minFilter, const GLint &maxFilte
       printf("Error loading file!\n");
       return(1);
     }
+  filepcx.seekg(0);
 
-
-  cout << filepcx << endl;
-
-  if(filepcx)
-    {      
-      cout << "Closing file" << endl;
-      filepcx.close();
-    }
-  else
-    {
-      cout << "Texture load failed." << endl;
-    }
-
-
-  cout << length << "x" <<height << endl;
+  
+  cout << "Closing file" << endl;
+  filepcx.close();
 
   unsigned char *rgbimage;
   rgbimage = new unsigned char[3*(length)*(height)];
-  
-  for(int i=0; i >=(length*height); i++){
-    cout << "Converting" << endl;
-    rgbimage[i*3] = palette[image[i]];
+
+
+  for(int i=0; i < (length*height); i++){
+
+    rgbimage[i*3+0] = palette[image[i]*3+0];
+    rgbimage[i*3+1] = palette[image[i]*3+1];
+    rgbimage[i*3+2] = palette[image[i]*3+2];
 
   }
 
-  unsigned char *stretched = new unsigned char[3*(length)*(height)];
+
+
+  unsigned char *stretched = new unsigned char[3*256*256];
 
   gluScaleImage(GL_RGB, length, height, GL_UNSIGNED_BYTE, rgbimage, 256, 256, GL_UNSIGNED_BYTE, stretched);
 
@@ -314,8 +310,6 @@ Texture::LoadPCX ( char* filename, const GLint &minFilter, const GLint &maxFilte
   
  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, maxFilter);
-
- cout << length << " x " << height << endl;
 
  glTexImage2D (GL_TEXTURE_2D, 0,  3, 256, 256, 0, GL_RGB, GL_UNSIGNED_BYTE, stretched);
 
@@ -335,7 +329,7 @@ void readpcximage( ifstream &file, unsigned char * target,const int &size)
   unsigned char buf;
   unsigned int counter;
   int i=0;
-  while(i<=size)  /* Image not entirely read? */
+  while(i<size)  /* Image not entirely read? */
     {
       /* Get one byte */
       file.read(&buf,1);
@@ -418,7 +412,7 @@ unsigned char *readpcx(ifstream &file,unsigned char *mypalette,unsigned short in
       /* Get the palette */
       // fread(palette,1,768,file);
 
-      file.seekg(768, ios::end);
+      file.seekg(-768, ios::end);
       file.read(mypalette, 768);
 
       /* PCX succesfully read! */
