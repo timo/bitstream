@@ -81,12 +81,12 @@ int explosion(const position&pos, const double &radius, const double&duration, i
     qobj[index] = gluNewQuadric();
     gluQuadricOrientation(qobj[index], GLU_OUTSIDE);
     gluQuadricDrawStyle(qobj[index], GLU_FILL);
-    gluQuadricNormals(qobj[index], GLU_FLAT); 
+    gluQuadricNormals(qobj[index], GLU_SMOOTH); 
     
     glTranslatef(pos.x, pos.y, pos.z);
     glColor4f(1.0f, 0.5f, 0.0f, alpha[index]);
     
-    gluSphere(qobj[index], radius, 15, 10);
+    gluSphere(qobj[index], radius, 15, 15);
     
     glPopMatrix(); 
     
