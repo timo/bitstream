@@ -56,6 +56,7 @@ GLPlayer *playerptr;
 Texture gndSkin;
 Texture skySkin;
 Texture text;
+Texture spark;
 // GLuint texture[3];
 // GLuint sky[3];
 
@@ -105,7 +106,7 @@ int GLDraw(GLPlayer &Player1){
   glPushMatrix();  // Things affected by perspective
 
   map1.draw();
-
+  process_effects();
   for (entityiter=entityptr.begin();entityiter!=entityptr.end();entityiter++){
 
     (*entityiter)->draw();
@@ -138,7 +139,7 @@ int GLDraw(GLPlayer &Player1){
 
   }
 
-  process_effects();
+
 
   glPopMatrix();
 
@@ -185,6 +186,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   text.LoadBMP("data/font.bmp",  GL_LINEAR, GL_LINEAR);
   gndSkin.LoadBMP("data/ground.bmp", GL_LINEAR, GL_LINEAR);
   skySkin.LoadBMP("data/sky.bmp", GL_LINEAR, GL_LINEAR);
+  spark.LoadBMP("data/spark.bmp", GL_LINEAR, GL_LINEAR);
 
   glEnable(GL_DEPTH_TEST); 
   glDepthMask(GL_TRUE); 
@@ -222,7 +224,8 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   gluPerspective(45.0f,(GLfloat)Width/(GLfloat)Height,0.1f,100.0f);    
 
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
+  glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);
+	
   glBlendFunc(GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA);
 
   glEnable(GL_BLEND);

@@ -126,7 +126,7 @@ GLMap::draw()const{
 	if(x==10){x=0;}
       }
       
-      glDisable(GL_DEPTH_TEST);
+      //    glDisable(GL_DEPTH_TEST);
       
       dZ+=((GLdouble)thistime - lasttime ) /800;
       
@@ -151,7 +151,7 @@ GLMap::draw()const{
       glDisable(GL_TEXTURE_2D);
 
       glEnable(GL_LIGHTING);
-      glEnable(GL_DEPTH_TEST);
+      //    glEnable(GL_DEPTH_TEST);
 
       glFlush();
 

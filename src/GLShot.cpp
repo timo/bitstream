@@ -81,7 +81,10 @@ GLShot::~GLShot()
   hit.x = m_xPos + m_xBase;
   hit.y = m_yPos + m_yBase;
   hit.z = m_zPos - 18;
-  explosion(hit, 0.5, 0.5, expl_id);
+
+  // explosion(hit, 0.5, 0.5, expl_id);
+  expl_id = 0;
+  particle_explosion(hit, 3, 0.5, expl_id);
 }// ~GLShot
 
 
@@ -141,25 +144,12 @@ GLShot::draw(){
   hit.y = m_yPos + m_yBase;
   hit.z = m_zPos - 18;
 
-  //  cout << "Hit "<< m_xPos << " , " << m_yPos << " , " << m_zPos << endl;
+
 
    if(hit.y < -5){
 
-     if(m_HitGround==0){
-       m_HitGround = 1;
-       m_Blast.x = hit.x;
-       m_Blast.y = hit.y;
-       m_Blast.z = hit.z;
-       explosion(m_Blast, 1, 1, m_SourceExplosion);
-       m_rho=200;
-     }
-     else{
-       m_Blast.z+=(double)( SDL_GetTicks() - m_lastTime )/32.0;
-       //   cout << m_Blast.z << endl;
-
-     }
-
-    //m_rho = 100;
+     m_rho=200;  // Effectively destroy itself
+		   
     }    
 
    glTranslatef(0.0f, 0.0f, -18);

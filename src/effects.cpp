@@ -9,6 +9,8 @@
 #include <vector>
 
 #define EXPLOSIONS 20
+#define PARTICLE_EXPLOSIONS 20
+#define PARTICLES 100
 
 using namespace std;
 
@@ -24,7 +26,9 @@ void process_effects(){
   for(int i = 1; i < EXPLOSIONS; i++){
     explosion(dummy, 0, 0, i);
   }
-
+  for(int i = 1; i < PARTICLE_EXPLOSIONS; i++){
+    particle_explosion(dummy, 0, 0, i);
+  }
 }
 
 
@@ -77,7 +81,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
   }
 
   if(explosionindex[index]==0){
-    return 0;
+    return -1;
   }
 
 
@@ -85,7 +89,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
   alpha[index] = 1.0 - (double)(SDL_GetTicks() - starttime[index]) /(e_duration[index]*1000);
   //cout << alpha[index] << endl;
 
-  if((alpha[index] < 0.0) && (explosionindex[index] == 1)){
+  if((alpha[index] < 0.01) && (explosionindex[index] == 1)){
 
     explosionindex[index]=0;
     alpha[index] = 1.0;
@@ -122,3 +126,120 @@ int explosion(const position&pos, const double &radius, const double&duration, i
 
 }
 
+
+// Particle explosion
+
+int particle_explosion(const position &source, const double& speed, const double &duration, int &index){
+
+  static int explosionindex[PARTICLE_EXPLOSIONS];
+  static Uint32 starttime[PARTICLE_EXPLOSIONS];
+  static int firstrun = 1;
+  static position e_pos[PARTICLE_EXPLOSIONS][PARTICLES];
+  static velocity e_vel[PARTICLE_EXPLOSIONS][PARTICLES];
+  static acceleration e_acc[PARTICLE_EXPLOSIONS][PARTICLES];
+  static const double GRAVITY = -9.81;
+  static Uint32 lasttime[PARTICLE_EXPLOSIONS];
+  static double e_speed[PARTICLE_EXPLOSIONS];
+  static double e_duration[PARTICLE_EXPLOSIONS];
+  static double alpha[PARTICLE_EXPLOSIONS];
+  Uint32 deltatime;
+  int i;
+
+  if(firstrun == 1){
+    for(i=0; i < PARTICLE_EXPLOSIONS; i++){
+      explosionindex[i] = 0;
+    }
+      firstrun=0;
+  }
+
+  if( index == 0 ){    
+      i=1;
+      while(explosionindex[i] == 1){
+	i++;
+	if(i == PARTICLE_EXPLOSIONS-1) {
+	  return -1;  // Couldn't find a spot
+	}
+      }
+      explosionindex[i]=1;
+      //   cout << "Creating Particle Explosion #" << i << endl;
+      index = i;
+      lasttime[i] = SDL_GetTicks();
+      for(int j = 0; j < PARTICLES; j++){
+	e_speed[i] = speed;
+	e_duration[i] = duration;
+	starttime[i] = lasttime[i];
+	e_pos[i][j] = source;
+	e_pos[i][j].boundaries = 0;
+	e_vel[i][j].x = rand()%(int)speed;
+	e_vel[i][j].y = rand()%(int)speed;
+	e_vel[i][j].z = rand()%(int)speed;
+	if(rand()%2) e_vel[i][j].x *=-1;
+	if(rand()%2) e_vel[i][j].y *=-1;
+	if(rand()%2) e_vel[i][j].z *=-1;
+	e_acc[i][j].x = 0;
+	e_acc[i][j].y = GRAVITY;
+	e_acc[i][j].z = 0;
+
+      }
+  }
+      
+  if(explosionindex[index]==0){
+    return -1;
+  }
+
+  i = index;
+
+  //  cout << "Preparing to draw explosion #" << i << endl;
+
+  deltatime = SDL_GetTicks() - lasttime[i];
+  lasttime[i] = SDL_GetTicks();
+
+  alpha[index] = 1.0 - (double)(lasttime[index] - starttime[index]) /(e_duration[index]*1000);
+
+  if((alpha[index] < 0.01) && (explosionindex[index] == 1)){
+
+    explosionindex[index]=0;
+    alpha[index] = 1.0;
+    return 0;
+
+  }
+
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture( GL_TEXTURE_2D, spark.getID() );
+  glBlendFunc(GL_SRC_ALPHA , GL_ONE);
+  glDisable( GL_LIGHTING );
+  glDisable( GL_DEPTH_TEST );
+
+  for(int j = 0; j < PARTICLES; j++){
+    UpdateVelocity(e_vel[i][j], e_acc[i][j], (double)deltatime/1000);
+    UpdatePosition(e_pos[i][j], e_vel[i][j], (double)deltatime/1000);
+    
+    // Actually draw the particle
+    //    cout << "Drawing Particle #" << j << endl;
+    glPushMatrix();
+    glTranslatef(e_pos[i][j].x, e_pos[i][j].y, e_pos[i][j].z);
+    glColor4f(1.0, 1.0, 1.0,  alpha[index]);
+    //   glColor3f(alpha[index], alpha[index], alpha[index]);
+    glBegin(GL_QUADS);
+    glLoadIdentity();
+    glTexCoord2d(0, 0); 
+    glVertex3f(0.0, 0.0, 0.0);
+    glTexCoord2d(0, 1); 
+    glVertex3f(0.0, 1.0, 0.0);
+    glTexCoord2d(1, 1); 
+    glVertex3f(1.0, 1.0, 0.0);
+    glTexCoord2d(1, 0); 
+    glVertex3f(1.0, 0.0, 0.0);
+    
+    glEnd();
+    glPopMatrix();
+  }
+  
+  glBlendFunc(GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA);
+  glEnable( GL_LIGHTING );
+  glEnable( GL_DEPTH_TEST );
+  glDisable(GL_TEXTURE_2D);
+
+  // cout << "Exiting Particle Explosion" << endl;
+  return 0;
+}

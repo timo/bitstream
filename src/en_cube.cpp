@@ -61,7 +61,9 @@ en_cube::en_cube(const en_cube&)
 en_cube::~en_cube()
 {
   int index=0;
-  explosion(m_Position, 2, 1, index);
+  //  explosion(m_Position, 2, 1, index);
+  index=0;
+  particle_explosion(m_Position, 10, 1, index);
   //  cout << "Destroying a cube" << endl;
 }// ~en_cube
 
