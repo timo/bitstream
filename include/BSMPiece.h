@@ -1,17 +1,16 @@
 /* -*- Mode: C++; tab-width: 3; indent-tabs-mode: t; c-basic-offset: 3 -*- */
 ///////////////////////////////////////////////////////////////////////////
-// Name: BSM 
+// Name: BSMPiece 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // Modifications:
 //
 //
 ///////////////////////////////////////////////////////////////////////////
-#ifndef _BSM_h_
-#define _BSM_h_
+#ifndef _BSMPiece_h_
+#define _BSMPiece_h_
 #include <vector>
 #include <GL/gl.h>
-#include "BSMPiece.h"
 
 // System Includes
 //
@@ -26,30 +25,33 @@
 //
 
 /**   
-  *    Jeff Mrochuk
-  *    287048
+  *    @author 
+  *    @date 
   */
-class BSM
+class BSMPiece
 {
 public:
 
 // Lifecycle
 
-   BSM();
-   BSM(const BSM&);            // copy constructor
-   ~BSM();
+   BSMPiece();
+   BSMPiece(const BSMPiece&);            // copy constructor
+   ~BSMPiece();
 
 // Operator
    
-   BSM&   operator=(const BSM&);     // assignment operator
+   BSMPiece&   operator=(const BSMPiece&);     // assignment operator
+	int operator[](const int &);
+
 
 // Operations
 
-	void draw();
-	bool LoadBSM(char *filename);
-	void addVertex(const double &);
-	void addPoint(const int &);
-	unsigned size()const;
+	bool isAlive()const;
+	void kill();
+	bool addVertex(const int &);
+   vector <int>  *get_vec();
+	void clear_vec();
+	unsigned size();
 
 
 // Access
@@ -59,14 +61,10 @@ public:
 protected:
 // Protected Methods
 private:
-
-	vector< float > m_ptrVertex;        //Vertex array
-	vector< BSMPiece > m_vBSM;
-	vector < int > m_ptrPoints;
-
 // Private Methods
 
-	GLvoid FindNormal( GLuint i, GLfloat *normals);
+	GLdouble m_dDamage;
+   vector< int > m_ptrPoints;          //which vertex
 
 //////////////////Removed
 };
@@ -76,4 +74,4 @@ private:
 // External References
 //
 
-#endif  // _BSM_h
+#endif  // _BSMPiece_h
