@@ -60,7 +60,7 @@ protected:
 private:
 
 	vector< float > m_ptrVertex;        //Vertex array
-   vector< int > m_ptrPoints;      //which vertex
+   vector< int > m_ptrPoints;          //which vertex
 	vector< vector <int> > m_vBSM;
 
 // Private Methods
