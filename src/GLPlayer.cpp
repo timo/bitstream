@@ -33,6 +33,7 @@ jm@icculus.org
 #include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <math.h>
 #include "Texture.h"
 #include "BSM.h"
 

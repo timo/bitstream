@@ -20,7 +20,7 @@ jm@icculus.org
 #include <GL/glu.h>
 #include <SDL/SDL.h>
 #include <math.h>
-
+#include <dlfcn.h>
 
 #include "GLEntity.h"
 #include "GLPlayer.h"
@@ -57,6 +57,7 @@ int main(int argc,char * argv[])
   SDL_Surface *Surface;
 
   GLPlayer Player1(0,0,-12);
+
 
   width = 1024;
   height = 768;
