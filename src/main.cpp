@@ -97,16 +97,19 @@ int main(int argc,char * argv[])
       n=n+1;
       die = process_events(Player1);
       GLDraw(Player1);
+      // FPS Calcs
       if(time>5000){
-
-	cleartime=SDL_GetTicks();
-	n=0;
+      
+      cleartime=SDL_GetTicks();
+      n=0;
       }
       time=SDL_GetTicks()-cleartime;
       fps=(GLfloat)n/time*1000;
-      //      fprintf(stderr,"\r%f",fps);
+      fprintf(stderr,"\r%f",fps);
+      
+      
     }
-
+      
 
  if(SDL_JoystickOpened(0))
     SDL_JoystickClose(joy);

@@ -134,7 +134,7 @@ GLPlayer::draw()const{
 
 #ifdef DEBUG
 
-  cout << "\r( " << this->getX() <<" , " << this->getY() << " , " << this->getZ() << " )";
+  //  cout << "\r( " << this->getX() <<" , " << this->getY() << " , " << this->getZ() << " )";
 
 #endif
 
