@@ -94,16 +94,16 @@ GLEntity::shift(const GLint &xvel,const GLint &yvel, const GLint &zvel )
 {
   if(m_idraw==1){
 
-    // Bad hack because I'm getting 0 draw time with SDL_GetTicks()
+//     // Bad hack because I'm getting 0 draw time with SDL_GetTicks()
 
-    if(m_dThisTime >= SDL_GetTicks())
-      {
-      	m_dThisTime += 11;
-      }
-    else{
+//     if(m_dThisTime >= SDL_GetTicks())
+//       {
+//       	m_dThisTime += 11;
+//       }
+//     else{
       
       m_dThisTime = SDL_GetTicks();
-    }
+      //    }
 
     if(m_dX < 5 && m_dX > -5 || (m_dX >= 5 && xvel <=0) 
        || (m_dX <= -5 && xvel >=0)){ 

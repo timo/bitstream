@@ -11,7 +11,7 @@
 #include "GLMap.h"
 
 
-static GLfloat LightAmbient[]=	   { 0.9f, 0.9f, 0.9f, 1.0f };
+static GLfloat LightAmbient[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
 static GLfloat LightDiffuse[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
 static GLfloat LightPosition[]=	   { 0.0f, 10.0f, 2.0f, 1.0f };
 //static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
