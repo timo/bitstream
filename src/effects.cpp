@@ -1,7 +1,6 @@
 
-#ifndef _effects_h_
-#define _effects_h_
 
+#include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL/SDL.h>
@@ -123,4 +122,3 @@ int explosion(const position&pos, const double &radius, const double&duration, i
 
 }
 
-#endif // _effects_h_

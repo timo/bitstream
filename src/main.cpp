@@ -20,7 +20,6 @@ jm@icculus.org
 #include <GL/glu.h>
 #include <SDL/SDL.h>
 #include <math.h>
-#include <dlfcn.h>
 
 #include "GLEntity.h"
 #include "GLPlayer.h"

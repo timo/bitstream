@@ -32,6 +32,7 @@ jm@icculus.org
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL/SDL.h>
+#include <math.h>
 #include "Texture.h"
 #include "BSM.h"
 #include "GLPlayer.h"

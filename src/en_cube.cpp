@@ -12,12 +12,13 @@
 // Modifications:
 //
 /////////////////////////////////////////////////////////////////////////
+#include <iostream>
 #include "en_cube.h"                                // class implemented
 #include "GLEntity.h"
 #include "physics.h"
 #include "effects.h"
 /////////////////////////////// Public ///////////////////////////////////////
-
+using namespace std;
 //============================= Lifecycle ====================================
 const int ROT_PER_SEC = 90;
 const double MSEC_PER_SEC = 1000;

@@ -1,7 +1,7 @@
 
 #include <GL/gl.h>
 #include <math.h>
-
+#include <iostream>
 #include "collision.h"
 #include "BSM.h"
 #include "GLEntity.h"
@@ -31,7 +31,7 @@ bool SphericalHit(GLEntity &object1, GLEntity &object2){
 
   GLdouble distance, xdist, ydist, zdist, maxradius;
   static position avg;
-  GLint expl_id=0;
+  int expl_id=0;
 
   xdist = fabs(object1.getX() - object2.getX());
   ydist = fabs(object1.getY() - object2.getY());
