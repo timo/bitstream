@@ -72,7 +72,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
       e_radius[i] = radius;
       e_duration[i] = duration;
       index = i;
-      cout << "Explosion # " << i << endl;
+      //      cout << "Explosion # " << i << endl;
 
   }
 
@@ -91,7 +91,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
     alpha[index] = 1.0;
     gluDeleteQuadric(qobj[index]);
     qobj[index] = NULL;
-    cout << "Deleting #" << index << endl;
+    //   cout << "Deleting Explosion #" << index << endl;
     index = 999;
 
     return 0 ;

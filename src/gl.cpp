@@ -121,6 +121,7 @@ int GLDraw(GLPlayer &Player1){
 	  (*entityiter)->ApplyDamage((*entityiter2)->GetHitDamage()); 
 	  if(!((*entityiter2)->isAlive())){
 	    if(!((*entityiter2)->isPlayer())){
+	      //     cout << "Not the Player" << endl;
 	      delete *entityiter2;
 	    }
 	    entityptr.erase(entityiter2--);  // Take it out of the list
@@ -131,6 +132,7 @@ int GLDraw(GLPlayer &Player1){
     
     if(!((*entityiter)->isAlive())){
       if(!((*entityiter)->isPlayer())){
+	//	cout << "Not the Player" << endl;
 	delete *entityiter;
       }      
       entityptr.erase(entityiter--);  // Take it out of the list

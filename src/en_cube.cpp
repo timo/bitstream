@@ -62,7 +62,7 @@ en_cube::~en_cube()
 {
   int index=0;
   explosion(m_Position, 2, 1, index);
-  cout << "Destroying a cube" << endl;
+  //  cout << "Destroying a cube" << endl;
 }// ~en_cube
 
 
@@ -121,6 +121,10 @@ en_cube::en_idle()
     if(m_Acceleration.z < 0){
       m_Acceleration.z *= -1;
     }
+  }
+
+  if(m_Position.z > 10){
+    m_model.hit(100);
   }
 
   UpdateVelocity(m_Velocity, m_Acceleration, deltatime);
