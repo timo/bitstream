@@ -11,6 +11,8 @@
 #include "GLMap.h"
 #include "MD2.h"
 #include "Texture.h"
+#include "BSM.h"
+
 
 static GLfloat LightAmbient[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
 static GLfloat LightDiffuse[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -19,8 +21,9 @@ static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
 static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
 
 
-MD2 player;
+//MD2 player;
 
+BSM player;
 Texture playerSkin;
 Texture gndSkin;
 Texture skySkin;
@@ -41,8 +44,6 @@ int GLDraw(const GLPlayer &Player1){
   glMatrixMode(GL_MODELVIEW);
 
   map1.draw();
-
-
   Player1.draw();
 
   SDL_GL_SwapBuffers();
@@ -63,7 +64,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   skySkin.LoadBMP("data/sky.bmp", GL_LINEAR, GL_LINEAR);
 
   //MD2s
-  player.Load ("data/player/tris.md2");
+  player.LoadBSM ("data/player/player.bsm");
 
   glViewport(0, 0, Width, Height); 
 
