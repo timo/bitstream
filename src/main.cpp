@@ -21,6 +21,7 @@ jm@icculus.org
 #include <SDL/SDL.h>
 #include <math.h>
 
+#include "events.h"
 #include "GLEntity.h"
 #include "GLPlayer.h"
 #include "GLMap.h"
@@ -137,17 +138,21 @@ int main(int argc,char * argv[])
       die = process_events(Player1);
       
       if(die == 2){
-	if(fullscreen == false){
-	  SDL_SetVideoMode(width, height, bpp, SDL_OPENGL | SDL_FULLSCREEN);
-	  fullscreen = true;
-	}
-	else{
-	  SDL_SetVideoMode(width, height, bpp, SDL_OPENGL );
-	  fullscreen = false;
-	}
+
+	//	if(!SDL_WM_ToggleFullScreen(Surface)){
+
+		  attempt_fullscreen_toggle(&Surface, 0);
+// 	   if(fullscreen == false){
+// 	     SDL_SetVideoMode(width, height, bpp, SDL_OPENGL | SDL_FULLSCREEN);
+// 	     fullscreen = true;
+// 	   }
+// 	   else{
+// 	     SDL_SetVideoMode(width, height, bpp, SDL_OPENGL );
+// 	     fullscreen = false;
+// 	   } 
 	  
 	//	SDL_WM_ToggleFullScreen(Surface);
-
+	  //	}
 	die=0;
       }
     }
