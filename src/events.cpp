@@ -4,10 +4,14 @@
 
 #include <SDL/SDL.h>
 #include <iostream>
-
+#include <vector>
 #include "GLEntity.h"
 #include "GLPlayer.h"
-#include "GLMap.h"	
+#include "GLMap.h"
+#include "GLShot.h"	
+
+extern vector < GLEntity * > entityptr;
+extern unsigned entitysize;
 
 
 int process_events(GLPlayer &Player1)
@@ -47,6 +51,7 @@ int process_events(GLPlayer &Player1)
 
 	if(!event.jaxis.axis  && event.jaxis.value > 0){
 	  joyx=1;
+
 	}
 
 	if(!event.jaxis.axis && event.jaxis.value < 0){
@@ -60,6 +65,25 @@ int process_events(GLPlayer &Player1)
 	if(event.jaxis.axis && !event.jaxis.value){
 	  joyy=0;
 	}
+
+	if(event.jaxis.axis && !event.jaxis.value){
+	  joyy=0;
+	}
+
+	x=joyx;
+	y=joyy;
+
+	break;
+
+      case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
+	if ( event.jbutton.button == 0 )
+	  {
+
+	    entitysize+=1;
+	    entityptr.resize(entitysize);
+	    entityptr[entitysize-1]=new GLShot;
+
+	  }
 
 	x=joyx;
 	y=joyy;

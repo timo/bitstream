@@ -88,6 +88,12 @@ GLEntity::drawAll()const{
 
 }
 
+void 
+GLEntity::draw(){
+
+  cout << "This is where the drawing of entities would be done" << endl;
+
+}
 /////////////////////// XYZ Set Functions ////////////////////
 
 GLint 

@@ -101,7 +101,6 @@ int main(int argc,char * argv[])
 
   while(!die)
     {
-
       
       GLDraw(Player1);
 

@@ -9,6 +9,7 @@
 #include "GLEntity.h"
 #include "GLPlayer.h"
 #include "GLMap.h"
+#include "GLShot.h"
 #include "Texture.h"
 #include "BSM.h"
 
@@ -24,6 +25,10 @@ static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
 
 BSM player;
 
+vector < GLEntity * > entityptr;
+GLPlayer *playerptr;
+
+unsigned entitysize;
 
 Texture playerSkin;
 Texture gndSkin;
@@ -39,16 +44,28 @@ int GLDraw(GLPlayer &Player1){
 
   static GLMap map1;
 
+  playerptr = &Player1;
+
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glLoadIdentity();
   glMatrixMode(GL_MODELVIEW);
 
-  map1.draw();
 
-  Player1.collide();
+  glPushMatrix();  // Things affected by perspective
+    map1.draw();
+
+    for(unsigned i=0; i < entitysize; i++){  // Draw the entities!
+      entityptr[i]->draw();
+    }
+
+  glPopMatrix();
+
+
+  Player1.collide();  // Player stuff
   glEnable(GL_BLEND);
   Player1.draw();
+
 
 
   SDL_GL_SwapBuffers();
@@ -68,10 +85,14 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   gndSkin.LoadBMP("data/ground.bmp", GL_LINEAR, GL_LINEAR);
   skySkin.LoadBMP("data/sky.bmp", GL_LINEAR, GL_LINEAR);
 
+
+
   //BSM
   player.LoadBSM ("data/player/player.bsm");
 
   glViewport(0, 0, Width, Height); 
+
+  entitysize=0;
 
   glClearColor(0.67f, 0.70f, 0.76f, 0.0f);        
   glClearDepth(1.0);                         

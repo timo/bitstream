@@ -72,7 +72,6 @@ GLMap::draw()const{
       
     }
 
-      glPushMatrix();
 
       glRotatef(this->getXtilt(), 0.0f, 0.0f, 1.0f);
       glRotatef(this->getYtilt(), 1.0f, 0.0f, 0.0f);
@@ -131,7 +130,7 @@ GLMap::draw()const{
       glEnd();
       glDisable(GL_TEXTURE_2D);
       glFlush();
-      glPopMatrix();
+
       
       lasttime = SDL_GetTicks();
 
