@@ -63,7 +63,7 @@ GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
 #ifdef DEBUG
   cout << "GLPlayer created" << endl;
 #endif
-  m_model.LoadBSM ("data/player/player.bsm");
+ m_model.LoadBSM ("data/player/player.bsm");
   m_dOverrideY=0;
   m_dOverrideX=0;
 

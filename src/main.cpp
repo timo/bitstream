@@ -55,7 +55,6 @@ int main(int argc,char * argv[])
   //  GLdouble fps, time, cleartime;
   SDL_Surface *Surface;
   const SDL_VideoInfo* info = NULL;
-  GLPlayer Player1(0,0,-11);
 
  
   info = SDL_GetVideoInfo( );
@@ -125,6 +124,7 @@ int main(int argc,char * argv[])
 
   setup_opengl( width, height, bpp );
 
+  GLPlayer Player1(0,0,-11);
   Player1.setVel(0);
 
   while(!die)
