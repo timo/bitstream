@@ -206,7 +206,7 @@ GLPlayer::collide(){
 }
 
 void 
-GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
+GLPlayer::move(const GLint &x, const GLint &y, const GLint &z){
 
   if(!m_dLasttime){ m_dLasttime= SDL_GetTicks();}
 
