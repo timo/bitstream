@@ -17,7 +17,6 @@
 #include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include "MD2.h"
 #include "Texture.h"
 #include "BSM.h"
 

@@ -9,7 +9,6 @@
 #include "GLEntity.h"
 #include "GLPlayer.h"
 #include "GLMap.h"
-#include "MD2.h"
 #include "Texture.h"
 #include "BSM.h"
 
