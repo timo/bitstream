@@ -80,17 +80,15 @@ protected:
 // Protected Methods
 private:
 
-	vector < GLfloat > m_ptrVertex;        //Vertex array
+	GLfloat *m_ptrVertex;        //Vertex array
+	GLfloat *m_ptrNormal;        //Normal array
 	vector < BSMPiece > m_vBSM;
 	vector < GLint > m_ptrPoints;
 	vector < GLfloat > m_normals;
 
 	GLdouble m_mainDamage;
-	GLint foundnormals;
 
 // Private Methods
-
-	GLvoid FindNormal( GLuint i, GLfloat *normals);
 
 //////////////////Removed
 };
