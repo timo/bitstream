@@ -254,7 +254,7 @@ BSM::LoadBSM(char *filename){
 	    while(file.peek() != ',' && file.peek() != ']' && counter < MAXDIG){
 	      cTemp[counter] = file.get();
 	      counter++;
-	}
+	    }
 	    
 	    iTemp = atoi(cTemp);
 

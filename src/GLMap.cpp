@@ -134,14 +134,14 @@ GLMap::draw()const{
 
       glColor3f(1.0f, 1.0f, 1.0f);
       glNormal3f(0.0f, -1.0f, 0.0f);
-      glTexCoord2f(0.0f+dZ/400, 0.0f+dZ/50);
-      glVertex3f(-150.0f, 10.0f, 0.0f);
-      glTexCoord2f(0.0f+dZ/400, 1.0f+dZ/50);
+      glTexCoord2f(0.0f+dZ/800, 0.0f+dZ/50);
+      glVertex3f(-150.0f, 40.0f, 0.0f);
+      glTexCoord2f(0.0f+dZ/800, 1.0f+dZ/50);
       glVertex3f(-150.0f, -5.0f, -95.0f);
-      glTexCoord2f(1.0f+dZ/400, 1.0f+dZ/50);
+      glTexCoord2f(1.0f+dZ/800, 1.0f+dZ/50);
       glVertex3f(150.0f, -5.0f, -95.0f);
-      glTexCoord2f(1.0f+dZ/400, 0.0f+dZ/50);
-      glVertex3f(150.0f, 10.0f, 0.0f);
+      glTexCoord2f(1.0f+dZ/800, 0.0f+dZ/50);
+      glVertex3f(150.0f, 40.0f, 0.0f);
 
       glEnd();
       glDisable(GL_TEXTURE_2D);
