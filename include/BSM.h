@@ -46,6 +46,7 @@ public:
 // Operations
 
 	void draw();
+	void hit(const int &);
 	bool LoadBSM(char *filename);
 	void addVertex(const double &);
 	void addPoint(const int &);
@@ -63,6 +64,7 @@ private:
 	vector< float > m_ptrVertex;        //Vertex array
 	vector< BSMPiece > m_vBSM;
 	vector < int > m_ptrPoints;
+	GLdouble m_mainDamage;
 
 // Private Methods
 

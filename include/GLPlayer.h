@@ -9,6 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////
 #ifndef _GLPlayer_h_
 #define _GLPlayer_h_
+#include <SDL/SDL.h>
 
 // System Includes
 //
@@ -61,6 +62,7 @@ private:
 	GLdouble m_dXvel, m_dYvel;
    GLdouble m_dOverrideX, m_dOverrideY;
 	unsigned m_collide;
+	Uint32 hitTime;
 
 
 //////////////////Removed

@@ -46,15 +46,19 @@ public:
 
 // Operations
 
-	bool isAlive()const;
+
 	void kill();
+	void hit();
 	bool addVertex(const int &);
-   vector <int>  *get_vec();
 	void clear_vec();
-	unsigned size();
+
 
 
 // Access
+
+	bool isAlive()const;
+   vector <int>  *get_vec();
+	unsigned size();
 
 // Inquiry
 
