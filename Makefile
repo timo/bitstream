@@ -8,7 +8,7 @@ SRCS = src/main.cpp src/GLEntity.cpp src/GLPlayer.cpp src/events.cpp src/GLMap.c
 CXX     = g++
 CFLAGS  = -g   -Wall  -ansi -DDEBUG
 INCLUDE = -I. -Iinclude
-LDFLAGS = -Llib -L$(CYGWIN_DIR)/lib -lGL -lGLU `sdl-config --libs`
+LDFLAGS = -Llib -L$(CYGWIN_DIR)/lib -lopengl32 -lglu32 `sdl-config --libs`
 
 #############################################################################################
 # you should not need to edit anything below this line
@@ -64,7 +64,7 @@ clean:
 	@ rm -f $(ALL)
 	@ rm -f $(BIN)
 	@ rm -f *.exe
-
+	@ rm -f *.stackdump
 
 
 
