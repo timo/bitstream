@@ -58,7 +58,7 @@ public:
    GLMap&   operator=(const GLMap&);     // assignment operator
 
 // Operations
-	void draw()const;
+	void draw(GLdouble dZ)const;
 // Access
 
 // Inquiry

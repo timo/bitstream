@@ -76,26 +76,31 @@ GLMap::operator=(const GLMap&rhs)
 //============================= Operations ===================================
 
 void
-GLMap::draw()const{
+GLMap::draw(GLdouble speed)const{
 
-  static GLdouble dZ=0;
+  static GLdouble dZ=0, dSky=0;
   static GLuint thistime, lasttime=0;
 
   thistime=SDL_GetTicks();
 
-  if(lasttime == 0)
-    {
+  if(lasttime == 0){
+    lasttime = thistime;
+    dZ = (double)lasttime/1000;
+  }
+  
+  
+  glRotatef(this->getXtilt(), 0.0f, 0.0f, 1.0f);
+  glRotatef(this->getYtilt(), 1.0f, 0.0f, 0.0f);
       
-      lasttime = thistime;
       
-    }
+  dZ += speed*(double)(thistime-lasttime)/1000;
+  dSky += speed*(double)(thistime-lasttime)/100000;
+  if(dZ > 1){ dZ = 0; }
+  if(dSky > 10){ dSky = 0; }
+  cout << dZ << endl;
 
-
-      glRotatef(this->getXtilt(), 0.0f, 0.0f, 1.0f);
-      glRotatef(this->getYtilt(), 1.0f, 0.0f, 0.0f);
-      
       glEnable(GL_TEXTURE_2D);
-      glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+      //   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
       // glBindTexture(GL_TEXTURE_2D, texture[2]);
 
       glBindTexture(GL_TEXTURE_2D, gndSkin.getID());
@@ -103,11 +108,9 @@ GLMap::draw()const{
       glDisable(GL_LIGHTING);
       // 
 
-      glBegin(GL_QUADS);
+      glBegin(GL_QUADS);  // Ground
       int x=0;
       for(int z=0; z <= 20; z++  ){
-    
-	//	glColor3f(z*0.1f+0.2f, z*0.1f+0.2f, z*0.1f+0.2f);
 	
 	glNormal3f(0.0f, 1.0f, 0.0f);
       
@@ -126,36 +129,33 @@ GLMap::draw()const{
 	if(x==10){x=0;}
       }
       
-      //    glDisable(GL_DEPTH_TEST);
-      
-      dZ+=((GLdouble)thistime - lasttime ) /800;
-      
       glEnd();
+      
+      // Funny looking code so that the sky moves slower
 
-  
-      glBindTexture(GL_TEXTURE_2D, skySkin.getID());
+      glDisable(GL_DEPTH_TEST);
+      glBindTexture(GL_TEXTURE_2D, skySkin.getID());  // Sky
       glBegin(GL_QUADS);
 
       glColor3f(1.0f, 1.0f, 1.0f);
       glNormal3f(0.0f, -1.0f, 0.0f);
-      glTexCoord2f(0.0f+dZ/800, 0.0f+dZ/25);
+      glTexCoord2f(0.0f+dSky, 0.0f+dSky*4);
       glVertex3f(-150.0f, 40.0f, 0.0f);
-      glTexCoord2f(0.0f+dZ/800, 1.0f+dZ/25);
+      glTexCoord2f(0.0f+dSky, 1.0f+dSky*4);
       glVertex3f(-150.0f, -5.0f, -95.0f);
-      glTexCoord2f(1.0f+dZ/800, 1.0f+dZ/25);
+      glTexCoord2f(1.0f+dSky, 1.0f+dSky*4);
       glVertex3f(150.0f, -5.0f, -95.0f);
-      glTexCoord2f(1.0f+dZ/800, 0.0f+dZ/25);
+      glTexCoord2f(1.0f+dSky, 0.0f+dSky*4);
       glVertex3f(150.0f, 40.0f, 0.0f);
 
       glEnd();
       glDisable(GL_TEXTURE_2D);
 
       glEnable(GL_LIGHTING);
-      //    glEnable(GL_DEPTH_TEST);
 
-      glFlush();
+      //  glFlush();
 
-      
+      glEnable(GL_DEPTH_TEST);
       lasttime = SDL_GetTicks();
 
 }

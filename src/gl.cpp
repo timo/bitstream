@@ -105,8 +105,10 @@ int GLDraw(GLPlayer &Player1){
 
   glPushMatrix();  // Things affected by perspective
 
-  map1.draw();
+  map1.draw(1.00);
+
   process_effects();
+
   for (entityiter=entityptr.begin();entityiter!=entityptr.end();entityiter++){
 
     (*entityiter)->draw();

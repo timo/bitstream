@@ -88,7 +88,7 @@ GLvoid glPrint( GLint x, GLint y,int set, char *instring, ...  )
 
     glLoadIdentity( );
     glOrtho( 0, 1024, 0, 768, -1, 1 );
-
+    // glOrtho( 0, 640, 0, 480, -1, 1 );
     glMatrixMode( GL_MODELVIEW );
     glPushMatrix( );
     glLoadIdentity( );
