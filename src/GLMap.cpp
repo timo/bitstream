@@ -16,7 +16,7 @@
 #include <iostream>
 #include <SDL/SDL.h>
 extern GLuint texture[];
-
+extern GLuint sky[];
 
 /////////////////////////////// Public ///////////////////////////////////////
 
@@ -109,17 +109,24 @@ GLMap::draw()const{
       dZ+=((GLdouble)thistime - lasttime ) /800;
       
       glEnd();
-      glDisable(GL_TEXTURE_2D);
+
+      glBindTexture(GL_TEXTURE_2D, sky[2]);
 
       glBegin(GL_QUADS);
+
       glColor3f(1.0f, 1.0f, 1.0f);
       glNormal3f(0.0f, -1.0f, 0.0f);
+      glTexCoord2f(0.0f, 0.0f+dZ/50);
       glVertex3f(-150.0f, 10.0f, 0.0f);
-      glVertex3f(-150.0f, 1.0f, -95.0f);
-      glVertex3f(150.0f, 1.0f, -95.0f);
+      glTexCoord2f(0.0f, 1.0f+dZ/50);
+      glVertex3f(-150.0f, -5.0f, -95.0f);
+      glTexCoord2f(1.0f, 1.0f+dZ/50);
+      glVertex3f(150.0f, -5.0f, -95.0f);
+      glTexCoord2f(1.0f, 0.0f+dZ/50);
       glVertex3f(150.0f, 10.0f, 0.0f);
-      glEnd();
 
+      glEnd();
+      glDisable(GL_TEXTURE_2D);
       glFlush();
       glPopMatrix();
       

@@ -21,6 +21,7 @@ GLvoid LoadGLTextures();
 
 
 GLuint texture[3];
+GLuint sky[3];
 
 //========================== GLDraw() ===================================
 
@@ -106,7 +107,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glFogf(GL_FOG_DENSITY, 1.0);
   glHint(GL_FOG_HINT, GL_DONT_CARE);
   glFogf(GL_FOG_START, 50.0);
-  glFogf(GL_FOG_END, 90.0);
+  glFogf(GL_FOG_END, 95.0);
 
   glEnable(GL_FOG);
 
@@ -207,6 +208,42 @@ GLvoid LoadGLTextures()
     // glTexImage2D(GL_TEXTURE_2D, 0, 3, texture1->w, texture1->h, 0, GL_RGB, GL_UNSIGNED_BYTE, texture1->pixels);
 
     gluBuild2DMipmaps(GL_TEXTURE_2D, 3, texture1->w, texture1->h, GL_RGB, GL_UNSIGNED_BYTE, texture1->pixels);
+
+
+    SDL_Surface *texture2;
+
+    texture2 = ImageLoad("data/sky.bmp");
+    if (!sky) {
+      SDL_Quit();
+      exit(1);
+    }
+    
+    glGenTextures(3, &sky[0]);
+
+    glBindTexture(GL_TEXTURE_2D, sky[0]);
+  
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, texture2->w, texture2->h, 0, GL_RGB, GL_UNSIGNED_BYTE, texture2->pixels);
+    
+    // texture 2 (linear scaling)
+    glBindTexture(GL_TEXTURE_2D, sky[1]);  
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); 
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); 
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, texture2->w, texture2->h, 0, GL_RGB, GL_UNSIGNED_BYTE, texture2->pixels);
+
+    // texture 3 (mipmapped scaling)
+    glBindTexture(GL_TEXTURE_2D, sky[2]);  
+
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); 
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST); 
+    // glTexImage2D(GL_TEXTURE_2D, 0, 3, texture2->w, texture2->h, 0, GL_RGB, GL_UNSIGNED_BYTE, texture2->pixels);
+
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, texture2->w, texture2->h, GL_RGB, GL_UNSIGNED_BYTE, texture2->pixels);
 
 
 }

@@ -113,7 +113,7 @@ GLPlayer::draw()const{
 
   GLuint i=0;
   GLfloat normal[3];
-  glColor3f(0.15f, 0.1f, 0.10f);
+  glColor3f(0.1f, 0.1f, 0.2f);
   glRotatef(-(double)m_dXvel*0.3, 0.0f, 0.0f, 1.0f);
   glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
 
