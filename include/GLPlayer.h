@@ -65,11 +65,10 @@ public:
 	void draw()const;
 	void collide();
 
-// Access
-
 	bool isAlive();
+	GLdouble GetEnergy();
+	int DrawEnergy(const GLdouble &energy);
 
-// Inquiry
 
 protected:
 // Protected Methods
@@ -79,6 +78,7 @@ private:
    GLdouble m_dLasttime, m_dThistime;
 	GLdouble m_dXvel, m_dYvel;
    GLdouble m_dOverrideX, m_dOverrideY;
+	GLdouble m_dEnergy;
 	unsigned m_collide;
 	Uint32 hitTime;
 

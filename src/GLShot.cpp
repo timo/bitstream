@@ -57,6 +57,10 @@ GLShot::GLShot()
 {
   m_SourceExplosion = 0;
   shot.LoadBSM ("data/player/shot.bsm");
+  if(!(playerptr->DrawEnergy(10))){
+    m_rho = 200;
+  }
+
 
 }// GLShot
 
@@ -130,7 +134,7 @@ GLShot::draw(){
    if(hit.y < -5){
 
      if(m_HitGround==0){
-       explosion(hit, 2, 1, m_SourceExplosion);
+
        m_HitGround = 1;
        m_Blast.x = hit.x;
        m_Blast.y = hit.y;
@@ -139,7 +143,7 @@ GLShot::draw(){
      else{
        m_Blast.z+=(double)( SDL_GetTicks() - m_lastTime )/32.0;
        //   cout << m_Blast.z << endl;
-       explosion(m_Blast, 2, 1, m_SourceExplosion);
+       explosion(m_Blast, 1, 1, m_SourceExplosion);
      }
 
     //m_rho = 100;

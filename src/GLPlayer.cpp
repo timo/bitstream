@@ -43,18 +43,19 @@ using namespace std;
 
 //============================= Lifecycle ====================================
 
-static const GLint ACCEL = 1;
-static const GLint SLOW = 1;
-static GLdouble DRIFT = 0.5;
-static const GLint MAXSPEED = 80;
+static const GLdouble ACCEL = 0.125;
+static const GLdouble SLOW = 0.125;
+static GLdouble DRIFT = 0.0625;
+static const GLdouble MAXSPEED = 80;
 static const GLdouble DEGTORAD = 0.017453278;
-
+static const GLdouble RECHARGE_FACTOR = 10;
 extern BSM player;
 extern Texture playerSkin;
 
 GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
   :GLEntity(x, y, z),
    m_dLasttime(0),
+   m_dEnergy(100),
    hitTime(0)
 {
 
@@ -210,7 +211,7 @@ GLPlayer::move(const GLint &x, const GLint &y, const GLint &z){
 
   if(!m_dLasttime){ m_dLasttime= SDL_GetTicks();}
 
-  GLdouble deltatime = (double)(SDL_GetTicks() - m_dLasttime)/8.0;
+  GLdouble deltatime = (double)(SDL_GetTicks() - m_dLasttime);
 
   m_dLasttime = SDL_GetTicks();
 
@@ -302,6 +303,13 @@ GLPlayer::move(const GLint &x, const GLint &y, const GLint &z){
   
   
 
+  // power recharge
+
+  m_dEnergy += RECHARGE_FACTOR * deltatime/1000;
+  if(m_dEnergy > 100){
+    m_dEnergy = 100;
+  }
+
   this->tilt(m_dXvel, m_dYvel);
 
 
@@ -329,7 +337,27 @@ GLPlayer::isAlive(){
 
 }
 
+GLdouble
+GLPlayer::GetEnergy(){
 
+  return m_dEnergy;
+
+}
+
+int
+GLPlayer::DrawEnergy(const GLdouble &energy){
+
+  if(m_dEnergy <= energy){
+    
+    return 0;
+  }
+
+  m_dEnergy -= energy;
+
+
+  return 1;
+
+}
 //============================= Access      ==================================
 
 

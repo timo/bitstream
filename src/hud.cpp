@@ -4,11 +4,15 @@
 #include <GL/gl.h>
 
 extern BSM player;
+extern GLPlayer* playerptr;
+
 void DrawHealthBar(){
 
   GLdouble healthfactor, health;
   healthfactor = player.getDamage()/100.0;
   health = HUD_LEFT_FG + HUD_HEALTH_DIFF*healthfactor;
+
+  if(health < HUD_LEFT_FG){ health = HUD_LEFT_FG; }
 
   glPushMatrix();
   glDisable(GL_LIGHTING);
@@ -43,8 +47,8 @@ void DrawHealthBar(){
 
 void DrawEnergyBar(){
   GLdouble energyfactor, energy;
-  // healthfactor = player.getDamage()/100.0;
-  energyfactor = 1.0;
+  energyfactor = playerptr->GetEnergy()/100.0;
+  // energyfactor = 1.0;
   energy = HUD_LEFT_FG + HUD_ENERGY_DIFF*energyfactor;
 
   glPushMatrix();
