@@ -29,10 +29,11 @@ jm@icculus.org
 
 // System Includes
 //
-
+#include <SDL/SDL.h>
 // Project Includes
 //
-
+#include "GLEntity.h"
+#include "BSM.h"
 // Local Includes
 //
 
@@ -43,7 +44,7 @@ jm@icculus.org
   *    @author 
   *    @date 
   */
-class GLEnemy
+class GLEnemy : public GLEntity
 {
 public:
 
@@ -52,13 +53,18 @@ public:
    GLEnemy();
 	GLEnemy(const GLdouble &x, const GLdouble &x, const GLdouble &x);
    GLEnemy(const GLEnemy&);            // copy constructor
-   ~GLEnemy();
+   virtual ~GLEnemy();
 
 // Operator
    
    GLEnemy&   operator=(const GLEnemy&);     // assignment operator
 
 // Operations
+
+	virtual void en_attack()=0;
+   virtual void en_idle()=0;
+	virtual void en_move()=0;
+	virtual void draw()=0;
 
 // Access
 
@@ -68,20 +74,7 @@ protected:
 // Protected Methods
 private:
 
-	BSM model;
-	GLdouble m_xVel;
-	GLdouble m_yVel;
-	GLdouble m_zVel;
-	GLdouble m_xTilt;
-	GLdouble m_yTilt;
-	GLdouble m_zTilt;
-	GLdouble m_xAcc;
-	GLdouble m_yAcc;
-	GLdouble m_zAcc;
-	GLdouble m_xPos;
-	GLdouble m_yPos;
-	GLdouble m_zPos;
-   Uint32 m_lastTime;
+
 
 // Private Methods
 

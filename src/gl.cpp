@@ -36,9 +36,11 @@ jm@icculus.org
 #include "GLShot.h"
 #include "Texture.h"
 #include "BSM.h"
+#include "en_cube.h"
+
 using namespace std;
 
-static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
+// static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
 
 
 
@@ -72,6 +74,8 @@ int GLDraw(GLPlayer &Player1){
   GLfloat seconds;
   static GLfloat fps;
 
+  static en_cube firstcube(0, 0, -40);
+
   playerptr = &Player1;
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -80,10 +84,10 @@ int GLDraw(GLPlayer &Player1){
 
   glMatrixMode(GL_MODELVIEW);
 
-
   glPushMatrix();  // Things affected by perspective
   map1.draw();
-    glEnable(GL_DEPTH_TEST); 
+
+  firstcube.draw();
 
   for (entityiter=entityptr.begin();entityiter!=entityptr.end();entityiter++){
     (*entityiter)->draw();
@@ -94,7 +98,7 @@ int GLDraw(GLPlayer &Player1){
     }
   }
     
-  glPopMatrix();
+
   
   Player1.collide();  // Player stuff
   glEnable(GL_BLEND);
@@ -111,7 +115,7 @@ int GLDraw(GLPlayer &Player1){
       glPrint("You Lose");
       glTranslatef(0.0f,0.0f,1.0f);
     }
-
+  glPopMatrix();
   //TEXT
   glColor3f(0.5, 0.5, 0.8);
 
@@ -164,24 +168,23 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   gndSkin.LoadBMP("data/ground.bmp", GL_LINEAR, GL_LINEAR);
   skySkin.LoadBMP("data/sky.bmp", GL_LINEAR, GL_LINEAR);
 
-
-
   //BSM
   player.LoadBSM ("data/player/player.bsm");
+  // player.LoadBSM ("data/enemies/cube/cube.bsm");
+
+  glEnable(GL_DEPTH_TEST); 
+  glDepthMask(GL_TRUE); 
+  glDepthFunc(GL_LEQUAL); 
 
   glViewport(0, 0, Width, Height); 
 
   entitysize=0;
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-  // glClearColor(0.67f, 0.70f, 0.76f, 1.0f);        
-  // glClearDepth(1.0);                         
-
- 
+  glClearDepth(1.0);
+                   
   glShadeModel(GL_SMOOTH);                     
-                
+  // glShadeModel(GL_FLAT);             
   glMatrixMode(GL_PROJECTION);
-
-
 
   glLoadIdentity(); 
 
@@ -197,26 +200,25 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glLoadIdentity();                            
   gluPerspective(45.0f,(GLfloat)Width/(GLfloat)Height,0.1f,100.0f);    
 
-  glMatrixMode(GL_MODELVIEW);
+  // glMatrixMode(GL_MODELVIEW);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
+  // glBlendFunc(GL_SRC_ALPHA,GL_ONE);
 
-  //  glPolygonMode (GL_FRONT, GL_FILL);
-  //  glPolygonMode (GL_BACK, GL_FILL);
+  glPolygonMode (GL_FRONT, GL_FILL);
+  glPolygonMode (GL_BACK, GL_FILL);
 
-  //   glCullFace( GL_BACK );
-  //   glFrontFace( GL_CCW );
-  //   glEnable( GL_CULL_FACE );
+  glCullFace( GL_BACK );
+  glFrontFace( GL_CCW );
+  // glEnable( GL_CULL_FACE );
 
 	
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
+  // glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
 
   buildFont();
 
-  // glBlendFunc(GL_SRC_ALPHA,GL_SRC_COLOR);
+  //  glBlendFunc(GL_SRC_ALPHA,GL_SRC_COLOR);
 
-  glEnable(GL_DEPTH_TEST); 
-  glDepthFunc(GL_LEQUAL); 
 
   glEnable(GL_LIGHT1);	
   glEnable(GL_LIGHTING);
@@ -233,7 +235,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glFogf(GL_FOG_END, 95.0);
   glEnable(GL_FOG);
 
-
+  glMatrixMode(GL_MODELVIEW);
 }
 
 // Shamelessly stolen from Ti Leggett's SDL port of NeHe tutorial 13

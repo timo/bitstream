@@ -20,7 +20,7 @@ jm@icculus.org
 #include <GL/glu.h>
 #include <SDL/SDL.h>
 #include <math.h>
-// #include <dlfcn.h>
+#include <dlfcn.h>
 
 #include "GLEntity.h"
 #include "GLPlayer.h"
@@ -55,15 +55,14 @@ int main(int argc,char * argv[])
   GLint width, height, bpp, die = 0;
   //  GLdouble fps, time, cleartime;
   SDL_Surface *Surface;
-
+  const SDL_VideoInfo* info = NULL;
   GLPlayer Player1(0,0,-11);
 
-
+ 
+  info = SDL_GetVideoInfo( );
   width = 1024;
   height = 768;
-  bpp = 0;
-
-  cout << "Test" << endl;
+  bpp = 0; //info->vfmt->BitsPerPixel;
 
   //Initialize SDL
   if(  SDL_Init(SDL_INIT_EVERYTHING)< 0) 
@@ -73,7 +72,6 @@ int main(int argc,char * argv[])
 #endif
       exit(1);
     }
-  
 
   atexit(SDL_Quit);
   

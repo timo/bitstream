@@ -42,8 +42,14 @@ using namespace std;
 //============================= Lifecycle ====================================
 
 GLEnemy::GLEnemy()
+
 {
 }// GLEnemy
+
+GLEnemy::GLEnemy(const GLdouble &x, const GLdouble &y, const GLdouble &z)
+  :GLEntity(x, y, z)
+{
+}
 
 GLEnemy::GLEnemy(const GLEnemy&)
 {

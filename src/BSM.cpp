@@ -48,7 +48,7 @@ using namespace std;
 BSM::BSM()
   :m_mainDamage(100)
 {
-  cout << "In BSM Constructor" << endl;
+  //  cout << "In BSM Constructor" << endl;
 }// BSM
 
 BSM::BSM(const BSM&)
