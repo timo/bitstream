@@ -30,8 +30,7 @@ GLdouble LongestRadius(BSM &bsm){
 bool SphericalHit(GLEntity &object1, GLEntity &object2){
 
   GLdouble distance, xdist, ydist, zdist, maxradius;
-  static position avg;
-  int expl_id=0;
+
 
   xdist = fabs(object1.getX() - object2.getX());
   ydist = fabs(object1.getY() - object2.getY());
@@ -39,17 +38,12 @@ bool SphericalHit(GLEntity &object1, GLEntity &object2){
 
   distance = sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
   maxradius = object1.GetLongestRadius() + object2.GetLongestRadius();
-
+//   if (distance < 20){
+//     cout << distance << endl;
+//   }
   if (distance < maxradius){
 
-    if(expl_id == 0){
-      //     cout << "Spherical Collision Detected" << endl;
-      avg.x = (object1.getX() + object2.getX())/2;
-      avg.y = (object1.getY() + object2.getY())/2;
-      avg.z = (object1.getZ() + object2.getZ())/2;
-
       return true;
-    }
     
   }
 

@@ -50,7 +50,7 @@ en_cube::build(){
   m_model.SetMainDamage(30);
   m_IdleTime = 0;
   m_Position.boundaries = 1;
-  m_dDamage = 100;
+  m_dDamage = 10;
 }
 
 
@@ -117,7 +117,7 @@ en_cube::en_idle()
   }
 
   //  cout << m_Position.z << endl;
-  if(m_Position.z < -60){
+  if(m_Position.z < -80){
     if(m_Acceleration.z < 0){
       m_Acceleration.z *= -1;
     }

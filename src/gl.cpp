@@ -75,10 +75,17 @@ int GLDraw(GLPlayer &Player1){
   GLfloat seconds;
   static GLfloat fps;
   static int once = 0;
-
-  //  static en_cube firstcube(0, 0, -40);
+  static int once_really = 0;
 
   playerptr = &Player1;
+
+  if(once_really == 0){
+    entityiter=entityptr.end();
+    *entityiter = playerptr;
+    entityptr.push_back(*entityiter);
+    once_really = 1;
+  }
+  //  static en_cube firstcube(0, 0, -40);
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -113,8 +120,10 @@ int GLDraw(GLPlayer &Player1){
 	  (*entityiter2)->ApplyDamage((*entityiter)->GetHitDamage()); 
 	  (*entityiter)->ApplyDamage((*entityiter2)->GetHitDamage()); 
 	  if(!((*entityiter2)->isAlive())){
+	    if(!((*entityiter2)->isPlayer())){
 	      delete *entityiter2;
-	      entityptr.erase(entityiter2--);  // Take it out of the list
+	    }
+	    entityptr.erase(entityiter2--);  // Take it out of the list
 	  }
 	}
       }
@@ -129,20 +138,6 @@ int GLDraw(GLPlayer &Player1){
   }
 
   process_effects();
-  
-  //  Player1.collide();  // Player stuff
-
-  if(Player1.GetDamage()>0){
-    Player1.draw();
-  }
-  else
-    {
-      glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
-      glTranslatef(0.0f,0.0f,-1.0f);
-      glRasterPos2f( -0.05f, 0.0f );
-      glPrint("You Lose");
-      glTranslatef(0.0f,0.0f,1.0f);
-    }
   glPopMatrix();
   //TEXT
 
@@ -166,17 +161,9 @@ int GLDraw(GLPlayer &Player1){
   glRasterPos2f( 0.4f, 0.39f );
   glPrint("fps: %3.2f", fps);
 
-  glRasterPos2f( -0.5f, -0.4f );
 
-
-  if(Player1.GetDamage()>0){
-       glPrint("Health: %3.0f", Player1.GetDamage());
-  }
-  else{
-      glPrint("Health: 0");
-  }
-  
   DrawHud();
+
 
   glFlush();
 

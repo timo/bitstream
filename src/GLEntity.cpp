@@ -209,6 +209,13 @@ GLdouble
 GLEntity::GetHitDamage(){
   return 0;
 }
+
+bool
+GLEntity::isPlayer(){
+
+  return false;
+
+}
 //============================= Inquiry    ===================================
 /////////////////////////////// Protected Methods ////////////////////////////
 

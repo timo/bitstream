@@ -56,6 +56,7 @@ GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
   :GLEntity(x, y, z),
    m_dLasttime(0),
    m_dEnergy(100),
+   m_dDamage(10),
    hitTime(0)
 {
 
@@ -381,6 +382,27 @@ GLdouble
 GLPlayer::GetLongestRadius(){
 
   return m_model.GetLongestRadius();
+
+}
+
+void 
+GLPlayer::ApplyDamage(const GLdouble &hit){
+  cout << "About to damage model" << endl;
+  m_model.hit(hit);
+
+}
+
+GLdouble 
+GLPlayer::GetHitDamage(){
+
+  return m_dDamage;
+}
+
+
+bool
+GLPlayer::isPlayer(){
+
+  return true;
 
 }
 //============================= Access      ==================================

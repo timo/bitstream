@@ -78,7 +78,7 @@ public:
 
 	virtual void ApplyDamage(const GLdouble &);
 	virtual GLdouble GetHitDamage();
-
+	virtual bool isPlayer();
 // Inquiry
 
 protected:

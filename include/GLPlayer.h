@@ -71,7 +71,9 @@ public:
 	GLdouble GetDamage();
 	int DrawEnergy(const GLdouble &energy);
 	GLdouble GetLongestRadius();
-
+   GLdouble GetHitDamage();
+   void ApplyDamage(const GLdouble &hit);
+	bool isPlayer();
 protected:
 // Protected Methods
 private:
@@ -82,6 +84,7 @@ private:
 	GLdouble m_dXvel, m_dYvel;
    GLdouble m_dOverrideX, m_dOverrideY;
 	GLdouble m_dEnergy;
+	GLdouble m_dDamage;
 	unsigned m_collide;
 	Uint32 hitTime;
 

@@ -5,14 +5,14 @@
 
 #include <GL/gl.h>
 
-const double X_LEFT_BOUND = -10;
-const double X_RIGHT_BOUND = 10;
+const double X_LEFT_BOUND = -5;
+const double X_RIGHT_BOUND = 5;
 
 const double Y_TOP_BOUND = 5;
 const double Y_BOTTOM_BOUND = -2;
 
 const double Z_BACK_BOUND = -200;
-const double Z_FRONT_BOUND = -30;
+const double Z_FRONT_BOUND = -10;
 //Structs and function declarations for the physics
 struct velocity{
 

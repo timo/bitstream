@@ -23,7 +23,7 @@ void UpdatePosition(position &p, const velocity& v, const double &deltatime){
       p.x = X_RIGHT_BOUND;
     }
     else if(p.x < X_LEFT_BOUND){
-      p.x = X_LEFT_BOUND; 
+      p.x = X_LEFT_BOUND;
     }
     
     if(p.y > Y_TOP_BOUND){
