@@ -111,7 +111,7 @@ BSMPiece::addVertex(const int &vert){
   return true;
 }
 
-vector < int >  *
+vector < GLint >  *
 BSMPiece::get_vec(){
 
 
