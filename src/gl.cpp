@@ -35,10 +35,7 @@ jm@icculus.org
 #include "BSM.h"
 
 
-static GLfloat LightAmbient[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
-static GLfloat LightDiffuse[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
-static GLfloat LightPosition[]=	   { 0.0f, 0.0f, 10.0f, 1.0f };
-static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
+//static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
 static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
 
 
@@ -97,7 +94,7 @@ int GLDraw(GLPlayer &Player1){
   glPopMatrix();
   
   Player1.collide();  // Player stuff
-  glEnable(GL_BLEND);
+  //  glEnable(GL_BLEND);
 
   if(player.getDamage()>0){
     Player1.draw();
@@ -174,6 +171,17 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
                 
   glMatrixMode(GL_PROJECTION);
 
+
+  glLoadIdentity(); 
+
+  GLfloat LightAmbient[]=	   { 0.8f, 0.8f, 0.8f, 1.0f };
+  GLfloat LightDiffuse[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
+  GLfloat LightPosition[]=	   { 0.0f, 5.0f, 5.0f, 1.0f };
+
+  glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);		
+  glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);
+  glLightfv(GL_LIGHT1, GL_POSITION,LightPosition);
+
   glLoadIdentity();                            
   gluPerspective(45.0f,(GLfloat)Width/(GLfloat)Height,0.1f,100.0f);    
 
@@ -187,10 +195,8 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   //   glFrontFace( GL_CCW );
   //   glEnable( GL_CULL_FACE );
 
-  glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);		
-  glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);
-  glLightfv(GL_LIGHT1, GL_POSITION,LightPosition);	
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
+	
+  // glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
 
   buildFont();
 
@@ -200,8 +206,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
   glDepthFunc(GL_LEQUAL); 
 
-  glEnable(GL_LIGHT1);
-  glEnable(GL_COLOR_MATERIAL);	
+  glEnable(GL_LIGHT1);	
   glEnable(GL_LIGHTING);
 
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);

@@ -50,6 +50,7 @@ public:
 // Lifecycle
 
    GLEnemy();
+	GLEnemy(const GLdouble &x, const GLdouble &x, const GLdouble &x);
    GLEnemy(const GLEnemy&);            // copy constructor
    ~GLEnemy();
 
@@ -66,6 +67,22 @@ public:
 protected:
 // Protected Methods
 private:
+
+	BSM model;
+	GLdouble m_xVel;
+	GLdouble m_yVel;
+	GLdouble m_zVel;
+	GLdouble m_xTilt;
+	GLdouble m_yTilt;
+	GLdouble m_zTilt;
+	GLdouble m_xAcc;
+	GLdouble m_yAcc;
+	GLdouble m_zAcc;
+	GLdouble m_xPos;
+	GLdouble m_yPos;
+	GLdouble m_zPos;
+   Uint32 m_lastTime;
+
 // Private Methods
 
 
