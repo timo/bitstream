@@ -406,13 +406,13 @@ unsigned char *readpcx(ifstream &file,unsigned char *mypalette,unsigned short in
   file.read(reinterpret_cast<char *>(&header),sizeof(PCX_Header));
 
   /* Check if this file is in pcx format */
-  if((header.signature!=0x0a)||(header.version!=5)){
-    cout << "Invalid PCX" << endl;
-    return(NULL);
-  }
+  //  if((header.signature!=0x0a)||(header.version!=5)){
+  // cout << "Invalid PCX" << endl;
+  //  return(NULL);
+  // }
   
-  else
-    {/* it is! */
+  // else
+  //{/* it is! */
       /* Return height and width */
 
       *width=header.xmax+1-header.xmin;
@@ -432,5 +432,5 @@ unsigned char *readpcx(ifstream &file,unsigned char *mypalette,unsigned short in
       /* PCX succesfully read! */
 
       return(target);
-    }
+      // }
 }
