@@ -121,7 +121,7 @@ GLPlayer::draw()const{
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, playerSkin.getID());
 
-  glColor4f(0.31f, 0.35f, 0.45f, 0.8f);
+  glColor4f(0.2f, 0.2f, 0.2f, 1.0f);
 
   player.draw();
 

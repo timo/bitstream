@@ -36,7 +36,7 @@ jm@icculus.org
 
 
 //static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
-static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
+
 
 
 //UGLY GLOBALS
@@ -109,6 +109,7 @@ int GLDraw(GLPlayer &Player1){
     }
 
   //TEXT
+  glColor3f(0.5, 0.5, 0.8);
 
   glTranslatef(0.0f,0.0f,-1.0f);
   glRasterPos2f( -0.5f, 0.36f );				       
@@ -175,9 +176,10 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glLoadIdentity(); 
 
   GLfloat LightAmbient[]=	   { 0.8f, 0.8f, 0.8f, 1.0f };
-  GLfloat LightDiffuse[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
-  GLfloat LightPosition[]=	   { 0.0f, 5.0f, 5.0f, 1.0f };
+  GLfloat LightDiffuse[]=	   { 0.5f, 0.5f, 0.5f, 1.0f };
+  GLfloat LightPosition[]=	   { 0.0f, 10.0f, -20.0f, 1.0f };
 
+  glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
   glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);		
   glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);
   glLightfv(GL_LIGHT1, GL_POSITION,LightPosition);
@@ -213,7 +215,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glEnable(GL_COLOR_MATERIAL);
 
   // Fog stuff
-
+  GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
   glFogi(GL_FOG_MODE, GL_LINEAR);
   glFogfv(GL_FOG_COLOR, fogColor);
   glFogf(GL_FOG_DENSITY, 1.0);
