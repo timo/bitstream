@@ -46,9 +46,10 @@ en_cube::build(){
 
   m_LastTime=0;
   m_model.LoadBSM("data/enemies/cube/cube.bsm");
+  m_model.SetMainDamage(30);
   m_IdleTime = 0;
   m_Position.boundaries = 1;
-  m_dDamage = 5;
+  m_dDamage = 100;
 }
 
 

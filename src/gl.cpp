@@ -71,6 +71,7 @@ int GLDraw(GLPlayer &Player1){
   static GLMap map1;
   static Uint32 Frames;
   static Uint32 lasttime;
+  static Uint32 cubetime;
   GLfloat seconds;
   static GLfloat fps;
   static int once = 0;
@@ -88,32 +89,51 @@ int GLDraw(GLPlayer &Player1){
   glPushMatrix();  // Things affected by perspective
   map1.draw();
 
+  if(SDL_GetTicks() - cubetime > 5000){
+    once = 0;
+  }
+  
    if(once==0){
      entityiter=entityptr.end();
      *entityiter = new en_cube(0, 0, -40);
      entityptr.push_back(*entityiter);
+     cubetime = SDL_GetTicks();
      once = 1;
+
    }
 
   for (entityiter=entityptr.begin();entityiter!=entityptr.end();entityiter++){
 
-    if(!((*entityiter)->isAlive())){
-      delete *entityiter;
-      entityptr.erase(entityiter--);  // Take it out of the list
-    }
-
     (*entityiter)->draw();
-
-
     // Check for collisions
     for (entityiter2=entityptr.begin();entityiter2!=entityptr.end();entityiter2++){
+
       if(entityiter!=entityiter2){
 	if(SphericalHit(**entityiter, **entityiter2)){
 	  (*entityiter)->ApplyDamage((*entityiter2)->GetHitDamage()); 
+	  (*entityiter2)->ApplyDamage((*entityiter)->GetHitDamage()); 
 	}
       }
+       if(entityiter!=entityiter2){
+	if(!((*entityiter2)->isAlive())){
+	  if(entityiter2 != NULL){
+	    delete *entityiter2;
+	  }
+	  entityptr.erase(entityiter2--);  // Take it out of the list
+	}
+       }
+// 	if(!((*entityiter)->isAlive())){
+// 	  if(entityiter != NULL){
+// 	    delete *entityiter;
+// 	  }
+// 	  entityptr.erase(entityiter--);  // Take it out of the list
+// 	  entityiter = NULL;
+// 	}
+	// }
     }
     
+
+
 
   }
 

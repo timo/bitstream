@@ -9,7 +9,7 @@
 #include "effects.h"
 #include <vector>
 
-#define EXPLOSIONS 20
+#define EXPLOSIONS 120
 
 using namespace std;
 
