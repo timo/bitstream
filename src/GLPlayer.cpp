@@ -113,17 +113,13 @@ GLPlayer::draw()const{
 
   GLuint i=0;
   GLfloat normal[3];
-  GLfloat *ntemp;
   glColor3f(0.2f, 0.2f, 0.3f);
   glRotatef(-(double)m_dXvel*0.3, 0.0f, 0.0f, 1.0f);
   glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
 
   glBegin(GL_TRIANGLES);
   for (i=0; i<42; i=i+3){
-    FindNormal(tindices, i, ntemp);
-    normal[0] = *ntemp;
-    normal[1] = *(ntemp + sizeof(GLfloat));
-    normal[2] = *(ntemp + 2*sizeof(GLfloat));
+    FindNormal(tindices, i, normal);
     //    fprintf(stderr,"%f   %f   %f\n", normal[0], normal[1], normal[2]);
     glNormal3fv(normal);
     glVertex3fv(&vdata[(tindices[i]*3)]);
@@ -170,9 +166,9 @@ GLvoid FindNormal(GLuint indices[42], GLuint i, GLfloat *normals){
 
   mag = sqrt(tempx*tempx + tempy*tempy + tempz*tempz);
  
-  *normals = tempx/mag;
-  *(normals+sizeof(GLfloat)) = tempy/mag;
-  *(normals+2*sizeof(GLfloat)) = tempz/mag;
+  normals[0] = tempx/mag;
+  normals[1] = tempy/mag;
+  normals[2] = tempz/mag;
 
   
 };
