@@ -135,7 +135,7 @@ BSM::draw(){
 	}
 
 	foundnormals = 1;
-	delete ntemp;
+	delete [] ntemp;
       }
 
 
