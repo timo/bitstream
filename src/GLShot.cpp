@@ -36,6 +36,7 @@ jm@icculus.org
 #include "BSM.h"
 #include "GLPlayer.h"
 
+using namespace std;
 
 extern GLPlayer *playerptr;
 
