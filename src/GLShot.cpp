@@ -47,7 +47,7 @@ GLShot::GLShot()
   :m_Vel(1),
    m_xAngle(0),
    m_yAngle(0),
-   m_rho(20),
+   m_rho(0),
    m_lastTime(0)
 {
 
@@ -90,27 +90,37 @@ GLShot::draw(){
   if(!m_lastTime){
     m_lastTime=SDL_GetTicks(); 
 
-    m_xBase = playerptr->getX();
-    m_yBase = playerptr->getY();
+    m_xBase = playerptr->getX() + playerptr->getXtilt()/3.0 ;
+    m_yBase = playerptr->getY() - playerptr->getYtilt()/2.0 - (playerptr->getX())*(playerptr->getXtilt())/40.0;
 
-    m_xAngle = -2.2*playerptr->getYtilt();
-    m_yAngle = -playerptr->getXtilt();
+    //   m_xAngle = -2.2*playerptr->getYtilt();
+    //   m_yAngle = -playerptr->getXtilt();
+    m_xAngle = -4.2*(playerptr->getYtilt());
+    m_yAngle = -2.2*(playerptr->getXtilt()) ;
   }
 
-  m_rho += (SDL_GetTicks() - m_lastTime)/20.0 * m_Vel;
+  cout << m_xBase << "," << m_yBase << endl;
 
-  glTranslatef(m_xBase, m_yBase, 0.0f);
+    m_rho += (SDL_GetTicks() - m_lastTime)/20.0 * m_Vel;
+
+  glTranslatef(0.0f, 0.0f, -18);
+
+   glTranslatef(m_xBase, m_yBase, 0.0f);
+
   glRotatef(m_xAngle, 1.0f, 0.0f, 0.0f);
   glRotatef(m_yAngle, 0.0f, 1.0f, 0.0f);
   glTranslatef(0.0f, 0.0f, -m_rho);
 
   glColor3f(0.4f, 0.0f, 0.0f);
   shot.draw();
-
   glTranslatef(0.0f, 0.0f, m_rho);
+
   glRotatef(-m_yAngle, 0.0f, 1.0f, 0.0f);
   glRotatef(-m_xAngle, 1.0f, 0.0f, 0.0f);
-  glTranslatef(-m_xBase, -m_yBase, 0.0f);
+
+   glTranslatef(-m_xBase, -m_yBase, 0.0f);
+
+  glTranslatef(0.0f, 0.0f, 18);
 
   m_lastTime = SDL_GetTicks();
 
