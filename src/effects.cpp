@@ -17,8 +17,6 @@ extern GLPlayer* playerptr;
 
 using namespace std;
 
-
-
 void process_effects(){
 
   position dummy;
@@ -26,13 +24,16 @@ void process_effects(){
   dummy.y=0;
   dummy.z=0;
 
-  for(int i = 1; i < EXPLOSIONS; i++){
-    explosion(dummy, 0, 0, i);
-  }
+//  for(int i = 1; i < EXPLOSIONS; i++){
+//    explosion(dummy, 0, 0, i);
+//  }
   for(int i = 1; i < PARTICLE_EXPLOSIONS; i++){
     particle_explosion(dummy, 0, 0, i);
   }
 }
+
+#if 0  
+// old explosions
 
 
 int explosion(const position&pos, const double &radius, const double&duration, int index){
@@ -128,7 +129,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
   return index;
 
 }
-
+#endif
 
 // Particle explosion
 

@@ -86,9 +86,6 @@ int process_events()
 	  joyy=0;
 	}
 
-	if(event.jaxis.axis && (abs(event.jaxis.value) <= 20000)){
-	  joyy=0;
-	}
 
 	x=joyx;
 	y=joyy;
@@ -97,13 +94,28 @@ int process_events()
 
       case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
 	if ( event.jbutton.button == 0 )
-	  {
+	  
 	    if(playerptr->isAlive()){
 	      entityiter=entityptr.end();
 	      *entityiter = new GLShot;
 	      entityptr.push_back(*entityiter);
-	    }
-	  }
+	    }else{
+	      glLoadIdentity();
+	      entityiter=entityptr.end();
+	      playerptr->SetDamage(100);
+	      *entityiter = playerptr;
+	      entityptr.push_back(*entityiter); 
+	      playerptr->SetPosition(0, 0, -11);
+
+
+	      entityiter=entityptr.end();
+	      *entityiter = new en_cube(0, 0, -200);
+	      entityptr.push_back(*entityiter);
+	      (*entityiter)->SetDestroyed(0);
+
+	    } 
+	  
+
 
 	x=joyx;
 	y=joyy;

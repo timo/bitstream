@@ -175,7 +175,7 @@ en_hornet::en_idle_state()
     m_IdleTime = -(rand()%2);
     m_Acceleration.x *= -1;
     m_Acceleration.y *= -1;
-    //    m_Acceleration.z *= -1;
+
   }
 
   //  cout << m_Position.z << endl;
