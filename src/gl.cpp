@@ -19,7 +19,10 @@ jm@icculus.org
 #include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
-// #include <GL/glx.h>
+#ifdef __linux
+ #include <GL/glx.h>
+#endif
+
 #include <SDL/SDL.h>
 #include <math.h>
 #include <string>
@@ -94,7 +97,8 @@ int GLDraw(GLPlayer &Player1){
   glPopMatrix();
   
   Player1.collide();  // Player stuff
-  //  glEnable(GL_BLEND);
+  // glEnable(GL_BLEND);
+
 
   if(player.getDamage()>0){
     Player1.draw();
@@ -104,7 +108,7 @@ int GLDraw(GLPlayer &Player1){
       glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
       glTranslatef(0.0f,0.0f,-1.0f);
       glRasterPos2f( -0.05f, 0.0f );
-      //      glPrint("You Lose");
+      glPrint("You Lose");
       glTranslatef(0.0f,0.0f,1.0f);
     }
 
@@ -113,7 +117,7 @@ int GLDraw(GLPlayer &Player1){
 
   glTranslatef(0.0f,0.0f,-1.0f);
   glRasterPos2f( -0.5f, 0.36f );				       
-  //  glPrint("Bitstream pre-Alpha");
+    glPrint("Bitstream pre-Alpha");
 
   //FPS
     Frames++;
@@ -128,15 +132,15 @@ int GLDraw(GLPlayer &Player1){
     }
 
   glRasterPos2f( 0.4f, 0.36f );
-  //  glPrint("fps: %3.2f", fps);
+    glPrint("fps: %3.2f", fps);
 
   glRasterPos2f( -0.5f, -0.4f );
   glColor3f(1.0f, 1.0f, 1.0f);
   if(player.getDamage()>0){
-    //    glPrint("Health: %3.0f", player.getDamage());
+       glPrint("Health: %3.0f", player.getDamage());
   }
   else{
-    //   glPrint("Health: 0");
+      glPrint("Health: 0");
   }
   SDL_GL_SwapBuffers();
 
@@ -190,6 +194,9 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glMatrixMode(GL_MODELVIEW);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
+  glEnable(GL_DEPTH_TEST); 
+  glDepthFunc(GL_LESS); 
+
   //  glPolygonMode (GL_FRONT, GL_FILL);
   //  glPolygonMode (GL_BACK, GL_FILL);
 
@@ -200,18 +207,14 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 	
   // glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
 
-  //  buildFont();
+  buildFont();
 
   glBlendFunc(GL_SRC_ALPHA,GL_SRC_COLOR);
 
-  glEnable(GL_DEPTH_TEST); 
-
-  glDepthFunc(GL_LEQUAL); 
 
   glEnable(GL_LIGHT1);	
   glEnable(GL_LIGHTING);
 
-  glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
   glEnable(GL_COLOR_MATERIAL);
 
   // Fog stuff
@@ -229,77 +232,86 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 // Shamelessly stolen from Ti Leggett's SDL port of NeHe tutorial 13
 
 
-// GLvoid KillFont( GLvoid )
-// {
-//     glDeleteLists( base, 96 );
+GLvoid KillFont( GLvoid )
+{
+#ifdef __linux
+    glDeleteLists( base, 96 );
+#endif
+    return;
+}
 
-//     return;
-// }
 
+GLvoid buildFont( GLvoid )
+{
+#ifdef __linux
 
-// GLvoid buildFont( GLvoid )
-// {
-//     Display *dpy;          /* Our current X display */
-//     XFontStruct *fontInfo; /* Our font info */
+    Display *dpy;          /* Our current X display */
+    XFontStruct *fontInfo; /* Our font info */
 
-//     /* Sotrage for 96 characters */
-//     base = glGenLists( 96 );
+    /* Sotrage for 96 characters */
+    base = glGenLists( 96 );
 
-//     /* Get our current display long enough to get the fonts */
-//     dpy = XOpenDisplay( NULL );
+    /* Get our current display long enough to get the fonts */
+    dpy = XOpenDisplay( NULL );
 
-//     /* Get the font information */
-//     fontInfo = XLoadQueryFont( dpy, "-adobe-helvetica-medium-r-normal--18-*-*-*-p-*-iso8859-1" );
+    /* Get the font information */
+    fontInfo = XLoadQueryFont( dpy, "-adobe-helvetica-medium-r-normal--18-*-*-*-p-*-iso8859-1" );
 
-//     /* If the above font didn't exist try one that should */
-//     if ( fontInfo == NULL )
-// 	{
-// 	    fontInfo = XLoadQueryFont( dpy, "fixed" );
-// 	    /* If that font doesn't exist, something is wrong */
-// 	    if ( fontInfo == NULL )
-// 		{
-// 		    fprintf( stderr, "no X font available?\n" );
-// 		    SDL_Quit();
-// 		}
-// 	}
+    /* If the above font didn't exist try one that should */
+    if ( fontInfo == NULL )
+	{
+	    fontInfo = XLoadQueryFont( dpy, "fixed" );
+	    /* If that font doesn't exist, something is wrong */
+	    if ( fontInfo == NULL )
+		{
+		    fprintf( stderr, "no X font available?\n" );
+		    SDL_Quit();
+		}
+	}
 
-//     /* generate the list */
-//     glXUseXFont( fontInfo->fid, 32, 96, base );
+    /* generate the list */
+    glXUseXFont( fontInfo->fid, 32, 96, base );
 
-//     /* Recover some memory */
-//     XFreeFont( dpy, fontInfo );
+    /* Recover some memory */
+    XFreeFont( dpy, fontInfo );
 
-//     /* close the display now that we're done with it */
-//     XCloseDisplay( dpy );
+    /* close the display now that we're done with it */
+    XCloseDisplay( dpy );
 
-//     return;
-// }
+#else
+    cout << "Stub: Font loading" << endl;
+#endif
+    return;
+}
 
-// /* Print our GL text to the screen */
-// GLvoid glPrint( const char *fmt, ... )
-// {
-//     char text[256]; /* Holds our string */
-//     va_list ap;     /* Pointer to our list of elements */
+/* Print our GL text to the screen */
+GLvoid glPrint( const char *fmt, ... )
+{
+#ifdef __linux
+    char text[256]; /* Holds our string */
+    va_list ap;     /* Pointer to our list of elements */
 
-//     /* If there's no text, do nothing */
-//     if ( fmt == NULL )
-// 	return;
+    /* If there's no text, do nothing */
+    if ( fmt == NULL )
+	return;
 
-//     /* Parses The String For Variables */
-//     va_start( ap, fmt );
-//       /* Converts Symbols To Actual Numbers */
-//     vsprintf( text, fmt, ap );
-//     va_end( ap );
+    /* Parses The String For Variables */
+    va_start( ap, fmt );
+      /* Converts Symbols To Actual Numbers */
+    vsprintf( text, fmt, ap );
+    va_end( ap );
 
-//     /* Pushes the Display List Bits */
-//     glPushAttrib( GL_LIST_BIT );
+    /* Pushes the Display List Bits */
+    glPushAttrib( GL_LIST_BIT );
 
-//     /* Sets base character to 32 */
-//     glListBase( base - 32 );
+    /* Sets base character to 32 */
+    glListBase( base - 32 );
 
-//     /* Draws the text */
-//     glCallLists( strlen( text ), GL_UNSIGNED_BYTE, text );
+    /* Draws the text */
+    glCallLists( strlen( text ), GL_UNSIGNED_BYTE, text );
 
-//     /* Pops the Display List Bits */
-//     glPopAttrib( );
-// }
+    /* Pops the Display List Bits */
+    glPopAttrib( );
+#endif
+
+}
