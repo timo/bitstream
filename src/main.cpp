@@ -57,10 +57,6 @@ int main(int argc,char * argv[])
   const SDL_VideoInfo* info = NULL;
 
  
-  info = SDL_GetVideoInfo( );
-  width = 1024;
-  height = 768;
-  bpp = 0; //info->vfmt->BitsPerPixel;
 
   //Initialize SDL
   if(  SDL_Init(SDL_INIT_EVERYTHING)< 0) 
@@ -70,6 +66,12 @@ int main(int argc,char * argv[])
 #endif
       exit(1);
     }
+
+
+  info = SDL_GetVideoInfo( );
+  width = 1024;
+  height = 768;
+  bpp = info->vfmt->BitsPerPixel;
 
   atexit(SDL_Quit);
   
@@ -106,7 +108,7 @@ int main(int argc,char * argv[])
   SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
   SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
   SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
-  SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, bpp );
+  SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
   //Initialize window
