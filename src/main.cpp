@@ -123,7 +123,7 @@ int main(int argc,char * argv[])
 
   cout << "\nEnd of main()" << endl;
   SDL_FreeSurface(Surface);
-
+  SDL_Quit();
   return 0;
 
 }
