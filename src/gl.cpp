@@ -132,7 +132,7 @@ int GLDraw(GLPlayer &Player1){
       if(!((*entityiter)->isPlayer())){
 	//	cout << "Not the Player" << endl;
 	delete *entityiter;
-      }      
+      }
       entityptr.erase(entityiter--);  // Take it out of the list
     } 
 
@@ -143,8 +143,11 @@ int GLDraw(GLPlayer &Player1){
 
   glPopMatrix();
 
-
-
+  if(!(playerptr->isAlive())){
+    glColor4f(1.0, 0.2, 0.2, 1.0);
+    glPrint(320, 380, 0, "Press SPACE to fail again, loser");
+  }
+  
 
   //TEXT
   //  glLoadIdentity( );

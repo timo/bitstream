@@ -21,8 +21,6 @@ jm@icculus.org
 
 #include <SDL/SDL.h>
 #include <iostream>
-#include <vector>
-#include <deque>
 #include <list>
 #include "GLEntity.h"
 #include "GLPlayer.h"
@@ -35,9 +33,9 @@ using namespace std;
 extern list < GLEntity * > entityptr;
 extern list <GLEntity * >::iterator entityiter;
 extern unsigned entitysize;
+extern GLPlayer* playerptr;
 
-
-int process_events(GLPlayer &Player1)
+int process_events()
 {
 
   static GLint x = 0 , y = 0 ;
@@ -99,7 +97,7 @@ int process_events(GLPlayer &Player1)
       case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
 	if ( event.jbutton.button == 0 )
 	  {
-	    if(Player1.isAlive()){
+	    if(playerptr->isAlive()){
 	      entityiter=entityptr.end();
 	      *entityiter = new GLShot;
 	      entityptr.push_back(*entityiter);
@@ -131,11 +129,16 @@ int process_events(GLPlayer &Player1)
 	    keyy=1;
 	    break;
 	  case SDLK_SPACE:
-	    if(Player1.isAlive()){
+	    if(playerptr->isAlive()){
 	      entityiter=entityptr.end();
 	      *entityiter = new GLShot;
 	      entityptr.push_back(*entityiter);
-	    }
+	    }else{
+	      entityiter=entityptr.end();
+	      playerptr->SetDamage(100);
+	      *entityiter = playerptr;
+	      entityptr.push_back(*entityiter); 
+	    } 
 	    break;
 
 	  case SDLK_ESCAPE:
@@ -148,10 +151,10 @@ int process_events(GLPlayer &Player1)
 	x=keyx;
 	y=keyy;
 
-	if((event.key.keysym.sym  & SDLK_RETURN) && 
+	if((event.key.keysym.sym & SDLK_RETURN) && 
 	   (event.key.keysym.mod & (KMOD_ALT | KMOD_META | KMOD_CTRL) )         )
 	  {	   
-	    return 2; //Send video resize data.
+	    return 2; //Send video resize.
 	  }
 
 	break;
@@ -189,11 +192,9 @@ int process_events(GLPlayer &Player1)
     }
   }
 
-  /* Check current key state for special commands */
-
-  if(Player1.isAlive()){
+  if(playerptr->isAlive()){
     
-    Player1.move(x,y);
+    playerptr->move(x,y);
 
   }
   return 0;

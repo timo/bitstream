@@ -270,6 +270,14 @@ BSM::getDamage(){
   return m_mainDamage;
 
 }
+
+void 
+BSM::setDamage(const GLdouble &damage){
+
+  m_mainDamage = damage;
+
+}
+
 GLint 
 BSM::GetNumPieces(){
 

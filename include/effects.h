@@ -11,8 +11,8 @@ extern Texture spark;
 
 void process_effects();
 
-int explosion(const position&pos, const double &radius, const double&duration,int &index);
+int explosion(const position&pos, const double &radius, const double&duration,int index);
 
-int particle_explosion(const position &source, const double &speed, const double &duration, int &index);
+int particle_explosion(const position &source, const double &speed, const double &duration, int index);
 
 #endif // _effects_h_

@@ -40,7 +40,7 @@ jm@icculus.org
 #include "effects.h"
 
 using namespace std;
-//static const GLdouble DEGTORAD = 0.0349066;
+
 static const GLdouble DEGTORAD = 0.017453278;
 static const GLdouble HIT_RADIUS = 0.00;
 extern GLPlayer *playerptr;
@@ -62,12 +62,13 @@ GLShot::GLShot()
    m_lastTime(0)
 {
   m_SourceExplosion = 0;
-  m_model.LoadBSM ("data/player/shot.bsm");
+
   if(!(playerptr->DrawEnergy(10))){
     m_rho = 200;
   }
+  m_model.LoadBSM ("data/player/shot.bsm");
   m_model.SetMainDamage(5);
-
+  
 }// GLShot
 
 GLShot::GLShot(const GLShot&)
@@ -82,9 +83,10 @@ GLShot::~GLShot()
   hit.y = m_yPos + m_yBase;
   hit.z = m_zPos - 18;
 
+
   // explosion(hit, 0.5, 0.5, expl_id);
   expl_id = 0;
-  particle_explosion(hit, 3, 0.5, expl_id);
+  particle_explosion(hit, 2, 0.5, expl_id);
 }// ~GLShot
 
 
@@ -110,6 +112,7 @@ void
 GLShot::draw(){
 
   // This is ugly. Please don't harass me.
+  position source, hit;
 
   if(!m_lastTime){
     m_lastTime=SDL_GetTicks(); 
@@ -119,16 +122,17 @@ GLShot::draw(){
 
     m_xAngle = -4.2*(playerptr->getYtilt());
     m_yAngle = -2.2*(playerptr->getXtilt()) ;
+
+    source.x = m_xBase;
+    source.y = m_yBase;
+    source.z = -18;
+   
   }
 
   glPushMatrix();
-
-  position source, hit;
-  source.x = m_xBase;
-  source.y = m_yBase;
-  source.z = -18;
-
-  // explosion(source, 0.3, 0.2, m_SourceExplosion);
+  m_yPos = m_rho*sin(m_xAngle*DEGTORAD);
+  m_xPos = -m_rho*cos(m_xAngle*DEGTORAD)*sin(m_yAngle*DEGTORAD);
+  m_zPos = -m_rho*cos(m_yAngle*DEGTORAD)*cos(m_xAngle*DEGTORAD);
 
   // cout << m_xBase << "," << m_yBase << endl;
 
@@ -136,33 +140,35 @@ GLShot::draw(){
 
   // yAngle is 
 
-  m_yPos = m_rho*sin(m_xAngle*DEGTORAD);
-  m_xPos = -m_rho*cos(m_xAngle*DEGTORAD)*sin(m_yAngle*DEGTORAD);
-  m_zPos = -m_rho*cos(m_yAngle*DEGTORAD)*cos(m_xAngle*DEGTORAD);
-
-  hit.x = m_xPos + m_xBase;
+  //  hit.x = m_xPos + m_xBase;
   hit.y = m_yPos + m_yBase;
-  hit.z = m_zPos - 18;
+  //  hit.z = m_zPos - 18;
+
+//   if(m_SourceExplosion == 0){
+//     source.x = m_xBase + m_xPos;
+//     source.y = m_yBase + m_yPos;
+//     source.z = m_zPos - 18;
+//     //   particle_explosion(source, 1, 0.3, 0);
+//     m_SourceExplosion = 1;
+//   }
 
 
-
-   if(hit.y < -5){
+  if(hit.y < -5){  // hits the ground
 
      m_rho=200;  // Effectively destroy itself
 		   
-    }    
+  }    
 
    glTranslatef(0.0f, 0.0f, -18);
 
    glTranslatef(m_xBase, m_yBase, 0.0f);
-//   glTranslatef(hit.x, hit.y, hit.z);
 
    glRotatef(m_xAngle, 1.0f, 0.0f, 0.0f);
    glRotatef(m_yAngle, 0.0f, 1.0f, 0.0f);
    glTranslatef(0.0f, 0.0f, -m_rho);
 
 
-  glColor3f(0.4f, 0.0f, 0.0f);
+  glColor3f(0.5f, 0.5f, 1.0f);
   m_model.draw();
 
 

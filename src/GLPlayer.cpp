@@ -364,6 +364,14 @@ GLPlayer::GetDamage(){
 
 }
 
+
+void
+GLPlayer::SetDamage(const GLdouble& damage){
+
+  m_model.setDamage(damage);
+
+}
+
 int
 GLPlayer::DrawEnergy(const GLdouble &energy){
 

@@ -14,7 +14,7 @@
 
 using namespace std;
 
-int explosion(const position&pos, const double &radius, const double&duration, int&index);
+
 
 void process_effects(){
 
@@ -32,7 +32,7 @@ void process_effects(){
 }
 
 
-int explosion(const position&pos, const double &radius, const double&duration, int&index){
+int explosion(const position&pos, const double &radius, const double&duration, int index){
 
   static int explosionindex[EXPLOSIONS];
   static Uint32 starttime[EXPLOSIONS];
@@ -129,7 +129,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
 
 // Particle explosion
 
-int particle_explosion(const position &source, const double& speed, const double &duration, int &index){
+int particle_explosion(const position &source, const double& speed, const double &duration, int index){
 
   static int explosionindex[PARTICLE_EXPLOSIONS];
   static Uint32 starttime[PARTICLE_EXPLOSIONS];

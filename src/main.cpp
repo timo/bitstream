@@ -40,7 +40,7 @@ int GLDraw(GLPlayer &);
 
 void setup_opengl( const int &Width, const int &Height, const int &bpp );
 
-int process_events(GLPlayer &Player1);
+int process_events();
 
 void quit_program( const int &code );
 
@@ -55,8 +55,50 @@ int main(int argc,char * argv[])
   GLint width, height, bpp, die = 0;
   SDL_Surface *Surface;
   const SDL_VideoInfo* info = NULL;
-  bool fullscreen=false;
+  bool fullscreen;
   Uint32 *flags = new Uint32;
+
+  // Defaults
+  fullscreen=true;
+  width = 1024;
+  height = 768;
+
+  if(argc>1){
+
+    for(int i = 1; i < argc; i++){
+
+
+      if(!strcmp(argv[i],"--window")){
+	fullscreen = false;
+	continue;
+      }
+      if(!strcmp(argv[i],"--fullscreen")){
+	fullscreen = true;
+	continue;
+      }
+      if(!strcmp(argv[i],"--width")){
+	width = atoi(argv[i+1]);
+	i++;  // Skip the next one
+	continue;
+      }
+      if(!strcmp(argv[i],"--height")){
+	height = atoi(argv[i+1]);
+	i++;  // Skip the next one
+	continue;
+      }
+      if(!strcmp(argv[i],"--help") || (argv[i][0] != '-')){
+	cout << endl;
+	cout << "Bitstream command line options:" << endl;
+	cout << "   --window\t\tRun in windowed mode"<< endl;
+	cout << "   --fullscreen\t\tRun in fullscreen mode (default)" << endl;
+	cout << "   --width\t\tSpecify X resolution (default 1024)" << endl;
+	cout << "   --height\t\tSpecify Y resolution (default 768)" << endl;
+	cout << endl;
+	return 0;
+      }
+
+    }
+  }
 
   //Initialize SDL
   if(  SDL_Init(SDL_INIT_EVERYTHING)< 0) 
@@ -69,8 +111,6 @@ int main(int argc,char * argv[])
 
 
   info = SDL_GetVideoInfo( );
-  width = 1024;
-  height = 768;
   bpp = info->vfmt->BitsPerPixel;
 
   atexit(SDL_Quit);
@@ -111,14 +151,14 @@ int main(int argc,char * argv[])
   SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
-#ifdef __linux__ // Default to windowed on linux, for me. I'm selfish
-  *flags = SDL_OPENGL;
-#else
-  *flags = SDL_OPENGL | SDL_FULLSCREEN;
-  fullscreen=true;
-#endif
 
   //Initialize window
+  if(fullscreen){
+    *flags = SDL_OPENGL | SDL_FULLSCREEN;
+  }else{
+    *flags = SDL_OPENGL;
+  }
+
   Surface = SDL_SetVideoMode(width, height, bpp, *flags);
 
   if ( Surface == NULL ) {
@@ -143,7 +183,7 @@ int main(int argc,char * argv[])
       
       GLDraw(Player1);
 
-      die = process_events(Player1);
+      die = process_events();
       
       if(die == 2){
 	if(fullscreen){

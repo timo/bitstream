@@ -69,6 +69,7 @@ public:
 	bool isAlive();
 	GLdouble GetEnergy();
 	GLdouble GetDamage();
+   void SetDamage(const GLdouble &);
 	int DrawEnergy(const GLdouble &energy);
 	GLdouble GetLongestRadius();
    GLdouble GetHitDamage();
