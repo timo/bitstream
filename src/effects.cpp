@@ -14,6 +14,9 @@ using namespace std;
 
 int explosion(const position&pos, const double &radius, const double&duration, int&index){
 
+  if(index==999){
+    return 0;
+  }
 
   static int explosionindex[EXPLOSIONS];
   static Uint32 starttime[EXPLOSIONS];
@@ -27,11 +30,12 @@ int explosion(const position&pos, const double &radius, const double&duration, i
     for(i=0; i < EXPLOSIONS; i++){
       explosionindex[i] = 0;
       alpha[i]=1.0;
+      qobj[index] = NULL;
     }
       firstrun=0;
   }
 
-  //  cout << "Index #" << index << endl;
+  // cout << "Index #" << index << endl;
   if( index == 0 ){    
       i=1;
 ;
@@ -46,32 +50,47 @@ int explosion(const position&pos, const double &radius, const double&duration, i
       starttime[i] = SDL_GetTicks();
  
       index = i;
-      cout << "Explosion # " << i << endl;
+      //    cout << "Explosion # " << i << endl;
+
   }
+
 
 
 
   alpha[index] = 1.0 - (double)(SDL_GetTicks() - starttime[index]) /(duration*1000);
 
+
   if((alpha[index] < 0.0) && (explosionindex[index] == 1)){
+
     explosionindex[index]=0;
+    alpha[index] = 1.0;
     gluDeleteQuadric(qobj[index]);
+    qobj[index] = NULL;
+    cout << "Deleting #" << index << endl;
+    index = 999;
+
     return 0 ;
   }
+  else{
 
-  glPushMatrix();
+    glPushMatrix();
 
-  qobj[index] = gluNewQuadric();
-  gluQuadricOrientation(qobj[index], GLU_OUTSIDE);
-  gluQuadricDrawStyle(qobj[index], GLU_FILL);
-  gluQuadricNormals(qobj[index], GLU_SMOOTH); 
-
-  glTranslatef(pos.x, pos.y, pos.z);
-  glColor4f(1.0f, 1.0f, 0.0f, alpha[index]);
-
-  gluSphere(qobj[index], radius, 15, 10);
-
-  glPopMatrix();
+    if(qobj[index]){
+      gluDeleteQuadric(qobj[index]);
+    }
+    qobj[index] = gluNewQuadric();
+    gluQuadricOrientation(qobj[index], GLU_INSIDE);
+    gluQuadricDrawStyle(qobj[index], GLU_FILL);
+    gluQuadricNormals(qobj[index], GLU_FLAT); 
+    
+    glTranslatef(pos.x, pos.y, pos.z);
+    glColor4f(1.0f, 0.5f, 0.0f, alpha[index]);
+    
+    gluSphere(qobj[index], radius, 15, 10);
+    
+    glPopMatrix(); 
+    
+  }
 
   return index;
 

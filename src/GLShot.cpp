@@ -107,7 +107,7 @@ GLShot::draw(){
   source.y = m_yBase;
   source.z = -18;
 
-  explosion(source, 0.5, 0.5, m_SourceExplosion);
+  explosion(source, 0.3, 0.2, m_SourceExplosion);
 
   // cout << m_xBase << "," << m_yBase << endl;
 
