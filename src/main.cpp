@@ -56,7 +56,7 @@ int main(int argc,char * argv[])
   //  GLdouble fps, time, cleartime;
   SDL_Surface *Surface;
   const SDL_VideoInfo* info = NULL;
-  bool fullscreen=false;
+  //  bool fullscreen=false;
   Uint32 *flags = new Uint32;
 
   //Initialize SDL
@@ -112,8 +112,14 @@ int main(int argc,char * argv[])
   SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
+#ifdef _linux_ // Default to windowed on linux, for me. I'm selfish
+  *flags = SDL_OPENGL;
+#else
+  *flags = SDL_OPENGL | SDL_FULLSCREEN;
+#endif
+
   //Initialize window
-  Surface = SDL_SetVideoMode(width, height, bpp, SDL_OPENGL );
+  Surface = SDL_SetVideoMode(width, height, bpp, *flags);
 
   if ( Surface == NULL ) {
 #ifdef _linux_
@@ -130,7 +136,7 @@ int main(int argc,char * argv[])
   GLPlayer Player1(0,0,-11);
   Player1.setVel(0);
 
-  *flags = SDL_OPENGL;
+
 
   while(!die)
     {
@@ -140,21 +146,9 @@ int main(int argc,char * argv[])
       die = process_events(Player1);
       
       if(die == 2){
-
-	//	if(!SDL_WM_ToggleFullScreen(Surface)){
-
-		  attempt_fullscreen_toggle(&Surface, flags);
-// 	   if(fullscreen == false){
-// 	     SDL_SetVideoMode(width, height, bpp, SDL_OPENGL | SDL_FULLSCREEN);
-// 	     fullscreen = true;
-// 	   }
-// 	   else{
-// 	     SDL_SetVideoMode(width, height, bpp, SDL_OPENGL );
-// 	     fullscreen = false;
-// 	   } 
-	  
-	//	SDL_WM_ToggleFullScreen(Surface);
-	  //	}
+#ifdef _linux_
+	SDL_WM_ToggleFullScreen(Surface);
+#endif
 	die=0;
       }
     }
