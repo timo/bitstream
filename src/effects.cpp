@@ -176,10 +176,11 @@ int particle_explosion(const position &source, const double& speed, const double
 	if(rand()%2) e_vel[i][j].x *=-1;
 	if(rand()%2) e_vel[i][j].y *=-1;
 	if(rand()%2) e_vel[i][j].z *=-1;
-	e_acc[i][j].x = 0;
+	e_acc[i][j].x = rand()%5;
+	if(rand()%2) e_acc[i][j].x *=-1;
 	e_acc[i][j].y = GRAVITY;
-	e_acc[i][j].z = 0;
-
+	e_acc[i][j].z = rand()%5;
+	if(rand()%2) e_acc[i][j].z *=-1;
       }
   }
       
@@ -218,8 +219,8 @@ int particle_explosion(const position &source, const double& speed, const double
     //    cout << "Drawing Particle #" << j << endl;
     glPushMatrix();
     glTranslatef(e_pos[i][j].x, e_pos[i][j].y, e_pos[i][j].z);
-    glColor4f(1.0, 1.0, 1.0,  alpha[index]);
-    //   glColor3f(alpha[index], alpha[index], alpha[index]);
+    //  glColor4f(1.0/((double)(rand()%10)), 1.0/((double)(rand()%10)), 1.0/((double)(rand()%10)),  alpha[index]);
+    glColor4f(1.0, 1.0, 1.0, alpha[index]);
     glBegin(GL_QUADS);
     glLoadIdentity();
     glTexCoord2d(0, 0); 
