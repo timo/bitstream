@@ -45,7 +45,7 @@ using namespace std;
 
 static const GLdouble ACCEL = 0.25;
 static const GLdouble SLOW = 0.125;
-static const GLdouble DRIFT = 0.0625;
+static const GLdouble DRIFT = 0; //0.0625;
 static const GLdouble MAXSPEED = 80;
 static const GLdouble DEGTORAD = 0.017453278;
 static const GLdouble RECHARGE_FACTOR = 20;
