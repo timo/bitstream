@@ -3,12 +3,12 @@
 BIN = bitstream
 CYGWIN_DIR=  
 SRCDIR = src
-SRCS = src/main.cpp src/GLEntity.cpp src/GLPlayer.cpp src/events.cpp src/GLMap.cpp src/gl.cpp src/Texture.cpp src/BSM.cpp src/BSMPiece.cpp src/GLShot.cpp src/GLEnemy.cpp src/en_cube.cpp src/physics.cpp src/effects.cpp
+SRCS = src/main.cpp src/GLEntity.cpp src/GLPlayer.cpp src/events.cpp src/GLMap.cpp src/gl.cpp src/Texture.cpp src/BSM.cpp src/BSMPiece.cpp src/GLShot.cpp src/GLEnemy.cpp src/en_cube.cpp src/physics.cpp src/effects.cpp src/hud.cpp
 
 CXX     = g++
 CFLAGS  = -g   -Wall  -ansi -DDEBUG
 INCLUDE = -I. -Iinclude
-LDFLAGS = -Llib -rdynamic -L$(CYGWIN_DIR)/lib -lopengl32 -lglu32 -ldl `sdl-config --libs`
+LDFLAGS = -Llib -rdynamic -L$(CYGWIN_DIR)/lib -lGL -lGLU -ldl `sdl-config --libs`
 
 #############################################################################################
 

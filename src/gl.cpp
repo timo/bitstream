@@ -37,6 +37,7 @@ jm@icculus.org
 #include "Texture.h"
 #include "BSM.h"
 #include "en_cube.h"
+#include "hud.h"
 
 using namespace std;
 
@@ -137,7 +138,7 @@ int GLDraw(GLPlayer &Player1){
 	}
     }
 
-  glRasterPos2f( 0.4f, 0.36f );
+  glRasterPos2f( 0.4f, 0.39f );
   glPrint("fps: %3.2f", fps);
 
   glRasterPos2f( -0.5f, -0.4f );
@@ -149,6 +150,8 @@ int GLDraw(GLPlayer &Player1){
   else{
       glPrint("Health: 0");
   }
+  
+  DrawHud();
 
   glFlush();
 

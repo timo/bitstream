@@ -154,9 +154,9 @@ GLPlayer::collide(){
   double y_Rheight, y_Fheight, nose;
 
 
-  ywing = 2*cos(-m_dXvel*0.3*DEGTORAD);
-  xwing = 2*sin(-m_dXvel*0.3*DEGTORAD);
-  nose = 6*sin(m_dYvel*0.2*DEGTORAD);
+  ywing = 2*cos(-m_dXvel*0.3*DEGTORAD*2);
+  xwing = 2*sin(-m_dXvel*0.3*DEGTORAD*2);
+  nose = 6*sin(m_dYvel*0.2*DEGTORAD*2);
 
   y_Lheight = this->getY() - xwing - ywing;
   y_Rheight = this->getY() + xwing - ywing;
