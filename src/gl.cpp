@@ -110,26 +110,19 @@ int GLDraw(GLPlayer &Player1){
 
       if(entityiter!=entityiter2){
 	if(SphericalHit(**entityiter, **entityiter2)){
-	  (*entityiter)->ApplyDamage((*entityiter2)->GetHitDamage()); 
 	  (*entityiter2)->ApplyDamage((*entityiter)->GetHitDamage()); 
+	  (*entityiter)->ApplyDamage((*entityiter2)->GetHitDamage()); 
+	  if(!((*entityiter2)->isAlive())){
+	      delete *entityiter2;
+	      entityptr.erase(entityiter2--);  // Take it out of the list
+	  }
+
+	  if(!((*entityiter)->isAlive())){
+	      delete *entityiter;
+	      entityptr.erase(entityiter--);  // Take it out of the list
+	  } 
 	}
       }
-       if(entityiter!=entityiter2){
-	if(!((*entityiter2)->isAlive())){
-	  if(entityiter2 != NULL){
-	    delete *entityiter2;
-	  }
-	  entityptr.erase(entityiter2--);  // Take it out of the list
-	}
-       }  
-// 	if(!((*entityiter)->isAlive())){
-// 	  if(entityiter != NULL){
-// 	    delete *entityiter;
-// 	  }
-// 	  entityptr.erase(entityiter--);  // Take it out of the list
-// 	  entityiter = NULL;
-// 	}
-	// }
     }
     
 
