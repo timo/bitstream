@@ -3,9 +3,9 @@
 #include <GL/gl.h>
 #include <iostream>
 #include <stdio.h>
+#include <stdarg.h>
 #include "text.h"
 #include "Texture.h"
-
 
 extern Texture text;
 static GLuint  base; 

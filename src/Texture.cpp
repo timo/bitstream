@@ -23,6 +23,9 @@ jm@icculus.org
 #include <fstream>
 #include "Texture.h"
 
+#ifndef GL_BGRi // For cygwins old GL headers, could be dangerous
+#define GL_BGR                                  0x80E0
+#endif
 using namespace std;
 //Default Constructor
 
