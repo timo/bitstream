@@ -19,7 +19,7 @@ jm@icculus.org
 #include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#ifdef __linux
+#ifdef __linux__
  #include <GL/glx.h>
 #endif
 
@@ -38,7 +38,7 @@ jm@icculus.org
 #include "BSM.h"
 using namespace std;
 
-//static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
+static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
 
 
 
@@ -97,7 +97,7 @@ int GLDraw(GLPlayer &Player1){
   glPopMatrix();
   
   Player1.collide();  // Player stuff
-  // glEnable(GL_BLEND);
+  glEnable(GL_BLEND);
 
 
   if(player.getDamage()>0){
@@ -132,17 +132,22 @@ int GLDraw(GLPlayer &Player1){
     }
 
   glRasterPos2f( 0.4f, 0.36f );
-    glPrint("fps: %3.2f", fps);
+  glPrint("fps: %3.2f", fps);
 
   glRasterPos2f( -0.5f, -0.4f );
   glColor3f(1.0f, 1.0f, 1.0f);
+
   if(player.getDamage()>0){
        glPrint("Health: %3.0f", player.getDamage());
   }
   else{
       glPrint("Health: 0");
   }
+
+  glFlush();
+
   SDL_GL_SwapBuffers();
+
 
   return 0;
 
@@ -167,14 +172,15 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glViewport(0, 0, Width, Height); 
 
   entitysize=0;
-
-  glClearColor(0.67f, 0.70f, 0.76f, 0.0f);        
-  glClearDepth(1.0);                         
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  // glClearColor(0.67f, 0.70f, 0.76f, 1.0f);        
+  // glClearDepth(1.0);                         
 
  
   glShadeModel(GL_SMOOTH);                     
                 
   glMatrixMode(GL_PROJECTION);
+
 
 
   glLoadIdentity(); 
@@ -194,8 +200,6 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glMatrixMode(GL_MODELVIEW);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-  glEnable(GL_DEPTH_TEST); 
-  glDepthFunc(GL_LESS); 
 
   //  glPolygonMode (GL_FRONT, GL_FILL);
   //  glPolygonMode (GL_BACK, GL_FILL);
@@ -205,12 +209,14 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   //   glEnable( GL_CULL_FACE );
 
 	
-  // glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
 
   buildFont();
 
-  glBlendFunc(GL_SRC_ALPHA,GL_SRC_COLOR);
+  // glBlendFunc(GL_SRC_ALPHA,GL_SRC_COLOR);
 
+  glEnable(GL_DEPTH_TEST); 
+  glDepthFunc(GL_LEQUAL); 
 
   glEnable(GL_LIGHT1);	
   glEnable(GL_LIGHTING);
@@ -227,6 +233,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glFogf(GL_FOG_END, 95.0);
   glEnable(GL_FOG);
 
+
 }
 
 // Shamelessly stolen from Ti Leggett's SDL port of NeHe tutorial 13
@@ -234,7 +241,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
 GLvoid KillFont( GLvoid )
 {
-#ifdef __linux
+#ifdef __linux__
     glDeleteLists( base, 96 );
 #endif
     return;
@@ -243,7 +250,7 @@ GLvoid KillFont( GLvoid )
 
 GLvoid buildFont( GLvoid )
 {
-#ifdef __linux
+#ifdef __linux__
 
     Display *dpy;          /* Our current X display */
     XFontStruct *fontInfo; /* Our font info */
@@ -287,7 +294,7 @@ GLvoid buildFont( GLvoid )
 /* Print our GL text to the screen */
 GLvoid glPrint( const char *fmt, ... )
 {
-#ifdef __linux
+#ifdef __linux__
     char text[256]; /* Holds our string */
     va_list ap;     /* Pointer to our list of elements */
 

@@ -56,7 +56,7 @@ int main(int argc,char * argv[])
   //  GLdouble fps, time, cleartime;
   SDL_Surface *Surface;
 
-  GLPlayer Player1(0,0,-12);
+  GLPlayer Player1(0,0,-11);
 
 
   width = 1024;
