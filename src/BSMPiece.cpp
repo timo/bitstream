@@ -20,6 +20,7 @@
 //============================= Lifecycle ====================================
 
 BSMPiece::BSMPiece()
+  :m_dDamage(100)
 {
 }// BSMPiece
 
@@ -46,9 +47,12 @@ BSMPiece::operator=(const BSMPiece&rhs)
    if ( this==&rhs ) {
         return *this;
     }
-    //superclass::operator =(rhs);
 
-    //add local assignments
+
+   m_dDamage=rhs.m_dDamage;
+   for(unsigned i=0; i < rhs.m_ptrPoints.size(); i++){
+     m_ptrPoints.push_back(rhs.m_ptrPoints[i]);
+   } 
 
     return *this;
 

@@ -94,9 +94,6 @@ BSM::draw(){
     
     m_ptrPoints = *(m_vBSM[j].get_vec());
 
- 
-    cout << m_vBSM[j].size() << endl;
-
     GLfloat normal[3];
     GLfloat *ntemp = new GLfloat[3];
 
