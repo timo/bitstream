@@ -51,6 +51,7 @@ extern Texture playerSkin;
 
 GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
   :GLEntity(x, y, z),
+   m_dThistime(0),
    hitTime(0)
 {
 
@@ -204,6 +205,10 @@ GLPlayer::collide(){
 void 
 GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
 
+  if(!m_dThistime){ m_dThistime= SDL_GetTicks();}
+
+  GLdouble deltatime = SDL_GetTicks() - m_dThistime;
+
   // X Speed manipulation
 
   if(x==1){
@@ -211,16 +216,16 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
     //FIXME acceleration may be different on some machines
 
     if(m_dXvel < MAXSPEED){
-      m_dXvel += ACCEL;
+      m_dXvel += ACCEL*deltatime;
     }
     
   }
   
   if(x==0 && m_dXvel > 0){
-    m_dXvel -= SLOW;
+    m_dXvel -= SLOW*deltatime;
   }
   else if(x==0 && m_dXvel < 0){
-    m_dXvel += SLOW;
+    m_dXvel += SLOW*deltatime;
   }
   else if(x==0 && m_dXvel == 0){
     m_dXvel = 0;
@@ -229,7 +234,7 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
   if(x==-1){
     
     if(m_dXvel > -MAXSPEED){
-       m_dXvel -= ACCEL;
+       m_dXvel -= ACCEL*deltatime;
     }
     
   }
@@ -260,30 +265,30 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
     if(y==1){
       
       if(m_dYvel < MAXSPEED){
-	m_dYvel += ACCEL;
+	m_dYvel += ACCEL*deltatime;
       }
       
     }
     
     if(y==0 && m_dYvel > 0){
-      m_dYvel -= SLOW;
+      m_dYvel -= SLOW*deltatime;
     }
     else if(y==0 && m_dYvel < -DRIFT){
-      m_dYvel += SLOW;
+      m_dYvel += SLOW*deltatime;
 
       
 
     }
     else if(y==0 && m_dYvel == 0){
       
-      m_dYvel -= DRIFT;
+      m_dYvel -= DRIFT*deltatime;
 
     }
     
     if(y==-1){
       
       if(m_dYvel > -MAXSPEED){
-	m_dYvel -= ACCEL;
+	m_dYvel -= ACCEL*deltatime;
 
 	}
       
