@@ -13,7 +13,7 @@ void DrawHealthBar(){
   glPushMatrix();
   glDisable(GL_LIGHTING);
   glBegin(GL_TRIANGLES);
-  glColor4f(0.2, 0.2, 0.2, 1.0);
+  glColor4f(0.2, 0.2, 0.2, 0.5);
 
   glVertex3f(HUD_LEFT_BG, HUD_HEALTH_TOP_BG, -1);
   glVertex3f(HUD_RIGHT_BG, HUD_HEALTH_TOP_BG, -1);
@@ -50,7 +50,7 @@ void DrawEnergyBar(){
   glPushMatrix();
   glDisable(GL_LIGHTING);
   glBegin(GL_TRIANGLES);
-  glColor4f(0.2, 0.2, 0.2, 1.0);
+  glColor4f(0.2, 0.2, 0.2, 0.5);
 
   glVertex3f(HUD_LEFT_BG, HUD_ENERGY_TOP_BG, -1);
   glVertex3f(HUD_RIGHT_BG, HUD_ENERGY_TOP_BG, -1);
