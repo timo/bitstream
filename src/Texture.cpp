@@ -403,34 +403,34 @@ unsigned char *readpcx(ifstream &file,unsigned char *mypalette,unsigned short in
 
   file.seekg(0);
 
-  file.read(reinterpret_cast<char *>(&header),sizeof(PCX_Header));
-
+  // file.read(reinterpret_cast<unsigned char *>(&header),sizeof(PCX_Header));
+  file.read((&header),sizeof(PCX_Header));
   /* Check if this file is in pcx format */
-  //  if((header.signature!=0x0a)||(header.version!=5)){
-  // cout << "Invalid PCX" << endl;
-  //  return(NULL);
-  // }
+  if((header.signature!=0x0a)||(header.version!=5)){
+    cout << "Invalid PCX" << endl;
+    return(NULL);
+   }
   
-  // else
-  //{/* it is! */
+  else
+    {/* it is! */
       /* Return height and width */
-
+      
       *width=header.xmax+1-header.xmin;
       *height=header.ymax+1-header.ymin;
 
       target = new unsigned char[(*width)*(*height)];
       /* Read the image */
-
+      
       readpcximage(file,target,(*width)*(*height));
-
+      
       /* Get the palette */
       // fread(palette,1,768,file);
-
+      
       file.seekg(-768, ios::end);
       file.read(mypalette, 768);
-
+      
       /* PCX succesfully read! */
-
+      
       return(target);
-      // }
+    }
 }
