@@ -32,6 +32,8 @@ jm@icculus.org
 //- targas (.tga), and the Microsoft Bitmap (.bmp) format.	   -//
 //------------------------------------------------------------------//
 
+#define _PCX_SUPPORT_ 0
+
 class Texture {
 
 public:
@@ -41,7 +43,9 @@ public:
 
 	bool LoadTGA(char* filename, const GLfloat &minFilter, const GLfloat &maxFilter);
 	bool LoadBMP(char* filename, const GLint &minFilter, const GLint &maxFilter);
+#if _PCX_SUPPORT_
 	bool LoadPCX(char* filename, const GLint &minFilter, const GLint &maxFilter);
+#endif
 	GLuint getID()const;
 
 protected:

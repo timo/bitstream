@@ -68,7 +68,9 @@ int main(int argc,char * argv[])
   //Initialize SDL
   if(  SDL_Init(SDL_INIT_EVERYTHING)< 0) 
     {
-       fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
+#ifdef _linux_
+         fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
+#endif
       exit(1);
     }
   
@@ -115,7 +117,9 @@ int main(int argc,char * argv[])
   Surface = SDL_SetVideoMode(width, height, bpp, SDL_OPENGL);
 
   if ( Surface == NULL ) {
+#ifdef _linux_
     fprintf(stderr, "Unable to create OpenGL screen: %s\n", SDL_GetError());
+#endif
     SDL_Quit();
     exit(2);
   }
