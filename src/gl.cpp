@@ -24,8 +24,8 @@ int GLDraw(const GLPlayer &Player1){
   static GLMap map1;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  map1.draw();
-  Player1.draw();
+   map1.draw();
+   Player1.draw();
 
   SDL_GL_SwapBuffers();
   return 0;

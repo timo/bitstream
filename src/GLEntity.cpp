@@ -94,24 +94,33 @@ GLEntity::shift(const GLdouble &xvel,const GLdouble &yvel, const GLdouble &zvel 
 {
   if(m_idraw==1){
 
-  m_dThisTime = SDL_GetTicks();
+    // Bad hack because I'm getting 0 draw time wish SDL_GetTicks()
 
-  if(m_dX < 5 && m_dX > -5 || (m_dX >= 5 && xvel <=0) 
-     || (m_dX <= -5 && xvel >=0)){ 
-    m_dX += (m_dThisTime-m_dLastTime)/1000 * xvel;
-  }
+    if(m_dThisTime >= SDL_GetTicks())
+      {
+	m_dThisTime += 11;
+      }
+    else{
+
+      m_dThisTime = SDL_GetTicks();
+    }
+
+    if(m_dX < 5 && m_dX > -5 || (m_dX >= 5 && xvel <=0) 
+       || (m_dX <= -5 && xvel >=0)){ 
+      m_dX += (m_dThisTime-m_dLastTime)/1000 * xvel;
+    }
   
-  if(m_dY < 4 && m_dY > -2.5 || (m_dY >= 4 && yvel <=0) 
-     || (m_dY <= -2.5 && yvel >=0)){ 
-    m_dY += (m_dThisTime-m_dLastTime)/1000 * yvel;
-  }
-  m_dZ += (m_dThisTime-m_dLastTime)/1000 * zvel;
-
-  m_dLastTime = m_dThisTime;
-
+    if(m_dY < 4 && m_dY > -2.5 || (m_dY >= 4 && yvel <=0) 
+       || (m_dY <= -2.5 && yvel >=0)){ 
+      m_dY += (m_dThisTime-m_dLastTime)/1000 * yvel;
+    }
+    m_dZ += (m_dThisTime-m_dLastTime)/1000 * zvel;
+  
+    m_dLastTime = m_dThisTime;
+    
   }
   else{
-
+    
     m_dLastTime = SDL_GetTicks();
     m_idraw =1;
 
