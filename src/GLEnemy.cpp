@@ -58,6 +58,7 @@ GLEnemy::GLEnemy(const GLEnemy&)
 
 GLEnemy::~GLEnemy()
 {
+  m_iDestroyed++;
 }// ~GLEnemy
 
 
@@ -66,7 +67,7 @@ GLEnemy::~GLEnemy()
 GLEnemy& 
 GLEnemy::operator=(const GLEnemy&rhs)
 {
-   if ( this==&rhs ) {
+  if ( this==&rhs ) {
         return *this;
     }
     //superclass::operator =(rhs);
@@ -76,6 +77,23 @@ GLEnemy::operator=(const GLEnemy&rhs)
     return *this;
 
 }// =
+
+
+GLint
+GLEnemy::GetDestroyed(){
+
+  return m_iDestroyed;
+
+}
+
+void
+GLEnemy::SetDestroyed(const GLint &i){
+
+  m_iDestroyed = i;
+}
+
+GLint 
+GLEnemy::m_iDestroyed = 0;
 
 //============================= Operations ===================================
 //============================= Access      ==================================

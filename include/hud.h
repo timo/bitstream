@@ -24,5 +24,10 @@ const GLdouble HUD_ENERGY_TOP_FG = 0.67;
 const GLdouble HUD_ENERGY_BOTTOM_FG = 0.64;
 const GLdouble HUD_ENERGY_DIFF = HUD_RIGHT_FG - HUD_LEFT_FG;
 
+const GLdouble HUD_SPEED_TOP_BG = 0.61;
+const GLdouble HUD_SPEED_BOTTOM_BG = 0.56;
+const GLdouble HUD_SPEED_TOP_FG = 0.60;
+const GLdouble HUD_SPEED_BOTTOM_FG = 0.57;
+const GLdouble HUD_SPEED_DIFF = HUD_RIGHT_FG - HUD_LEFT_FG;
 
 #endif // _hud_h_

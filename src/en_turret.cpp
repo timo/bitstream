@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////
-// Name: en_hornet 
+// Name: en_turret 
 //
 // Files:
 // Bugs:
@@ -14,7 +14,7 @@
 /////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <list>
-#include "en_hornet.h"                                // class implemented
+#include "en_turret.h"                                // class implemented
 #include "GLEntity.h"
 #include "GLPlayer.h"
 #include "GLShot.h"
@@ -34,7 +34,7 @@ extern list < GLEntity * > entityptr;
 extern list <GLEntity * >::iterator entityiter;
 
 
-en_hornet::en_hornet(const double&x, const double&y, const double&z)
+en_turret::en_turret(const double&x, const double&y, const double&z)
   :GLEnemy(x,y,z)
 {
   m_Position.x=x;
@@ -42,30 +42,29 @@ en_hornet::en_hornet(const double&x, const double&y, const double&z)
   m_Position.z=z;
   build();
 
-}// en_hornet
-en_hornet::en_hornet(const position& pos)
+}// en_turret
+en_turret::en_turret(const position& pos)
   :GLEnemy(pos)
 {
   m_Position=pos;
   build();
 
-}// en_hornet
+}// en_turret
 
 
 void 
-en_hornet::build(){
+en_turret::build(){
 
   m_LastTime=0;
-  // m_model.LoadBSM("data/enemies/hornet/hornet.bsm");
-  m_model.LoadBSM("data/enemies/hornet/hornet.bsm");
+  m_model.LoadBSM("data/enemies/turret/turret.bsm");
   m_model.SetMainDamage(MAX_HEALTH);
   m_IdleTime = 0;
-  m_Position.boundaries = 1;
+  m_Position.boundaries = 0;
   m_dDamage = 20;
   m_Behavior = IDLE;
   m_Color[RED]=0.5;
-  m_Color[GREEN]=0.5;
-  m_Color[BLUE]=0;
+  m_Color[GREEN]=0;
+  m_Color[BLUE]=1;
   m_Color[ALPHA]=1;
   m_Velocity.x = 0;
   m_Velocity.y = 0;
@@ -77,23 +76,23 @@ en_hornet::build(){
 }
 
 
-en_hornet::en_hornet(const en_hornet&)
+en_turret::en_turret(const en_turret&)
 {
-}// en_hornet
+}// en_turret
 
-en_hornet::~en_hornet()
+en_turret::~en_turret()
 {
   int index=0;
 
   particle_explosion(m_Position, 5, 1, index);
 
-}// ~en_hornet
+}// ~en_turret
 
 
 //============================= Operators ====================================
 
-en_hornet& 
-en_hornet::operator=(const en_hornet&rhs)
+en_turret& 
+en_turret::operator=(const en_turret&rhs)
 {
    if ( this==&rhs ) {
         return *this;
@@ -107,27 +106,14 @@ en_hornet::operator=(const en_hornet&rhs)
 }// =
 
 void
-en_hornet::en_attack_state()
+en_turret::en_attack_state()
 {
 
   static double accum = 0;
-  m_Rotation.z += m_DeltaSeconds*ROT_PER_SEC;  
   accum += m_DeltaSeconds;
 
-  if(playerptr->getX() > m_Position.x){
-    m_Acceleration.x = 5*(playerptr->getX()-m_Position.x) - m_Velocity.x;
-  }else{
-    m_Acceleration.x = -5*(-playerptr->getX()+m_Position.x) + m_Velocity.x;
-  }
-  //  cout << m_Velocity.z << endl;
-  if(playerptr->getY() > m_Position.y){
-    m_Acceleration.y = 5*(playerptr->getY()-m_Position.y) - m_Velocity.y;
-  }else{
-    m_Acceleration.y = -5*(-playerptr->getY()+m_Position.y) + m_Velocity.y;
-  }
-
   m_Acceleration.z = 0;
-  m_Velocity.z = 0;
+  m_Velocity.z = playerptr->GetVelocity();
 
 
   if(accum > 1){
@@ -143,48 +129,26 @@ en_hornet::en_attack_state()
     m_model.hit(100);
   }
 
-  if(m_Position.y < -5 + m_model.GetLongestRadius()){
-    m_Velocity.y = 10;
-
-  }
-
   UpdateVelocity(m_Velocity, m_Acceleration, m_DeltaSeconds);
   UpdatePosition(m_Position, m_Velocity, m_DeltaSeconds);
 }
 
 void
-en_hornet::en_react_state()
+en_turret::en_react_state()
 {
   
-  m_Rotation.z += m_DeltaSeconds*ROT_PER_SEC;
   m_Behavior = ATTACK;
 
 }
      
 void 
-en_hornet::en_idle_state()
+en_turret::en_idle_state()
 {
   
 
-  m_Rotation.z += m_DeltaSeconds*ROT_PER_SEC;
   m_IdleTime += m_DeltaSeconds;
-
   m_Velocity.z = playerptr->GetVelocity();
-  if(m_IdleTime > rand()%2){
-    srand(SDL_GetTicks());
-    m_IdleTime = -(rand()%2);
-    m_Acceleration.x *= -1;
-    m_Acceleration.y *= -1;
-    //    m_Acceleration.z *= -1;
-  }
-
   //  cout << m_Position.z << endl;
-
-  if(m_Position.z > m_dDepth){
-    m_dDepth -=5;
-    m_Behavior = REACT;
-    if(m_dDepth < -50) m_dDepth = -30;
-  }
 
   UpdateVelocity(m_Velocity, m_Acceleration, m_DeltaSeconds);
   UpdatePosition(m_Position, m_Velocity, m_DeltaSeconds);
@@ -193,14 +157,14 @@ en_hornet::en_idle_state()
 }
 
 void 
-en_hornet::en_move()
+en_turret::en_move()
 {
 
   if(!m_LastTime){ 
     m_LastTime= SDL_GetTicks();
-    m_Acceleration.x = 4;
-    m_Acceleration.y = 2;
-    m_Acceleration.z = 0; 
+    m_Acceleration.x = 0;
+    m_Acceleration.y = 0;
+    m_Acceleration.z = 0;
 
   }
 
@@ -227,7 +191,7 @@ en_hornet::en_move()
 
 
 void 
-en_hornet::draw()
+en_turret::draw()
 {
   this->en_move();
 
@@ -235,8 +199,8 @@ en_hornet::draw()
 
   glTranslatef(m_Position.x, m_Position.y, m_Position.z);
 
-  glRotatef(m_Rotation.z, 0, 0, 1);
-
+  glRotatef(45, 0, 1, 1);
+ 
   glColor4fv(m_Color);
 
   m_model.draw();
@@ -245,7 +209,7 @@ en_hornet::draw()
 }
 
 GLdouble 
-en_hornet::GetLongestRadius(){
+en_turret::GetLongestRadius(){
 
   return  m_model.GetLongestRadius();
 
@@ -253,21 +217,21 @@ en_hornet::GetLongestRadius(){
 }
 
 GLdouble 
-en_hornet::getX(){
+en_turret::getX(){
 
   return m_Position.x;
 
 }
 
 GLdouble 
-en_hornet::getY(){
+en_turret::getY(){
 
   return m_Position.y;
 
 }
 
 GLdouble 
-en_hornet::getZ(){
+en_turret::getZ(){
 
   return m_Position.z;
   
@@ -276,28 +240,25 @@ en_hornet::getZ(){
 
 
 void 
-en_hornet::ApplyDamage(const GLdouble &hit){
+en_turret::ApplyDamage(const GLdouble &hit){
   
   m_model.hit(hit);
 }
 
 GLdouble 
-en_hornet::GetHitDamage(){
+en_turret::GetHitDamage(){
 
   return m_dDamage;
 }
 
-
 bool 
-en_hornet::isAlive(){
+en_turret::isAlive(){
 
   if(m_model.getDamage()<=0) return false;
 
   return true;
   
 }
-GLdouble
-en_hornet::m_dDepth = -30;
 //============================= Operations ===================================
 //============================= Access      ==================================
 //============================= Inquiry    ===================================

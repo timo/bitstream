@@ -41,7 +41,8 @@ int process_events()
   static GLint x = 0 , y = 0 ;
   static GLint joyx, joyy;
   static GLint keyx, keyy;
-
+  static bool speedup = false;
+  static bool slowdown = false;
   /*        SDL_Event event; */
 
 
@@ -129,12 +130,18 @@ int process_events()
 	  case SDLK_DOWN:
 	    keyy=1;
 	    break;
+	  case SDLK_z:
+	    speedup = true;
+	    break;
+	  case SDLK_x:
+	    slowdown = true;
+	    break;
 	  case SDLK_SPACE:
 	    if(playerptr->isAlive()){
 	      entityiter=entityptr.end();
 	      *entityiter = new GLShot;
 	      entityptr.push_back(*entityiter);
-	    }else{
+ 	    }else{
 	      glLoadIdentity();
 	      entityiter=entityptr.end();
 	      playerptr->SetDamage(100);
@@ -187,6 +194,10 @@ int process_events()
 	  if(keyy==1){
 	    keyy=0;}
 	  break;
+	case SDLK_z:
+	  speedup = false;
+	case SDLK_x:
+	  slowdown = false;
 	default:
 	  break;
 	}
@@ -204,8 +215,12 @@ int process_events()
 
   if(playerptr->isAlive()){
     
+    if(speedup){
+      playerptr->SpeedUp();
+    }else if(slowdown){
+      playerptr->SlowDown();
+    }
     playerptr->move(x,y);
-
   }else{
     playerptr->move(0,0);
   }

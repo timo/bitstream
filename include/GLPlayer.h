@@ -70,6 +70,10 @@ public:
 	bool isAlive();
 	GLdouble GetEnergy();
 	GLdouble GetDamage();
+	GLdouble GetVelocity();
+	void SpeedUp();
+	void SlowDown();
+
    void SetDamage(const GLdouble &);
 	int DrawEnergy(const GLdouble &energy);
 	GLdouble GetLongestRadius();
@@ -87,6 +91,7 @@ private:
    GLdouble m_dOverrideX, m_dOverrideY;
 	GLdouble m_dEnergy;
 	GLdouble m_dDamage;
+	GLdouble m_dVelocity;
 	unsigned m_collide;
 	Uint32 hitTime;
 

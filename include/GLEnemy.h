@@ -77,26 +77,18 @@ public:
 	virtual void ApplyDamage(const GLdouble &)=0;
 	virtual GLdouble GetHitDamage()=0;
 	virtual bool isAlive()=0;
+
+	GLint GetDestroyed();
+	void SetDestroyed(const GLint &);
 // Access
 
 // Inquiry
-
-//    virtual void SetPosition(const position &);
-//    virtual void SetVelocity(const velocity &);
-//    virtual void SetAcceleration(const acceleration &);
-//    virtual void SetRotation(const rotation &);
-// // Inquiry
-
-//    virtual position GetPosition(void);
-//    virtual velocity GetVelocity(void);
-//    virtual acceleration GetAcceleration(void);
-//    virtual rotation GetRotation(void);
 
 protected:
 // Protected Methods
 private:
 
-
+	static GLint m_iDestroyed;
 
 // Private Methods
 

@@ -40,7 +40,7 @@ using namespace std;
 extern Texture gndSkin;
 extern Texture skySkin;
 /////////////////////////////// Public ///////////////////////////////////////
-
+const double DEFAULTSPEED = 100;
 //============================= Lifecycle ====================================
 
 GLMap::GLMap(const int &iMapnum)
@@ -79,29 +79,29 @@ void
 GLMap::draw(GLdouble speed)const{
 
   static GLdouble dZ=0, dSky=0;
-  static GLuint thistime, lasttime=0;
+  static GLdouble thistime, lasttime=0, second;
 
-  thistime=SDL_GetTicks();
+  thistime= (double)SDL_GetTicks();
 
   if(lasttime == 0){
     lasttime = thistime;
+    second = 0;
     dZ = (double)lasttime/1000;
   }
-  
   
   glRotatef(this->getXtilt(), 0.0f, 0.0f, 1.0f);
   glRotatef(this->getYtilt(), 1.0f, 0.0f, 0.0f);
       
-      
-  dZ += speed*(double)(thistime-lasttime)/1000;
-  dSky += speed*(double)(thistime-lasttime)/100000;
-  if(dZ > 1){ dZ = 0; }
+  
+    
+  dZ += speed*((double)(thistime-lasttime)/1000)/50;
+  //  cout << dZ << endl;
+  dSky += (double)(thistime-lasttime)/100000;
+  if(dZ > 1){ dZ = 0; second = thistime;}
   if(dSky > 10){ dSky = 0; }
-  // cout << dZ << endl;
+
 
       glEnable(GL_TEXTURE_2D);
-      //   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-      // glBindTexture(GL_TEXTURE_2D, texture[2]);
 
       glBindTexture(GL_TEXTURE_2D, gndSkin.getID());
 
@@ -119,7 +119,7 @@ GLMap::draw(GLdouble speed)const{
 	glTexCoord2f(5.0f, 0.0f+x*0.1+dZ);    
 	glVertex3f( 150.0f, -5.0f, z*(-5.0f));
 
-	glColor3f(z*0.1f+ 0.25f, z*0.1f+0.25f, z*0.1f+0.25f);
+       	glColor3f(z*0.1f+ 0.25f, z*0.1f+0.25f, z*0.1f+0.25f);
 
 	glTexCoord2f(5.0f, 0.1f+x*0.1+dZ);    
 	glVertex3f( 150.0f, -5.0f, z*(-5.0f)-5.0f);

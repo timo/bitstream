@@ -6,11 +6,14 @@
 #include <SDL/SDL.h>
 #include "physics.h"
 #include "effects.h"
+#include "GLPlayer.h"
 #include <vector>
 
 #define EXPLOSIONS 20
 #define PARTICLE_EXPLOSIONS 20
 #define PARTICLES 100
+
+extern GLPlayer* playerptr;
 
 using namespace std;
 
@@ -172,14 +175,13 @@ int particle_explosion(const position &source, const double& speed, const double
 	e_pos[i][j].boundaries = 0;
 	e_vel[i][j].x = rand()%(int)speed;
 	e_vel[i][j].y = rand()%(int)speed;
-	e_vel[i][j].z = rand()%(int)speed;
+	e_vel[i][j].z = playerptr->GetVelocity();
 	if(rand()%2) e_vel[i][j].x *=-1;
 	if(rand()%2) e_vel[i][j].y *=-1;
-	if(rand()%2) e_vel[i][j].z *=-1;
 	e_acc[i][j].x = rand()%5;
 	if(rand()%2) e_acc[i][j].x *=-1;
 	e_acc[i][j].y = GRAVITY;
-	e_acc[i][j].z = rand()%5;
+	e_acc[i][j].z = rand()%2;
 	if(rand()%2) e_acc[i][j].z *=-1;
       }
   }

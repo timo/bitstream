@@ -38,6 +38,7 @@ jm@icculus.org
 #include "BSM.h"
 #include "en_cube.h"
 #include "en_hornet.h"
+#include "en_turret.h"
 #include "hud.h"
 #include "collision.h"
 #include "effects.h"
@@ -90,17 +91,24 @@ int GLDraw(GLPlayer &Player1){
 
   }
 
-  if(SDL_GetTicks() - cubetime > 3000){
+  if((SDL_GetTicks() - cubetime)/1000*(playerptr->GetVelocity()) > 100){
     once = 0;
   }
   
    if(once==0){
      entityiter=entityptr.end();
-     if(rand()%2){
-       //  *entityiter = new en_cube(0, 0, -200);
+     switch(rand()%3){
+     case 0:
        *entityiter = new en_cube(0, 0, -200);
-     }else{
+       break;
+     case 1:
        *entityiter = new en_hornet(0, 0, -200);
+       break;
+     case 2:
+       *entityiter = new en_turret(0, -5, -200);
+       break;
+     default:
+       break;
      }
      entityptr.push_back(*entityiter);
      cubetime = SDL_GetTicks();
@@ -116,7 +124,7 @@ int GLDraw(GLPlayer &Player1){
 
   glPushMatrix();  // Things affected by perspective
 
-  map1.draw(1.00);
+  map1.draw(playerptr->GetVelocity());
 
   process_effects();
 
@@ -127,7 +135,9 @@ int GLDraw(GLPlayer &Player1){
     for (entityiter2=entityiter;entityiter2!=entityptr.end();entityiter2++){
 
       if(entityiter!=entityiter2){
-	  if(!strncmp("en", (typeid(**entityiter2).name()+1), 2 )){
+	  if(!strncmp("en", (typeid(**entityiter2).name()+1), 2 ) &&
+	    strcmp("en_weapon", (typeid(**entityiter2).name()+1))){
+
 	    cubedeaths = (*entityiter2)->GetDestroyed();
 	  }
 	if(SphericalHit(**entityiter, **entityiter2)){
@@ -172,7 +182,7 @@ int GLDraw(GLPlayer &Player1){
   DrawHud();
 
   glColor4f(1.0, 1.0, 1.0, 1.0);
-  glPrint(20, 40, 0, "ENEMIES WASTED: I DON'T KNOW!");//, cubedeaths);
+  glPrint(20, 40, 0, "ENEMIES WASTED: %d", cubedeaths);
   glPrint(20, 20 , 0, "BITSTREAM: ATTACK OF THE CUBES");
   glPrint(920, 20, 0, "FPS: %3.0f", fps);
   //FPS

@@ -63,8 +63,8 @@ public:
    GLdouble GetHitDamage();
 	bool isAlive();
 
-	void SetDestroyed(const GLint &i);
-	GLint GetDestroyed();
+	//	void SetDestroyed(const GLint &i);
+	//	GLint GetDestroyed();
 protected:
 // Protected Methods
 private:
@@ -85,7 +85,7 @@ private:
 	GLdouble m_dDamage;
 	GLfloat m_Color[4];
 	mood m_Behavior;
-   static GLint m_iDestroyed;
+	//   static GLint m_iDestroyed;
 
 //////////////////Removed
 };

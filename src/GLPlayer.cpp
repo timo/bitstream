@@ -66,7 +66,7 @@ GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
  m_model.LoadBSM ("data/player/player.bsm");
   m_dOverrideY=0;
   m_dOverrideX=0;
-
+  m_dVelocity = 40;
 }// GLPlayer
 
 GLPlayer::GLPlayer(const GLPlayer&)
@@ -123,26 +123,10 @@ GLPlayer::draw(){
   }
 
 
-  // glEnable(GL_TEXTURE_2D);
-  //  glBindTexture(GL_TEXTURE_2D, playerSkin.getID());
-  
-  glColor4f(0.2f, 0.2f, 0.2f, 1.0f);
+  glColor4f(0.2f, 0.2f, 0.2f, 0.8f);
 
   m_model.draw();
 
-  // glDisable(GL_TEXTURE_2D);
-
-//   if(!m_collide)
-//     {
-//       //       glDisable(GL_BLEND);
-//     }
-//   if(m_collide){
-    
-//     //glColor4f(1.0f,1.0f,1.0f,1.0f);
-//     //       glEnable(GL_BLEND);
-
-//   }
-  
   glPopMatrix();
 
 
@@ -165,46 +149,6 @@ GLPlayer::collide(){
   y_Rheight = this->getY() + xwing - ywing;
   y_Fheight = this->getY() + nose;
 
-//   //Collision flash
-//   if(m_collide){
-//     m_collide+=1;
-//     if(m_collide>3) m_collide=0;
-//   }
-
-//   //ground collision
-
-// //   if(hitTime+500 < SDL_GetTicks()){
-// //     if(y_Lheight < -5.0)
-// //       {
-// // 	m_dOverrideY = 8;
-// // 	if(m_collide==0){  
-// // 	  m_collide=1;
-// // 	  m_model.hit(4);
-// // 	  hitTime=SDL_GetTicks();
-// // 	}
-// //       }
-    
-// //     if(y_Rheight < -5.0)
-// //       {
-// // 	m_dOverrideY = 8;
-// // 	if(m_collide==0){
-// // 	  m_collide=1;
-// // 	  m_model.hit(3); 
-// // 	  hitTime=SDL_GetTicks();
-// // 	}
-	
-// //       }
-    
-// //     if(y_Fheight < -5.0)
-// //       {
-// // 	m_dOverrideY = 8;
-// // 	if(m_collide==0) {
-// // 	  m_collide=1;
-// // 	  m_model.hit(0);
-// // 	  hitTime=SDL_GetTicks();
-// // 	}
-// //       }
-// //   }
     
 }
 
@@ -426,6 +370,30 @@ GLPlayer::isPlayer(){
   return true;
 
 }
+
+GLdouble
+GLPlayer::GetVelocity(){
+  // cout << m_dVelocity << endl;
+  return m_dVelocity;
+
+}
+
+void
+GLPlayer::SpeedUp(){
+
+  m_dVelocity += 0.05*( (double)SDL_GetTicks()- m_dLasttime);
+  if(m_dVelocity > 100){ m_dVelocity = 100; };
+}
+
+
+void
+GLPlayer::SlowDown(){
+
+  m_dVelocity -= 0.05*((double)SDL_GetTicks() - m_dLasttime );
+  if(m_dVelocity < 10){m_dVelocity = 10; };
+}
+ 
+
 //============================= Access      ==================================
 
 

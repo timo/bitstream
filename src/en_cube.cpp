@@ -61,13 +61,13 @@ en_cube::build(){
   m_Color[ALPHA]=1;
   m_Velocity.x = 0;
   m_Velocity.y = 0;
-  m_Velocity.z = 0;
+  m_Velocity.z = playerptr->GetVelocity();
   m_Acceleration.x = 0;
   m_Acceleration.y = 0;
   m_Acceleration.z = 0;
 }
 
-GLint en_cube::m_iDestroyed=0;
+// GLint en_cube::m_iDestroyed=0;
 
 en_cube::en_cube(const en_cube&)
 {
@@ -118,7 +118,7 @@ en_cube::en_attack_state()
 
   m_Acceleration.z = 0;
 
-
+ 
   if(m_Position.z > 10){
     m_model.hit(100);
   }
@@ -188,8 +188,7 @@ en_cube::en_move()
     m_LastTime= SDL_GetTicks();
     m_Acceleration.x = 4;
     m_Acceleration.y = 2;
-    m_Acceleration.z = 1.2;
-
+    m_Acceleration.z = 0;
   }
 
   if(m_Behavior == IDLE){
@@ -199,6 +198,7 @@ en_cube::en_move()
   m_DeltaSeconds = (double)(SDL_GetTicks() - m_LastTime)/MSEC_PER_SEC;
   m_LastTime = SDL_GetTicks();
 
+  m_Velocity.z = playerptr->GetVelocity();
   switch(m_Behavior){
   case IDLE:
     this->en_idle_state();
@@ -270,9 +270,7 @@ void
 en_cube::ApplyDamage(const GLdouble &hit){
   
   m_model.hit(hit);
-  if(((hit == 10) || (hit == 100)) && (m_model.getDamage() <=0)){ // Killed by a player shot
-    m_iDestroyed++;
-  }
+  
 }
 
 GLdouble 
@@ -281,18 +279,6 @@ en_cube::GetHitDamage(){
   return m_dDamage;
 }
 
-GLint
-en_cube::GetDestroyed(){
-
-  return m_iDestroyed;
-
-}
-
-void
-en_cube::SetDestroyed(const GLint &i){
-
-  m_iDestroyed = i;
-}
 
 bool 
 en_cube::isAlive(){
