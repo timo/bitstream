@@ -34,7 +34,8 @@ extern BSM player;
 extern Texture playerSkin;
 
 GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
-  :GLEntity(x, y, z)
+  :GLEntity(x, y, z),
+   hitTime(0)
 {
 
 #ifdef DEBUG
@@ -149,25 +150,39 @@ GLPlayer::collide(){
 
   //ground collision
 
-  if(y_Lheight < -5.0)
-    {
-      m_dOverrideY = 8;
-      if(m_collide==0)  m_collide=1;
-    }
-
-  if(y_Rheight < -5.0)
-    {
-      m_dOverrideY = 8;
-      if(m_collide==0)  m_collide=1;
-    }
-
-  if(y_Fheight < -5.0)
-    {
-      m_dOverrideY = 8;
-      if(m_collide==0)  m_collide=1;
-    }
-  
-
+  if(hitTime+500 < SDL_GetTicks()){
+    if(y_Lheight < -5.0)
+      {
+	m_dOverrideY = 8;
+	if(m_collide==0){  
+	  m_collide=1;
+	  player.hit(4);
+	  hitTime=SDL_GetTicks();
+	}
+      }
+    
+    if(y_Rheight < -5.0)
+      {
+	m_dOverrideY = 8;
+	if(m_collide==0){
+	  m_collide=1;
+	  player.hit(3); 
+	  hitTime=SDL_GetTicks();
+	}
+	
+      }
+    
+    if(y_Fheight < -5.0)
+      {
+	m_dOverrideY = 8;
+	if(m_collide==0) {
+	  m_collide=1;
+	  player.hit(0);
+	  hitTime=SDL_GetTicks();
+	}
+      }
+  }
+    
 }
 
 void 

@@ -81,7 +81,12 @@ BSMPiece::kill(){
 
 }
 	
+void
+BSMPiece::hit(){
 
+  m_dDamage-=15;
+
+}
 bool 
 BSMPiece::addVertex(const int &vert){
 

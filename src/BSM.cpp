@@ -27,6 +27,7 @@
 //============================= Lifecycle ====================================
 
 BSM::BSM()
+  :m_mainDamage(100)
 {
 }// BSM
 
@@ -47,6 +48,7 @@ BSM::operator=(const BSM&rhs)
    if ( this==&rhs ) {
         return *this;
     }
+
     //superclass::operator =(rhs);
 
     //add local assignments
@@ -94,30 +96,48 @@ BSM::draw(){
     
     m_ptrPoints = *(m_vBSM[j].get_vec());
 
+
     GLfloat normal[3];
     GLfloat *ntemp = new GLfloat[3];
 
-    
-    glBegin(GL_TRIANGLES);
-    for (unsigned i=0; i<m_ptrPoints.size(); i=i+3){
-      
-      
-      FindNormal(i, ntemp);
-      normal[0] = *ntemp;
-      normal[1] = *(ntemp + sizeof(GLfloat));
-      normal[2] = *(ntemp + 2*sizeof(GLfloat));
-      glNormal3fv(normal);
-      
-      glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+0]-1)*3]);
-      glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+1]-1)*3]);
-      glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+2]-1)*3]);
-      
-  }
-    glEnd();
-    
-    delete ntemp;
+    if(m_vBSM[j].isAlive()){
+
+      glBegin(GL_TRIANGLES);
+      for (unsigned i=0; i<m_ptrPoints.size(); i=i+3){
+	
+	
+	FindNormal(i, ntemp);
+	normal[0] = *ntemp;
+	normal[1] = *(ntemp + sizeof(GLfloat));
+	normal[2] = *(ntemp + 2*sizeof(GLfloat));
+	glNormal3fv(normal);
+	
+	glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+0]-1)*3]);
+	glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+1]-1)*3]);
+	glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+2]-1)*3]);
+	
+      }
+      glEnd();
+    }
+      delete ntemp;
   }
 }
+
+
+void 
+BSM::hit(const int &region){
+
+  if(region == 0){
+    m_mainDamage-=5;
+  }
+
+  else{
+    m_mainDamage-=2;
+    m_vBSM[region].hit();
+  }
+
+}
+
   
   bool 
 BSM::LoadBSM(char *filename){
