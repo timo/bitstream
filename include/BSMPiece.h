@@ -73,7 +73,7 @@ public:
 // Access
 
 	bool isAlive()const;
-   vector <int>  *get_vec();
+   vector <GLint>  *get_vec();
 	unsigned size();
 
 // Inquiry
