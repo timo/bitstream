@@ -37,27 +37,27 @@ int process_events(GLPlayer &Player1)
 
       case SDL_JOYAXISMOTION:
 
-	if(event.jaxis.axis == 1 && event.jaxis.value < 0){
+	if(event.jaxis.axis && event.jaxis.value < 0){
 	  joyy=-1;   
 	}
 
-        if(event.jaxis.axis == 1 && event.jaxis.value > 0){
+        if(event.jaxis.axis && event.jaxis.value > 0){
 	  joyy=1;
 	}
 
-	if(event.jaxis.axis == 0 && event.jaxis.value > 0){
+	if(!event.jaxis.axis  && event.jaxis.value > 0){
 	  joyx=1;
 	}
 
-	if(event.jaxis.axis == 0 && event.jaxis.value < 0){
+	if(!event.jaxis.axis && event.jaxis.value < 0){
 	  joyx=-1;
 	}
 
-	if(event.jaxis.axis == 0 && event.jaxis.value == 0){
+	if(!event.jaxis.axis && !event.jaxis.value){
 	  joyx=0;
 	}
 
-	if(event.jaxis.axis == 1 && event.jaxis.value == 0){
+	if(event.jaxis.axis && !event.jaxis.value){
 	  joyy=0;
 	}
 
@@ -99,7 +99,7 @@ int process_events(GLPlayer &Player1)
 	  return 1;
 	}
 
-	if((event.key.keysym.sym == SDLK_RETURN) &&( ( event.key.keysym.mod == KMOD_LALT) || (event.key.keysym.mod == KMOD_RALT) ))
+	if((event.key.keysym.sym & SDLK_RETURN) && ( event.key.keysym.mod & KMOD_ALT))
 	  {	   
 
 	    return 2; //Send video resize data.

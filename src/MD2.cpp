@@ -5,17 +5,18 @@
 #include "Math.h"
 #include "MD2.h"
 
-MD2::MD2 () {
-  
-  stateStart = (IDLE1_START); 
-  stateEnd = (IDLE1_END);
-  numGlCommands = (0); 
-  frameSize = (0); 
-  numFrames = (0); 
-  currentFrame = (IDLE1_START); 
-  nextFrame = (currentFrame+1);
-  endFrame = (IDLE1_END); 
-  interpolation = (0.0f); 
+MD2::MD2 () 
+
+  :numGlCommands(0), 
+   stateStart(IDLE1_START), 
+   stateEnd(IDLE1_END),
+   frameSize(0), 
+   numFrames(0),
+   currentFrame(IDLE1_START),
+   nextFrame(currentFrame+1),
+   endFrame(IDLE1_END),
+   interpolation(0.0f) 
+{
 }
 
 MD2::~MD2 () {
@@ -23,6 +24,7 @@ MD2::~MD2 () {
   if (glCommands) delete [] glCommands;
   if (frames) delete [] frames;
 }
+
 
 bool MD2::Load (char* filename) {
 

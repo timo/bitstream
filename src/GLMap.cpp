@@ -15,9 +15,12 @@
 #include "GLMap.h"                                // class implemented
 #include <iostream>
 #include <SDL/SDL.h>
-extern GLuint texture[];
-extern GLuint sky[];
+#include "Texture.h"
+//extern GLuint texture[];
+//extern GLuint sky[];
 
+extern Texture gndSkin;
+extern Texture skySkin;
 /////////////////////////////// Public ///////////////////////////////////////
 
 //============================= Lifecycle ====================================
@@ -76,9 +79,9 @@ GLMap::draw()const{
       
       glEnable(GL_TEXTURE_2D);
       glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-      glBindTexture(GL_TEXTURE_2D, texture[2]);
+      // glBindTexture(GL_TEXTURE_2D, texture[2]);
 
-
+      glBindTexture(GL_TEXTURE_2D, gndSkin.getID());
       // FIXME This lighting doesn't even make sense
 
       glBegin(GL_QUADS);
@@ -110,8 +113,8 @@ GLMap::draw()const{
       
       glEnd();
 
-      glBindTexture(GL_TEXTURE_2D, sky[2]);
-
+      // glBindTexture(GL_TEXTURE_2D, sky[2]);
+      glBindTexture(GL_TEXTURE_2D, skySkin.getID());
       glBegin(GL_QUADS);
 
       glColor3f(1.0f, 1.0f, 1.0f);

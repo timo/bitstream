@@ -7,13 +7,31 @@
 
 #include "Texture.h"
 
-TEXTURE::TEXTURE () {}
-TEXTURE::~TEXTURE () {
-	
-  if (data) delete data;	
+//Default Constructor
+
+Texture::Texture ()
+{
 }
 
-bool TEXTURE::LoadBMP (char *filename, GLfloat minFilter, GLfloat maxFilter) {
+//Copy COnstructor
+
+Texture::Texture(const Texture&rhs)
+  : bpp(rhs.bpp),
+    width(rhs.width),
+    height(rhs.height),
+    ID(rhs.ID)
+{
+}
+
+Texture::~Texture () 
+{	
+  if (data) {
+    delete data;	
+  }
+}
+
+bool 
+Texture::LoadBMP (char *filename, const GLint &minFilter, const GLint &maxFilter) {
 
   /*
     Taken from lesson 7 SDL port
@@ -26,7 +44,7 @@ bool TEXTURE::LoadBMP (char *filename, GLfloat minFilter, GLfloat maxFilter) {
 
   image = SDL_LoadBMP (filename);
   if (image == NULL) {
-    fprintf(stderr, "TEXTURE::LoadBMP: unable to load \"%s\": %s\n", filename, SDL_GetError());
+    fprintf(stderr, "Texture::LoadBMP: unable to load \"%s\": %s\n", filename, SDL_GetError());
     return false;
   }
 
@@ -36,7 +54,7 @@ bool TEXTURE::LoadBMP (char *filename, GLfloat minFilter, GLfloat maxFilter) {
   tmpbuf = new unsigned char[image->pitch];
 
   if ( tmpbuf == NULL ) {
-    fprintf(stderr, "TEXTURE::LoadBMP: could not allocate buffer\n");
+    fprintf(stderr, "Texture::LoadBMP: could not allocate buffer\n");
     return false;
   }
   else
@@ -70,21 +88,20 @@ bool TEXTURE::LoadBMP (char *filename, GLfloat minFilter, GLfloat maxFilter) {
   // Create Texture
 
   glGenTextures (1, &ID);
+  glBindTexture(GL_TEXTURE_2D, ID);
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   
-  //Filtering for if texture is bigger than should be
-
-  glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
-
-  //Filtering for if texture is smaller than it should be
-
-  glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, maxFilter);
-
-  //Bind the texture to a texture object 
-  glBindTexture (GL_TEXTURE_2D, ID);
- 
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, maxFilter);
+  
   glTexImage2D (GL_TEXTURE_2D, 0,  3, image->w, image->h, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
 
-  fprintf (stderr, "TEXTURE::LoadBMP: loaded \"%s\" correctly\n", filename);
+  //Bind the texture to a texture object 
+  
+  fprintf (stderr, "Texture::LoadBMP: loaded \"%s\" correctly\n", filename);
+  
   return true;
 }
 
@@ -93,11 +110,12 @@ bool TEXTURE::LoadBMP (char *filename, GLfloat minFilter, GLfloat maxFilter) {
 //- bool LoadTGA(char*, GLfloat, GLfloat) --------------------------//
 //------------------------------------------------------------------//
 //- Description: This function loads a truevision TARGA into the   -//
-//-				 TEXTURE class object that it represents.		   -//
+//-				 Texture class object that it represents.		   -//
 //------------------------------------------------------------------//
 //- Big thanks to NeHe for this one								   -//
 //------------------------------------------------------------------//
-bool TEXTURE::LoadTGA (char* filename, GLfloat minFilter, GLfloat maxFilter) {
+bool
+Texture::LoadTGA (char* filename, const GLfloat &minFilter, const GLfloat &maxFilter) {
     
   //Uncompressed TGA header
   GLubyte TGAheader[12]={0,0,2,0,0,0,0,0,0,0,0,0};	
@@ -129,7 +147,7 @@ bool TEXTURE::LoadTGA (char* filename, GLfloat minFilter, GLfloat maxFilter) {
     // Did The File Even Exist? *Added Jim Strong*
     if (file == NULL) {
 
-      fprintf (stderr, "TEXTURE::LoadTGA: \"%s\" does not exist.\n", filename);
+      fprintf (stderr, "Texture::LoadTGA: \"%s\" does not exist.\n", filename);
       return false;							
     }
     
@@ -138,7 +156,7 @@ bool TEXTURE::LoadTGA (char* filename, GLfloat minFilter, GLfloat maxFilter) {
       // If anything failed, close the file
       fclose (file);
 
-      fprintf (stderr, "TEXTURE::LoadTGA: could not load \"%s\" correctly, general failure.\n", filename);
+      fprintf (stderr, "Texture::LoadTGA: could not load \"%s\" correctly, general failure.\n", filename);
       
       return false;						
     }
@@ -159,7 +177,7 @@ bool TEXTURE::LoadTGA (char* filename, GLfloat minFilter, GLfloat maxFilter) {
     // If Anything Failed, Close The File
     fclose (file);
 		
-    fprintf (stderr, "TEXTURE::LoadTGA: \"%s\"'s height or width is less than zero, or the TGA is not 24 or 32 bits.\n", filename);
+    fprintf (stderr, "Texture::LoadTGA: \"%s\"'s height or width is less than zero, or the TGA is not 24 or 32 bits.\n", filename);
     return false;							
   }
 
@@ -183,7 +201,7 @@ bool TEXTURE::LoadTGA (char* filename, GLfloat minFilter, GLfloat maxFilter) {
     // If So, Release The Image Data
     if (data != NULL) free (data);
     
-    fprintf (stderr, "TEXTURE::LoadTGA: Storate memory for \"%s\" does not exist or is corrupted.\n", filename);
+    fprintf (stderr, "Texture::LoadTGA: Storate memory for \"%s\" does not exist or is corrupted.\n", filename);
     // Close The File    
     fclose(file);
     return false;	
@@ -221,8 +239,15 @@ bool TEXTURE::LoadTGA (char* filename, GLfloat minFilter, GLfloat maxFilter) {
 
   glTexImage2D (GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, data);
 
-  fprintf (stderr, "TEXTURE::LoadTGA: Loaded \"%s\" correctly.\n", filename);
+  fprintf (stderr, "Texture::LoadTGA: Loaded \"%s\" correctly.\n", filename);
   return true;
 }
 
 
+unsigned int 
+Texture::getID()const
+{
+
+  return ID;
+
+}
