@@ -55,6 +55,7 @@ int process_events(GLPlayer &Player1)
       switch (event.type) {
 	
       case SDL_MOUSEBUTTONDOWN:
+	return 0;
 
       case SDL_QUIT:
 	return 1;
@@ -98,11 +99,11 @@ int process_events(GLPlayer &Player1)
       case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
 	if ( event.jbutton.button == 0 )
 	  {
-  if(Player1.isAlive()){
-	    entityiter=entityptr.end();
-	    *entityiter = new GLShot;
-	    entityptr.push_back(*entityiter);
-  }
+	    if(Player1.isAlive()){
+	      entityiter=entityptr.end();
+	      *entityiter = new GLShot;
+	      entityptr.push_back(*entityiter);
+	    }
 	  }
 
 	x=joyx;
@@ -112,82 +113,69 @@ int process_events(GLPlayer &Player1)
 
       case SDL_KEYDOWN:
 
-	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_LEFT){
+	if (event.key.state == SDL_PRESSED){
 
-	  keyx=-1;
+	  switch( event.key.keysym.sym ){
 
-	}
+	  case SDLK_LEFT:
+	    keyx=-1;
+	    break;
 
-	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_RIGHT){
+	  case SDLK_RIGHT:
+	    keyx=1;
+	    break;
+	  case SDLK_UP:
+	    keyy=-1;
+	    break;
+	  case SDLK_DOWN:
+	    keyy=1;
+	    break;
+	  case SDLK_SPACE:
+	    if(Player1.isAlive()){
+	      entityiter=entityptr.end();
+	      *entityiter = new GLShot;
+	      entityptr.push_back(*entityiter);
+	    }
+	    break;
 
-	  keyx=1;
+	  case SDLK_ESCAPE:
+	    return 1;
 
-	}
-
-	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_UP){
-
-	  keyy=-1;
-
-	}
-
-	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_DOWN){
-
-	  keyy=1;
-
-	}
-
-	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_SPACE){  
-	  if(Player1.isAlive()){
-
-	    entityiter=entityptr.end();
-	    *entityiter = new GLShot;
-	    entityptr.push_back(*entityiter);
+	  default:
+	    break;
 	  }
-	}
-	   
-
+	}	  
 	x=keyx;
 	y=keyy;
 
-	if(event.key.keysym.sym == SDLK_ESCAPE){
-	  return 1;
-	}
-
-	if((event.key.keysym.sym & SDLK_RETURN) && ( event.key.keysym.mod & KMOD_ALT))
+	if((event.key.keysym.sym  & SDLK_RETURN) && 
+	   (event.key.keysym.mod & (KMOD_ALT | KMOD_CTRL) )         )
 	  {	   
-
 	    return 2; //Send video resize data.
-
 	  }
 
 	break;
 
-
-
       case SDL_KEYUP:
-
-	if(event.key.keysym.sym == SDLK_LEFT){
+	switch(event.key.keysym.sym){
+	case SDLK_LEFT:
 	  if(keyx==-1){
 	    keyx=0;}
-
-	}
-
-	if(event.key.keysym.sym == SDLK_RIGHT){
+	  break;
+	case SDLK_RIGHT:
 	  if(keyx==1){
 	    keyx=0;}
-
-	}
-
-	if(event.key.keysym.sym == SDLK_UP){
+	  break; 
+	case SDLK_UP:
 	  if(keyy==-1){
 	    keyy=0;}
-
-	}
-
-	if(event.key.keysym.sym == SDLK_DOWN){
+	  break;
+	case SDLK_DOWN:
 	  if(keyy==1){
 	    keyy=0;}
-
+	  break;
+	default:
+	  break;
 	}
 
 	x=keyx;

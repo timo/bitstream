@@ -8,7 +8,7 @@
 #include "effects.h"
 #include <vector>
 
-#define EXPLOSIONS 120
+#define EXPLOSIONS 20
 
 using namespace std;
 
@@ -100,10 +100,10 @@ int explosion(const position&pos, const double &radius, const double&duration, i
 
     glPushMatrix();
 
-
     if(qobj[index]){
       gluDeleteQuadric(qobj[index]);
     }
+
     qobj[index] = gluNewQuadric();
     gluQuadricOrientation(qobj[index], GLU_OUTSIDE);
     gluQuadricDrawStyle(qobj[index], GLU_FILL);
@@ -113,7 +113,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
     glColor4f(1.0f, 0.5f, 0.0f, alpha[index]);
     
     gluSphere(qobj[index], e_radius[index], 15, 15);
-
+    
     glPopMatrix(); 
     
   }

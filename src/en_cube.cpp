@@ -96,7 +96,7 @@ en_cube::en_idle()
     m_LastTime= SDL_GetTicks();
     m_Acceleration.x = 4;
     m_Acceleration.y = 2;
-    m_Acceleration.z = 2;
+    m_Acceleration.z = 1.5;
   }
 
   GLdouble deltatime = (double)(SDL_GetTicks() - m_LastTime)/MSEC_PER_SEC;

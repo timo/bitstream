@@ -22,22 +22,20 @@ default:$(BIN)
 
 all:$(BIN)
 
-$(BIN):$(OBJS)
+$(BIN):$(OBJS) 
 	$(CXX) $(CFLAGS) $(INCLUDE) $^ -o $@  $(LDFLAGS)
 	@echo "|    Binary file: "$(BIN)" was successfully created."
 
 
-%.o : %.cpp
-	@echo "Compiling file: "$?
+%.o : %.cpp 
+
 	$(CXX) $(CFLAGS) $(INCLUDE)  -o $@ -c $<
 
 
 all:$(ALL)
 
 clean:	
-	@echo "+-----------------------------------------------------------------+"
-	@echo "|     Removing all  binaries and temp files"
-	@echo "+-----------------------------------------------------------------+"
+
 	@ rm -f src/*.o
 	@ rm -f *.dat
 	@ rm -f $(ALL)
