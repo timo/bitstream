@@ -42,7 +42,7 @@ public:
 	bool LoadTGA(char* filename, const GLfloat &minFilter, const GLfloat &maxFilter);
 	bool LoadBMP(char* filename, const GLint &minFilter, const GLint &maxFilter);
 	bool LoadPCX(char* filename, const GLint &minFilter, const GLint &maxFilter);
-	unsigned int getID()const;
+	GLuint getID()const;
 
 protected:
 
@@ -52,7 +52,7 @@ private:
   unsigned int bpp;		//Image color depth in bits per pixel
   unsigned int width;		//Image width
   unsigned int height;	//Image height
-  unsigned int ID;		//Texture ID used to select a texture
+  GLuint ID;		//Texture ID used to select a texture
 
 };
 

@@ -256,7 +256,7 @@ Texture::LoadTGA (char* filename, const GLfloat &minFilter, const GLfloat &maxFi
 }
 
 
-unsigned int 
+GLuint 
 Texture::getID()const
 {
 
