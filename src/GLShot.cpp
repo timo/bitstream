@@ -93,8 +93,9 @@ GLShot::draw(){
   if(!m_lastTime){
     m_lastTime=SDL_GetTicks(); 
 
-    m_xBase = playerptr->getX() + playerptr->getXtilt()/3.0 ;
-    m_yBase = playerptr->getY() - playerptr->getYtilt()/2.0 - (playerptr->getX())*(playerptr->getXtilt())/40.0;
+    m_xBase = playerptr->getX() + playerptr->getXtilt()/4.0 ;
+    m_yBase = playerptr->getY() - playerptr->getYtilt()/2.0 ;
+    // - (playerptr->getX())*(playerptr->getXtilt())/40.0;
 
     //   m_xAngle = -2.2*playerptr->getYtilt();
     //   m_yAngle = -playerptr->getXtilt();
