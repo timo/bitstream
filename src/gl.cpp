@@ -9,7 +9,8 @@
 #include "GLEntity.h"
 #include "GLPlayer.h"
 #include "GLMap.h"
-
+#include "MD2.h"
+#include "Texture.h"
 
 static GLfloat LightAmbient[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
 static GLfloat LightDiffuse[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -19,6 +20,8 @@ static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
 
 GLvoid LoadGLTextures();
 
+MD2 hobgoblin;
+TEXTURE hobgoblinSkin;
 
 GLuint texture[3];
 GLuint sky[3];
@@ -77,9 +80,9 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glMatrixMode(GL_MODELVIEW);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-  glCullFace( GL_BACK );
-  glFrontFace( GL_CCW );
-  glEnable( GL_CULL_FACE );
+  // glCullFace( GL_BACK );
+  // glFrontFace( GL_CCW );
+  // glEnable( GL_CULL_FACE );
 
   glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);		
   glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);
@@ -108,8 +111,13 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glHint(GL_FOG_HINT, GL_DONT_CARE);
   glFogf(GL_FOG_START, 50.0);
   glFogf(GL_FOG_END, 95.0);
-
   glEnable(GL_FOG);
+
+  hobgoblinSkin.LoadTGA ("data/hobgoblin/hobgoblin.tga", GL_LINEAR, GL_LINEAR);
+  hobgoblin.Load ("data/hobgoblin/tris.md2");
+
+
+
 
 }
 
