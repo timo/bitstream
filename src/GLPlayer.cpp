@@ -28,6 +28,7 @@ static const GLint ACCEL = 1;
 static const GLint SLOW = 1;
 static const GLdouble DRIFT = 0.5;
 static const GLint MAXSPEED = 80;
+static const GLdouble DEGTORAD = 0.0349066;
 
 extern BSM player;
 extern Texture playerSkin;
@@ -77,18 +78,43 @@ GLPlayer::operator=(const GLPlayer&rhs)
 
 
 void
-GLPlayer::draw()const{
+GLPlayer::draw(){
 
   //glLoadIdentity();
+
+  double y_Lheight, xwing, ywing;
+  double y_Rheight;
 
   glPushMatrix();
 
   glTranslatef(this->getX(),this->getY(),this->getZ());
 
+
   glRotatef(-(double)m_dXvel*0.2, 0.0f, 1.0f, 0.0f);
   glRotatef(-(double)m_dXvel*0.3, 0.0f, 0.0f, 1.0f);
-  glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
 
+  if(m_dOverrideY == 0){
+    glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
+  }
+
+  ywing = 2*cos(-m_dXvel*0.3*DEGTORAD);
+  xwing = 2*sin(-m_dXvel*0.3*DEGTORAD);
+
+  y_Lheight = this->getY() - xwing - ywing;
+  y_Rheight = this->getY() + xwing - ywing;
+
+
+  if(y_Lheight < -5.0)
+    {
+      m_dOverrideY = 8;
+      //  m_dXvel = 0;
+    }
+
+  if(y_Rheight < -5.0)
+    {
+      m_dOverrideY = 8;
+      // m_dXvel = 0;
+    }
 
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, playerSkin.getID());
@@ -142,36 +168,53 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
   
   // Y Speed manipulation
   
-  if(y==1){
-    
-    if(m_dYvel < MAXSPEED){
-      m_dYvel += ACCEL;
+  if(m_dOverrideY){
+
+    m_dYvel += m_dOverrideY;
+
+    if(m_dYvel > MAXSPEED*1.5){
+      m_dOverrideY = -2;
+    }
+
+    if(m_dYvel < 0 ){
+      m_dOverrideY=0;
+    }
+
+  }
+  else{
+
+    if(y==1){
+      
+      if(m_dYvel < MAXSPEED){
+	m_dYvel += ACCEL;
+      }
+      
     }
     
-  }
-  
-  if(y==0 && m_dYvel > 0){
-    m_dYvel -= SLOW;
-  }
-  else if(y==0 && m_dYvel < -DRIFT){
-    m_dYvel += SLOW;
-  }
-  else if(y==0 && m_dYvel == 0){
+    if(y==0 && m_dYvel > 0){
+      m_dYvel -= SLOW;
+    }
+    else if(y==0 && m_dYvel < -DRIFT){
+      m_dYvel += SLOW;
+    }
+    else if(y==0 && m_dYvel == 0){
     m_dYvel -= DRIFT;
+    }
+    
+    if(y==-1){
+      
+      if(m_dYvel > -MAXSPEED){
+	m_dYvel -= ACCEL;
+      }
+    }
+    
   }
   
-  if(y==-1){
-    
-    if(m_dYvel > -MAXSPEED){
-      m_dYvel -= ACCEL;
-    }
-  }
-
-
-
-
+  
 
   this->tilt(m_dXvel, m_dYvel);
+
+
   this->shift(m_dXvel, m_dYvel);
 
 

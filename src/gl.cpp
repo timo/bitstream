@@ -34,7 +34,7 @@ GLuint sky[3];
 //========================== GLDraw() ===================================
 
 
-int GLDraw(const GLPlayer &Player1){
+int GLDraw(GLPlayer &Player1){
 
   static GLMap map1;
 
@@ -69,7 +69,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
   glViewport(0, 0, Width, Height); 
 
-  glClearColor(0.67f, 0.70f, 0.76f, 0.5f);        
+  glClearColor(0.67f, 0.70f, 0.76f, 0.0f);        
   glClearDepth(1.0);                         
 
   glEnable(GL_TEXTURE_2D);	
@@ -96,6 +96,8 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glLightfv(GL_LIGHT1, GL_POSITION,LightPosition);	
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
 
+  glColor4f(1.0f,1.0f,1.0f,0.5f);
+  //  glBlendFunc(GL_SRC_ALPHA,GL_ONE);
 
 
   glEnable(GL_BLEND);

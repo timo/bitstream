@@ -20,7 +20,7 @@ using namespace std; 	//introduces namespace std
 
 
 
-int GLDraw(const GLPlayer &);
+int GLDraw(GLPlayer &);
 
 void setup_opengl( const int &Width, const int &Height, const int &bpp );
 
@@ -40,7 +40,7 @@ int main(int argc,char * argv[])
   //  GLdouble fps, time, cleartime;
   SDL_Surface *Surface;
 
-  GLPlayer Player1(0,0,-10);
+  GLPlayer Player1(0,0,-12);
 
   width = 1024;
   height = 768;
