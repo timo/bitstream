@@ -90,7 +90,7 @@ GLEntity::drawAll()const{
 /////////////////////// XYZ Set Functions ////////////////////
 
 GLint 
-GLEntity::shift(const GLint &xvel,const GLint &yvel, const GLint &zvel )
+GLEntity::shift(const GLdouble &xvel,const GLdouble &yvel, const GLdouble &zvel )
 {
   if(m_idraw==1){
 
@@ -107,14 +107,14 @@ GLEntity::shift(const GLint &xvel,const GLint &yvel, const GLint &zvel )
 
     if(m_dX < 5 && m_dX > -5 || (m_dX >= 5 && xvel <=0) 
        || (m_dX <= -5 && xvel >=0)){ 
-      m_dX += ((double)m_dThisTime-m_dLastTime)/1000 * (double)xvel/10;
+      m_dX += ((double)m_dThisTime-m_dLastTime)/1000 * xvel/10;
     }
   
     if(m_dY < 4 && m_dY > -2.5 || (m_dY >= 4 && yvel <=0) 
        || (m_dY <= -2.5 && yvel >=0)){ 
-      m_dY += ((double)m_dThisTime-m_dLastTime)/1000 * (double)yvel/10;
+      m_dY += ((double)m_dThisTime-m_dLastTime)/1000 * yvel/10;
     }
-    m_dZ += ((double)m_dThisTime-m_dLastTime)/1000 * (double)zvel/10;
+    m_dZ += ((double)m_dThisTime-m_dLastTime)/1000 * zvel/10;
   
     m_dLastTime = m_dThisTime;
     
@@ -129,10 +129,10 @@ GLEntity::shift(const GLint &xvel,const GLint &yvel, const GLint &zvel )
 }
 
 void 
-GLEntity::tilt(const GLint &x, const GLint &y){
+GLEntity::tilt(const GLdouble &x, const GLdouble &y){
 
-  m_dXtilt = (double)x/10;
-  m_dYtilt = -(double)y*(0.05);
+  m_dXtilt = x/10;
+  m_dYtilt = -y*(0.05);
 
 }
 

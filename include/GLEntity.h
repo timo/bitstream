@@ -44,8 +44,8 @@ public:
 
 	void drawAll()const;
 
-	GLint shift(const GLint &x=0, const GLint &y=0, const GLint &z=0);
-	void tilt(const GLint &x=0, const GLint &y=0);
+	GLint shift(const GLdouble &x=0, const GLdouble &y=0, const GLdouble &z=0);
+	void tilt(const GLdouble &x=0, const GLdouble &y=0);
 
 // Access
 
