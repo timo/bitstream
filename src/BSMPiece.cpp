@@ -114,7 +114,6 @@ BSMPiece::addVertex(const int &vert){
 vector < GLint >  *
 BSMPiece::get_vec(){
 
-
   return &m_ptrPoints;
 
 }

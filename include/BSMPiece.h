@@ -84,7 +84,7 @@ private:
 // Private Methods
 
 	GLdouble m_dDamage;
-   vector< int > m_ptrPoints;          //which vertex
+   vector< GLint > m_ptrPoints;          //which vertex
 
 //////////////////Removed
 };
