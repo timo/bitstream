@@ -72,7 +72,7 @@ private:
 
 	GLint m_idraw;
 
-	static GLuint m_uTotal;
+
 
 //////////////////Removed
 };
