@@ -34,13 +34,13 @@ int main(int argc,char * argv[])
 
   GLint width, height, bpp, n, die = 0;
   GLdouble fps, time, cleartime;
-
+  SDL_Surface *Surface;
 
   GLPlayer Player1(0, 0, -10);
 
   width = 1024;
   height = 768;
-  bpp = 32;
+
 
   //Initialize SDL
   SDL_Init(SDL_INIT_EVERYTHING);
@@ -73,14 +73,15 @@ int main(int argc,char * argv[])
   SDL_JoystickEventState(SDL_ENABLE);
 
   //Initialize window
+  Surface = SDL_SetVideoMode(width, height, 0, SDL_OPENGL);
 
-  if ( SDL_SetVideoMode(width, height, 0, SDL_OPENGL) == NULL ) {
+  if ( Surface == NULL ) {
     fprintf(stderr, "Unable to create OpenGL screen: %s\n", SDL_GetError());
     SDL_Quit();
     exit(2);
   }
 
-  SDL_WM_SetCaption("Judecca's StarFox Ripoff", NULL);
+  SDL_WM_SetCaption("Bitstream", NULL);
 
   SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
   SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
@@ -98,16 +99,21 @@ int main(int argc,char * argv[])
       die = process_events(Player1);
       GLDraw(Player1);
       // FPS Calcs
-      if(time>5000){
+      /*      if(time>5000){
       
       cleartime=SDL_GetTicks();
       n=0;
       }
       time=SDL_GetTicks()-cleartime;
       fps=(GLfloat)n/time*1000;
-      fprintf(stderr,"\r%f",fps);
+      fprintf(stderr,"\r%f",fps); */
       
-      
+      if(die == 2){
+
+	SDL_WM_ToggleFullScreen(Surface);
+
+	die=0;
+      }
     }
       
 
@@ -116,6 +122,8 @@ int main(int argc,char * argv[])
 
 
   cout << "\nEnd of main()" << endl;
+  SDL_FreeSurface(Surface);
+
   return 0;
 
 }

@@ -99,7 +99,16 @@ int process_events(GLPlayer &Player1)
 	  return 1;
 	}
 
+	if((event.key.keysym.sym == SDLK_RETURN) &&( ( event.key.keysym.mod == KMOD_LALT) || (event.key.keysym.mod == KMOD_RALT) ))
+	  {	   
+
+	    return 2; //Send video resize data.
+
+	  }
+
 	break;
+
+
 
       case SDL_KEYUP:
 

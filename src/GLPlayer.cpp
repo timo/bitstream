@@ -132,6 +132,8 @@ GLPlayer::draw()const{
 
   glPopMatrix();
 
+
+
 #ifdef DEBUG
 
   //  cout << "\r( " << this->getX() <<" , " << this->getY() << " , " << this->getZ() << " )";
