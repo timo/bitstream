@@ -222,9 +222,9 @@ void
 en_cube::draw()
 {
   this->en_move();
-
+  
   glPushMatrix();
-
+  glMatrixMode(GL_MODELVIEW);
   glTranslatef(m_Position.x, m_Position.y, m_Position.z);
 
   glRotatef(m_Rotation.z, 0, 1, 1);

@@ -61,32 +61,32 @@ int process_events()
 
       case SDL_JOYAXISMOTION:
 
-	if(event.jaxis.axis && event.jaxis.value < 0){
+	if(event.jaxis.axis && event.jaxis.value < -20000){
 	  joyy=-1;   
 	}
 
-        if(event.jaxis.axis && event.jaxis.value > 0){
+        if(event.jaxis.axis && event.jaxis.value > 20000){
 	  joyy=1;
 	}
 
-	if(!event.jaxis.axis  && event.jaxis.value > 0){
+	if(!event.jaxis.axis  && event.jaxis.value > 20000){
 	  joyx=1;
 
 	}
 
-	if(!event.jaxis.axis && event.jaxis.value < 0){
+	if(!event.jaxis.axis && event.jaxis.value < -20000){
 	  joyx=-1;
 	}
 
-	if(!event.jaxis.axis && !event.jaxis.value){
+	if(!event.jaxis.axis && (abs(event.jaxis.value) <= 20000)){
 	  joyx=0;
 	}
 
-	if(event.jaxis.axis && !event.jaxis.value){
+	if(event.jaxis.axis && (abs(event.jaxis.value) <= 20000)){
 	  joyy=0;
 	}
 
-	if(event.jaxis.axis && !event.jaxis.value){
+	if(event.jaxis.axis && (abs(event.jaxis.value) <= 20000)){
 	  joyy=0;
 	}
 

@@ -14,7 +14,7 @@ jm@icculus.org
 
 */
 
-//Too many includes.
+
 
 #include <iostream>
 #include <GL/gl.h>
@@ -78,7 +78,7 @@ int GLDraw(GLPlayer &Player1){
   static int once = 0;
   static int once_really = 0;
   static int cubedeaths=0;
-
+  static GLfloat LightPosition[]=  { 0.0f, 0.0f, 0.0f, 1.0f };
   playerptr = &Player1;
 
   if(once_really == 0){
@@ -121,7 +121,7 @@ int GLDraw(GLPlayer &Player1){
   glLoadIdentity();
 
   glMatrixMode(GL_MODELVIEW);
-
+  glLightfv(GL_LIGHT0, GL_POSITION,LightPosition);
   glPushMatrix();  // Things affected by perspective
 
   map1.draw(playerptr->GetVelocity());
@@ -196,6 +196,9 @@ int GLDraw(GLPlayer &Player1){
       Frames = 0;
     }
   }
+  glLoadIdentity();
+  //  LightPosition[3]= playerptr->getX();
+
 
   glFlush();
   SDL_GL_SwapBuffers();
@@ -217,6 +220,9 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   skySkin.LoadBMP("data/sky.bmp", GL_LINEAR, GL_LINEAR);
   spark.LoadBMP("data/spark.bmp", GL_LINEAR, GL_LINEAR);
 
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+
   glEnable(GL_DEPTH_TEST); 
   glDepthMask(GL_TRUE); 
   glDepthFunc(GL_LESS); 
@@ -228,29 +234,9 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glClearDepth(1.0);
                    
   glShadeModel(GL_SMOOTH);                                 
-  glMatrixMode(GL_PROJECTION);
-
-  glLoadIdentity(); 
-
-  GLfloat mat_ambient[]=  { 0, 0, 0, 1.0};
-  GLfloat mat_specular[]=  { 0.0, 0.0, 0.0, 1.0};
-  GLfloat mat_shininess[] = { 50.0 };
-
-  glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-  glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-
-  GLfloat LightAmbient[]=	   { 0.5f, 0.5f, 0.5f, 1.0f };
-  GLfloat LightDiffuse[]=	   { 0.5f, 0.5f, 0.5f, 1.0f };
-  GLfloat LightPosition[]=	   { 0.0f, 10.0f, -20.0f, 1.0f };
-
-  glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
-  glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);		
-  glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);
-  glLightfv(GL_LIGHT1, GL_POSITION,LightPosition);
 
   glLoadIdentity();                            
-  gluPerspective(45.0f,(GLfloat)Width/(GLfloat)Height,0.1f,100.0f);    
+  gluPerspective(45.0f,(GLfloat)Width/(GLfloat)Height,1.0f,100.0f);    
 
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
   glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);
@@ -273,13 +259,35 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   BuildFont();
 
   //  glBlendFunc(GL_SRC_ALPHA,GL_SRC_COLOR);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity(); 
+
+  //  GLfloat mat_ambient[]=  { 0, 0, 0, 1.0};
+  //  GLfloat mat_specular[]=  { 0.0, 0.0, 0.0, 1.0};
+  // GLfloat mat_shininess[] = { 0.0 };
+
+  // glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+  //  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+  // glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
+  GLfloat LightAmbient[]=	   { 0.5f, 0.5f, 0.5f, 1.0f };
+  GLfloat LightDiffuse[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
+  GLfloat LightSpecular[]=         { 1.0f, 1.0f, 1.0f, 1.0f};
+  GLfloat LightPosition[]=	   { 0.0f, 5.0f, -10.0f, 1.0f };
+
+  glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, LightAmbient);		
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, LightDiffuse);
+  glLightfv(GL_LIGHT0, GL_POSITION,LightPosition);
+  glLightfv(GL_LIGHT0, GL_SPECULAR, LightSpecular);
 
 
-  glEnable(GL_LIGHT1);	
   glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);	
 
   glEnable(GL_COLOR_MATERIAL);
-
+  glEnable(GL_RESCALE_NORMAL);
+  glEnable(GL_NORMALIZE);
   // Fog stuff
   GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
   glFogi(GL_FOG_MODE, GL_LINEAR);
@@ -290,6 +298,5 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glFogf(GL_FOG_END, 95.0);
   glEnable(GL_FOG);
 
-  glMatrixMode(GL_MODELVIEW);
 }
 
