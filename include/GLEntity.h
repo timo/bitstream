@@ -54,6 +54,7 @@ public:
 	GLdouble getZ()const;
 	GLdouble getXtilt()const;
 	GLdouble getYtilt()const;
+	GLdouble getZtilt()const;
 
 // Inquiry
 
