@@ -47,7 +47,7 @@ static const GLint ACCEL = 1;
 static const GLint SLOW = 1;
 static GLdouble DRIFT = 0.5;
 static const GLint MAXSPEED = 80;
-static const GLdouble DEGTORAD = 0.0349066;
+static const GLdouble DEGTORAD = 0.017453278;
 
 extern BSM player;
 extern Texture playerSkin;

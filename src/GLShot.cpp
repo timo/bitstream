@@ -39,7 +39,8 @@ jm@icculus.org
 #include "effects.h"
 
 using namespace std;
-
+//static const GLdouble DEGTORAD = 0.0349066;
+static const GLdouble DEGTORAD = 0.017453278;
 extern GLPlayer *playerptr;
 
 /////////////////////////////// Public ///////////////////////////////////////
@@ -47,10 +48,11 @@ extern GLPlayer *playerptr;
 //============================= Lifecycle ====================================
 
 GLShot::GLShot()
-  :m_Vel(1),
+  :m_Vel(50),
    m_xAngle(0),
    m_yAngle(0),
    m_rho(0),
+   m_HitGround(0),
    m_lastTime(0)
 {
   m_SourceExplosion = 0;
@@ -95,44 +97,69 @@ GLShot::draw(){
 
     m_xBase = playerptr->getX() + playerptr->getXtilt()/4.0 ;
     m_yBase = playerptr->getY() - playerptr->getYtilt()/2.0 ;
-    // - (playerptr->getX())*(playerptr->getXtilt())/40.0;
 
-    //   m_xAngle = -2.2*playerptr->getYtilt();
-    //   m_yAngle = -playerptr->getXtilt();
     m_xAngle = -4.2*(playerptr->getYtilt());
     m_yAngle = -2.2*(playerptr->getXtilt()) ;
   }
 
-  position source;
+  glPushMatrix();
+
+  position source, hit;
   source.x = m_xBase;
   source.y = m_yBase;
   source.z = -18;
 
-  explosion(source, 0.3, 0.2, m_SourceExplosion);
+  // explosion(source, 0.3, 0.2, m_SourceExplosion);
 
   // cout << m_xBase << "," << m_yBase << endl;
 
-    m_rho += (SDL_GetTicks() - m_lastTime)/20.0 * m_Vel;
+  m_rho += (double)(SDL_GetTicks() - m_lastTime)/1000 * m_Vel;
 
-  glTranslatef(0.0f, 0.0f, -18);
+  // yAngle is 
 
-  glTranslatef(m_xBase, m_yBase, 0.0f);
+  m_yPos = m_rho*sin(m_xAngle*DEGTORAD);
+  m_xPos = -m_rho*cos(m_xAngle*DEGTORAD)*sin(m_yAngle*DEGTORAD);
+  m_zPos = -m_rho*cos(m_yAngle*DEGTORAD)*cos(m_xAngle*DEGTORAD);
 
-  glRotatef(m_xAngle, 1.0f, 0.0f, 0.0f);
-  glRotatef(m_yAngle, 0.0f, 1.0f, 0.0f);
-  glTranslatef(0.0f, 0.0f, -m_rho);
+  hit.x = m_xPos + m_xBase;
+  hit.y = m_yPos + m_yBase;
+  hit.z = m_zPos - 18;
+
+  //  cout << "Hit "<< m_xPos << " , " << m_yPos << " , " << m_zPos << endl;
+
+   if(hit.y < -5){
+
+     if(m_HitGround==0){
+       explosion(hit, 2, 1, m_SourceExplosion);
+       m_HitGround = 1;
+       m_Blast.x = hit.x;
+       m_Blast.y = hit.y;
+       m_Blast.z = hit.z;
+     }
+     else{
+       m_Blast.z+=(double)( SDL_GetTicks() - m_lastTime )/32.0;
+       //   cout << m_Blast.z << endl;
+       explosion(m_Blast, 2, 1, m_SourceExplosion);
+     }
+
+    //m_rho = 100;
+    }    
+
+   glTranslatef(0.0f, 0.0f, -18);
+
+   glTranslatef(m_xBase, m_yBase, 0.0f);
+//   glTranslatef(hit.x, hit.y, hit.z);
+
+   glRotatef(m_xAngle, 1.0f, 0.0f, 0.0f);
+   glRotatef(m_yAngle, 0.0f, 1.0f, 0.0f);
+   glTranslatef(0.0f, 0.0f, -m_rho);
+
 
   glColor3f(0.4f, 0.0f, 0.0f);
   shot.draw();
-  glTranslatef(0.0f, 0.0f, m_rho);
 
-  glRotatef(-m_yAngle, 0.0f, 1.0f, 0.0f);
-  glRotatef(-m_xAngle, 1.0f, 0.0f, 0.0f);
 
-   glTranslatef(-m_xBase, -m_yBase, 0.0f);
-
-  glTranslatef(0.0f, 0.0f, 18);
-
+  glPopMatrix();
   m_lastTime = SDL_GetTicks();
 
 
@@ -152,7 +179,7 @@ GLShot::getRho()const{
 bool 
 GLShot::isAlive(){
 
-  if( m_rho > 95 ) return false;
+  if( m_rho > 195 ) return false;
 
   return true;
 

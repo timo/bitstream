@@ -50,7 +50,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
       starttime[i] = SDL_GetTicks();
  
       index = i;
-      //    cout << "Explosion # " << i << endl;
+        cout << "Explosion # " << i << endl;
 
   }
 
@@ -58,7 +58,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
 
 
   alpha[index] = 1.0 - (double)(SDL_GetTicks() - starttime[index]) /(duration*1000);
-
+  // cout << alpha[index] << endl;
 
   if((alpha[index] < 0.0) && (explosionindex[index] == 1)){
 
@@ -79,7 +79,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
       gluDeleteQuadric(qobj[index]);
     }
     qobj[index] = gluNewQuadric();
-    gluQuadricOrientation(qobj[index], GLU_INSIDE);
+    gluQuadricOrientation(qobj[index], GLU_OUTSIDE);
     gluQuadricDrawStyle(qobj[index], GLU_FILL);
     gluQuadricNormals(qobj[index], GLU_FLAT); 
     

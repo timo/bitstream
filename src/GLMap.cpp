@@ -101,7 +101,7 @@ GLMap::draw()const{
       glBindTexture(GL_TEXTURE_2D, gndSkin.getID());
 
       glDisable(GL_LIGHTING);
-      glDisable(GL_DEPTH_TEST);
+      // 
 
       glBegin(GL_QUADS);
       int x=0;
@@ -126,7 +126,7 @@ GLMap::draw()const{
 	if(x==10){x=0;}
       }
       
-
+      glDisable(GL_DEPTH_TEST);
       
       dZ+=((GLdouble)thistime - lasttime ) /800;
       

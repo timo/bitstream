@@ -87,6 +87,8 @@ private:
 	GLdouble m_zPos;
 	GLdouble m_rho;
 	int m_SourceExplosion;
+	int m_HitGround;
+   position m_Blast;
    Uint32 m_lastTime;
 
 
