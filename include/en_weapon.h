@@ -15,26 +15,24 @@ Jeff Mrochuk
 jm@icculus.org
 
 */
-
 ///////////////////////////////////////////////////////////////////////////
-// Name: GLEnemy 
+// Name: en_weapon 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // Modifications:
 //
 //
 ///////////////////////////////////////////////////////////////////////////
-#ifndef _GLEnemy_h_
-#define _GLEnemy_h_
-
-// System Includes
-//
+#ifndef _en_weapon_h_
+#define _en_weapon_h_
 #include <SDL/SDL.h>
-// Project Includes
-//
 #include "GLEntity.h"
 #include "BSM.h"
-#include "physics.h"
+// System Includes
+//
+
+// Project Includes
+//
 
 // Local Includes
 //
@@ -46,59 +44,58 @@ jm@icculus.org
   *    @author 
   *    @date 
   */
-class GLEnemy : public GLEntity
+class en_weapon : public GLEntity
 {
 public:
 
 // Lifecycle
 
-	GLEnemy(const GLdouble &x=0, const GLdouble &y=0, const GLdouble &z=0);
-	GLEnemy(const position &);
-   GLEnemy(const GLEnemy&);            // copy constructor
-   virtual ~GLEnemy();
+   en_weapon(const GLdouble&, const GLdouble&, const GLdouble&);
+   en_weapon(const en_weapon&);            // copy constructor
+   ~en_weapon();
 
 // Operator
    
-   GLEnemy&   operator=(const GLEnemy&);     // assignment operator
+   en_weapon&   operator=(const en_weapon&);     // assignment operator
 
 // Operations
 
-	virtual void en_attack_state()=0;
-   virtual void en_idle_state()=0;
-   virtual void en_react_state()=0;
-	virtual void en_move()=0;
-	virtual void draw()=0;
-	virtual GLdouble GetLongestRadius()=0;
+	void draw();
 
-	virtual GLdouble getX()=0;
-	virtual GLdouble getY()=0;
-	virtual GLdouble getZ()=0;
 
-	virtual void ApplyDamage(const GLdouble &)=0;
-	virtual GLdouble GetHitDamage()=0;
-	virtual bool isAlive()=0;
-// Access
 
-// Inquiry
+	GLdouble getRho()const;
+	GLdouble GetLongestRadius();
 
-//    virtual void SetPosition(const position &);
-//    virtual void SetVelocity(const velocity &);
-//    virtual void SetAcceleration(const acceleration &);
-//    virtual void SetRotation(const rotation &);
-// // Inquiry
+	virtual GLdouble getX();
+	virtual GLdouble getY();
+	virtual GLdouble getZ();
+	virtual bool isAlive();
 
-//    virtual position GetPosition(void);
-//    virtual velocity GetVelocity(void);
-//    virtual acceleration GetAcceleration(void);
-//    virtual rotation GetRotation(void);
+	void ApplyDamage(const GLdouble &);
+	GLdouble GetHitDamage();
 
 protected:
 // Protected Methods
 private:
-
-
-
 // Private Methods
+
+	BSM m_model;
+	GLdouble m_Vel;
+	GLdouble m_xAngle;
+	GLdouble m_yAngle;
+	GLdouble m_xBase;
+	GLdouble m_yBase;
+	GLdouble m_zBase;
+	GLdouble m_xPos;
+	GLdouble m_yPos;
+	GLdouble m_zPos;
+	GLdouble m_rho;
+	GLdouble m_dDamage;
+	int m_SourceExplosion;
+	int m_HitGround;
+   position m_Blast;
+   Uint32 m_lastTime;
 
 
 //////////////////Removed
@@ -109,4 +106,4 @@ private:
 // External References
 //
 
-#endif  // _GLEnemy_h
+#endif  // _en_weapon_h

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////
-// Name: en_cube 
+// Name: en_hornet 
 //
 // Files:
 // Bugs:
@@ -13,11 +13,14 @@
 //
 /////////////////////////////////////////////////////////////////////////
 #include <iostream>
-#include "en_cube.h"                                // class implemented
+#include <list>
+#include "en_hornet.h"                                // class implemented
 #include "GLEntity.h"
 #include "GLPlayer.h"
+#include "GLShot.h"
 #include "physics.h"
 #include "effects.h"
+#include "en_attack.h"
 /////////////////////////////// Public ///////////////////////////////////////
 using namespace std;
 //============================= Lifecycle ====================================
@@ -25,9 +28,13 @@ const int ROT_PER_SEC = 90;
 const double MSEC_PER_SEC = 1000;
 const double REACTION_TIME = 5;
 const double MAX_HEALTH = 30;
-extern GLPlayer* playerptr;
 
-en_cube::en_cube(const double &x, const double &y, const double &z)
+extern GLPlayer* playerptr;
+extern list < GLEntity * > entityptr;
+extern list <GLEntity * >::iterator entityiter;
+
+
+en_hornet::en_hornet(const double&x, const double&y, const double&z)
   :GLEnemy(x,y,z)
 {
   m_Position.x=x;
@@ -35,28 +42,29 @@ en_cube::en_cube(const double &x, const double &y, const double &z)
   m_Position.z=z;
   build();
 
-}// en_cube
-en_cube::en_cube(const position& pos)
+}// en_hornet
+en_hornet::en_hornet(const position& pos)
   :GLEnemy(pos)
 {
   m_Position=pos;
   build();
 
-}// en_cube
+}// en_hornet
 
 
 void 
-en_cube::build(){
+en_hornet::build(){
 
   m_LastTime=0;
-  m_model.LoadBSM("data/enemies/cube/cube.bsm");
+  // m_model.LoadBSM("data/enemies/hornet/hornet.bsm");
+  m_model.LoadBSM("data/enemies/hornet/hornet.bsm");
   m_model.SetMainDamage(MAX_HEALTH);
   m_IdleTime = 0;
   m_Position.boundaries = 1;
   m_dDamage = 20;
   m_Behavior = IDLE;
-  m_Color[RED]=0;
-  m_Color[GREEN]=1;
+  m_Color[RED]=0.5;
+  m_Color[GREEN]=0.5;
   m_Color[BLUE]=0;
   m_Color[ALPHA]=1;
   m_Velocity.x = 0;
@@ -65,28 +73,28 @@ en_cube::build(){
   m_Acceleration.x = 0;
   m_Acceleration.y = 0;
   m_Acceleration.z = 0;
+
 }
 
-GLint en_cube::m_iDestroyed=0;
+GLint en_hornet::m_iDestroyed=0;
 
-en_cube::en_cube(const en_cube&)
+en_hornet::en_hornet(const en_hornet&)
 {
-}// en_cube
+}// en_hornet
 
-en_cube::~en_cube()
+en_hornet::~en_hornet()
 {
   int index=0;
-  //  explosion(m_Position, 2, 1, index);
-  index=0;
+
   particle_explosion(m_Position, 5, 1, index);
-  //  cout << "Destroying a cube" << endl;
-}// ~en_cube
+
+}// ~en_hornet
 
 
 //============================= Operators ====================================
 
-en_cube& 
-en_cube::operator=(const en_cube&rhs)
+en_hornet& 
+en_hornet::operator=(const en_hornet&rhs)
 {
    if ( this==&rhs ) {
         return *this;
@@ -100,9 +108,12 @@ en_cube::operator=(const en_cube&rhs)
 }// =
 
 void
-en_cube::en_attack_state()
+en_hornet::en_attack_state()
 {
+
+  static double accum = 0;
   m_Rotation.z += m_DeltaSeconds*ROT_PER_SEC;  
+  accum += m_DeltaSeconds;
 
   if(playerptr->getX() > m_Position.x){
     m_Acceleration.x = 5*(playerptr->getX()-m_Position.x) - m_Velocity.x;
@@ -117,7 +128,17 @@ en_cube::en_attack_state()
   }
 
   m_Acceleration.z = 0;
+  m_Velocity.z = 0;
 
+
+  if(accum > 1){
+
+    entityiter=entityptr.end();
+    *entityiter = new en_weapon(m_Position.x, m_Position.y, m_Position.z + 5);
+    entityptr.push_back(*entityiter);
+    accum = 0;
+  }
+  
 
   if(m_Position.z > 10){
     m_model.hit(100);
@@ -125,32 +146,24 @@ en_cube::en_attack_state()
 
   if(m_Position.y < -5 + m_model.GetLongestRadius()){
     m_Velocity.y = 10;
+
   }
+
   UpdateVelocity(m_Velocity, m_Acceleration, m_DeltaSeconds);
   UpdatePosition(m_Position, m_Velocity, m_DeltaSeconds);
 }
 
 void
-en_cube::en_react_state()
+en_hornet::en_react_state()
 {
   
   m_Rotation.z += m_DeltaSeconds*ROT_PER_SEC;
+  m_Behavior = ATTACK;
 
-  if(m_Color[RED] < 1){ m_Color[RED] += m_DeltaSeconds; }
-  else{ m_Color[RED] = 1; }
-  if(m_Color[GREEN] > 0){ m_Color[GREEN] -= m_DeltaSeconds; }
-  else{ 
-    m_Color[GREEN] = 0; 
-    m_Behavior = ATTACK;
-    m_Position.boundaries = 0;
-    m_Velocity.x = 0;
-    m_Velocity.y = 0;
-    
-  }
 }
      
 void 
-en_cube::en_idle_state()
+en_hornet::en_idle_state()
 {
   
 
@@ -167,11 +180,10 @@ en_cube::en_idle_state()
 
   //  cout << m_Position.z << endl;
 
-  if(m_Position.z > -70){
+  if(m_Position.z > m_dDepth){
+    m_dDepth -=5;
     m_Behavior = REACT;
-  }
-  if(m_Position.z > 10){
-    m_model.hit(100);
+    if(m_dDepth < -50) m_dDepth = -30;
   }
 
   UpdateVelocity(m_Velocity, m_Acceleration, m_DeltaSeconds);
@@ -181,19 +193,15 @@ en_cube::en_idle_state()
 }
 
 void 
-en_cube::en_move()
+en_hornet::en_move()
 {
 
   if(!m_LastTime){ 
     m_LastTime= SDL_GetTicks();
     m_Acceleration.x = 4;
     m_Acceleration.y = 2;
-    m_Acceleration.z = 1.2;
+    m_Acceleration.z = 3;
 
-  }
-
-  if(m_Behavior == IDLE){
-    if(m_model.getDamage() < MAX_HEALTH){ m_Behavior = REACT; }
   }
 
   m_DeltaSeconds = (double)(SDL_GetTicks() - m_LastTime)/MSEC_PER_SEC;
@@ -219,7 +227,7 @@ en_cube::en_move()
 
 
 void 
-en_cube::draw()
+en_hornet::draw()
 {
   this->en_move();
 
@@ -227,7 +235,7 @@ en_cube::draw()
 
   glTranslatef(m_Position.x, m_Position.y, m_Position.z);
 
-  glRotatef(m_Rotation.z, 0, 1, 1);
+  glRotatef(m_Rotation.z, 0, 0, 1);
 
   glColor4fv(m_Color);
 
@@ -237,28 +245,29 @@ en_cube::draw()
 }
 
 GLdouble 
-en_cube::GetLongestRadius(){
+en_hornet::GetLongestRadius(){
 
   return  m_model.GetLongestRadius();
 
+ 
 }
 
 GLdouble 
-en_cube::getX(){
+en_hornet::getX(){
 
   return m_Position.x;
 
 }
 
 GLdouble 
-en_cube::getY(){
+en_hornet::getY(){
 
   return m_Position.y;
 
 }
 
 GLdouble 
-en_cube::getZ(){
+en_hornet::getZ(){
 
   return m_Position.z;
   
@@ -267,7 +276,7 @@ en_cube::getZ(){
 
 
 void 
-en_cube::ApplyDamage(const GLdouble &hit){
+en_hornet::ApplyDamage(const GLdouble &hit){
   
   m_model.hit(hit);
   if(((hit == 10) || (hit == 100)) && (m_model.getDamage() <=0)){ // Killed by a player shot
@@ -276,32 +285,34 @@ en_cube::ApplyDamage(const GLdouble &hit){
 }
 
 GLdouble 
-en_cube::GetHitDamage(){
+en_hornet::GetHitDamage(){
 
   return m_dDamage;
 }
 
 GLint
-en_cube::GetDestroyed(){
+en_hornet::GetDestroyed(){
 
   return m_iDestroyed;
 
 }
 
 void
-en_cube::SetDestroyed(const GLint &i){
+en_hornet::SetDestroyed(const GLint &i){
 
   m_iDestroyed = i;
 }
 
 bool 
-en_cube::isAlive(){
+en_hornet::isAlive(){
 
   if(m_model.getDamage()<=0) return false;
 
   return true;
   
 }
+GLdouble
+en_hornet::m_dDepth = -30;
 //============================= Operations ===================================
 //============================= Access      ==================================
 //============================= Inquiry    ===================================

@@ -7,8 +7,8 @@
 //
 //
 ///////////////////////////////////////////////////////////////////////////
-#ifndef _en_cube_h_
-#define _en_cube_h_
+#ifndef _en_hornet_h_
+#define _en_hornet_h_
 
 // System Includes
 //
@@ -30,19 +30,19 @@
   *    @author 
   *    @date 
   */
-class en_cube : public GLEnemy
+class en_hornet : public GLEnemy
 {
 public:
 
 // Lifecycle
-   en_cube(const double &x=0, const double &y=0, const double &z=0);
-   en_cube(const position &);
-   en_cube(const en_cube&);            // copy constructor
-   virtual ~en_cube();
+   en_hornet(const double &x=0, const double &y=0, const double &z=0);
+   en_hornet(const position &);
+   en_hornet(const en_hornet&);            // copy constructor
+   virtual ~en_hornet();
 
 // Operator
    
-   en_cube&   operator=(const en_cube&);     // assignment operator
+   en_hornet&   operator=(const en_hornet&);     // assignment operator
 
 // Operations
 
@@ -86,7 +86,7 @@ private:
 	GLfloat m_Color[4];
 	mood m_Behavior;
    static GLint m_iDestroyed;
-
+	static GLdouble m_dDepth;
 //////////////////Removed
 };
 
@@ -95,4 +95,4 @@ private:
 // External References
 //
 
-#endif  // _en_cube_h
+#endif  // _en_hornet_h

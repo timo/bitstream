@@ -15,7 +15,7 @@ jm@icculus.org
 */
 
 //////////////////////////////////////////////////////////////////////////
-// Name: GLShot 
+// Name: en_weapon 
 //
 // Files:
 // Bugs:
@@ -28,7 +28,7 @@ jm@icculus.org
 // Modifications:
 //
 /////////////////////////////////////////////////////////////////////////
-#include "GLShot.h"                                // class implemented
+#include "en_weapon.h"                                // class implemented
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL/SDL.h>
@@ -49,13 +49,10 @@ extern GLPlayer *playerptr;
 
 //============================= Lifecycle ====================================
 
-GLShot::GLShot()
+en_weapon::en_weapon(const GLdouble&x, const GLdouble&y, const GLdouble&z)
   :m_Vel(50),
    m_xAngle(0),
    m_yAngle(0),
-   m_xPos(0),
-   m_yPos(0),
-   m_zPos(0),
    m_rho(0),
    m_dDamage(10),
    m_HitGround(0),
@@ -63,38 +60,38 @@ GLShot::GLShot()
 {
   m_SourceExplosion = 0;
 
-  if(!(playerptr->DrawEnergy(10))){
-    m_rho = 200;
-  }
+  m_xBase = x;
+  m_yBase = y;
+  m_zBase = z;
+
   m_model.LoadBSM ("data/player/shot.bsm");
   m_model.SetMainDamage(5);
   
-}// GLShot
+}// en_weapon
 
 
-GLShot::GLShot(const GLShot&)
+en_weapon::en_weapon(const en_weapon&)
 {
-}// GLShot
+}// en_weapon
 
-GLShot::~GLShot()
+en_weapon::~en_weapon()
 {
   int expl_id = 0;
   position hit;
   hit.x = m_xPos + m_xBase;
   hit.y = m_yPos + m_yBase;
-  hit.z = m_zPos - 18;
-
+  hit.z = m_zPos + m_zBase;
 
   // explosion(hit, 0.5, 0.5, expl_id);
   expl_id = 0;
   particle_explosion(hit, 2, 0.5, expl_id);
-}// ~GLShot
+}// ~en_weapon
 
 
 //============================= Operators ====================================
 
-GLShot& 
-GLShot::operator=(const GLShot&rhs)
+en_weapon& 
+en_weapon::operator=(const en_weapon&rhs)
 {
    if ( this==&rhs ) {
         return *this;
@@ -110,23 +107,16 @@ GLShot::operator=(const GLShot&rhs)
 //============================= Operations ===================================
 
 void 
-GLShot::draw(){
+en_weapon::draw(){
 
-  // This is ugly. Please don't harass me.
-  position source, hit;
+
+  position  hit;
 
   if(!m_lastTime){
     m_lastTime=SDL_GetTicks(); 
 
-    m_xBase = playerptr->getX() + playerptr->getXtilt()/4.0 ;
-    m_yBase = playerptr->getY() - playerptr->getYtilt()/2.0 ;
-
-    m_xAngle = -4.2*(playerptr->getYtilt());
-    m_yAngle = -2.2*(playerptr->getXtilt()) ;
-
-    source.x = m_xBase;
-    source.y = m_yBase;
-    source.z = -18;
+    m_xAngle = 0;
+    m_yAngle = 0;
    
   }
 
@@ -137,21 +127,12 @@ GLShot::draw(){
 
   // cout << m_xBase << "," << m_yBase << endl;
 
-  m_rho += (double)(SDL_GetTicks() - m_lastTime)/1000 * m_Vel;
+  m_rho -= (double)(SDL_GetTicks() - m_lastTime)/1000 * m_Vel;
 
   // yAngle is 
 
   //  hit.x = m_xPos + m_xBase;
   hit.y = m_yPos + m_yBase;
-  //  hit.z = m_zPos - 18;
-
-//   if(m_SourceExplosion == 0){
-//     source.x = m_xBase + m_xPos;
-//     source.y = m_yBase + m_yPos;
-//     source.z = m_zPos - 18;
-//     //   particle_explosion(source, 1, 0.3, 0);
-//     m_SourceExplosion = 1;
-//   }
 
 
   if(hit.y < -5){  // hits the ground
@@ -160,16 +141,15 @@ GLShot::draw(){
 		   
   }    
 
-   glTranslatef(0.0f, 0.0f, -18);
 
-   glTranslatef(m_xBase, m_yBase, 0.0f);
+   glTranslatef(m_xBase, m_yBase, m_zBase);
 
    glRotatef(m_xAngle, 1.0f, 0.0f, 0.0f);
    glRotatef(m_yAngle, 0.0f, 1.0f, 0.0f);
    glTranslatef(0.0f, 0.0f, -m_rho);
 
 
-  glColor3f(0.5f, 0.5f, 1.0f);
+  glColor3f(0.5f, 0.2f, 0.0f);
   m_model.draw();
 
 
@@ -181,14 +161,14 @@ GLShot::draw(){
 
 
 GLdouble
-GLShot::getRho()const{
+en_weapon::getRho()const{
 
   return m_rho;
 }
 
 
 GLdouble 
-GLShot::GetLongestRadius(){
+en_weapon::GetLongestRadius(){
 
   // return  m_model.GetLongestRadius();
   return HIT_RADIUS;
@@ -199,7 +179,7 @@ GLShot::GetLongestRadius(){
 //============================= Inquiry    ===================================
 
 bool 
-GLShot::isAlive(){
+en_weapon::isAlive(){
 
   //  cout << m_model.getDamage() << endl;
   if( (m_rho > 195) || (m_model.getDamage() <= 0 )) return false;
@@ -209,33 +189,33 @@ GLShot::isAlive(){
 }
 
 GLdouble 
-GLShot::getX(){
+en_weapon::getX(){
 
   return m_xPos + m_xBase;
 
 }
 
 GLdouble 
-GLShot::getY(){
+en_weapon::getY(){
 
   return m_yPos + m_yBase;
 }
 
 GLdouble 
-GLShot::getZ(){
-  return m_zPos - 18;
+en_weapon::getZ(){
+  return m_zPos + m_zBase;
 
 }
 
 void 
-GLShot::ApplyDamage(const GLdouble &damage){
+en_weapon::ApplyDamage(const GLdouble &damage){
 
   m_model.hit(damage);
 
 }
 
 GLdouble 
-GLShot::GetHitDamage(){
+en_weapon::GetHitDamage(){
 
   return m_dDamage;
 
