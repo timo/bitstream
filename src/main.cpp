@@ -47,8 +47,16 @@ int main(int argc,char * argv[])
   bpp = 0;
 
   //Initialize SDL
-  SDL_Init(SDL_INIT_EVERYTHING);
-  SDL_ShowCursor(0);
+if(  SDL_Init(SDL_INIT_EVERYTHING)< 0) 
+{
+   fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
+   exit(1);
+}
+
+
+ atexit(SDL_Quit);
+
+ SDL_ShowCursor(0);
 
   //Initialize Joystick
 
