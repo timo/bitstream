@@ -43,7 +43,7 @@ using namespace std;
 
 //============================= Lifecycle ====================================
 
-static const GLdouble ACCEL = 0.125;
+static const GLdouble ACCEL = 0.25;
 static const GLdouble SLOW = 0.125;
 static const GLdouble DRIFT = 0.0625;
 static const GLdouble MAXSPEED = 80;
@@ -114,7 +114,7 @@ GLPlayer::draw(){
   glTranslatef(this->getX(),this->getY(),this->getZ());
 
 
-  glRotatef(-(this->getXtilt()), 0.0f, 1.0f, 0.0f);
+  glRotatef(-(this->getXtilt()*2), 0.0f, 1.0f, 0.0f);
   glRotatef(-(this->getYtilt()), 0.0f, 0.0f, 1.0f);
 
   if(m_dOverrideY == 0){
@@ -321,7 +321,7 @@ GLPlayer::move(const GLint &x, const GLint &y, const GLint &z){
 //     this->tilt(m_dXvel, m_dYvel);
 //   }
 
-  this->tilt(this->getX()*15, m_dYvel,  this->getX()*15 );
+  this->tilt(this->getX()*16, m_dYvel,  this->getX()*15 );
 
   this->shift(m_dXvel, m_dYvel);
 

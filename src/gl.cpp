@@ -121,7 +121,7 @@ int GLDraw(GLPlayer &Player1){
 	  }
 	  entityptr.erase(entityiter2--);  // Take it out of the list
 	}
-       }
+       }  
 // 	if(!((*entityiter)->isAlive())){
 // 	  if(entityiter != NULL){
 // 	    delete *entityiter;
@@ -139,7 +139,7 @@ int GLDraw(GLPlayer &Player1){
 
   process_effects();
   
-  Player1.collide();  // Player stuff
+  //  Player1.collide();  // Player stuff
 
   if(Player1.GetDamage()>0){
     Player1.draw();
