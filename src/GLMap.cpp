@@ -58,10 +58,16 @@ void
 GLMap::draw()const{
 
   static GLdouble dZ=0;
-  static GLuint thistime, lasttime=0;
-  thistime=SDL_GetTicks();
-  if(lasttime != 0)
-    {
+  // static GLuint thistime, lasttime=0;
+
+  // thistime=SDL_GetTicks();
+
+  // if(lasttime == 0)
+  //  {
+  //    
+  //    lasttime = thistime;
+  //    
+  //  }
 
       glPushMatrix();
 
@@ -108,14 +114,16 @@ GLMap::draw()const{
       glVertex3f(150.0f, 10.0f, -95.0f);
       glVertex3f(-150.0f, 10.0f, -95.0f);
       
-      dZ+=((GLdouble)thistime - lasttime ) /1000;
+
+      dZ+=0.007;
+      // dZ+=((GLdouble)thistime - lasttime ) /1000;
       
       glEnd();
       glDisable(GL_TEXTURE_2D);
       glFlush();
       glPopMatrix();
-    }
-  lasttime = SDL_GetTicks();
+      
+      //lasttime = SDL_GetTicks();
 
 }
 
