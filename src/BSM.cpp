@@ -257,7 +257,7 @@ BSM::LoadBSM(char *filename){
 	}
 	    
 	    iTemp = atoi(cTemp);
-	    	    cout << iTemp << " ";
+
  	    tempPiece.addVertex(iTemp);
 	  } 
 	}
@@ -269,12 +269,11 @@ BSM::LoadBSM(char *filename){
     }
     
 
-    cout << endl;
     file.close();
 
     delete cTemp;
     delete comment;
-    cout << "BSM::LoadBSM: \"" << filename <<"\" Loaded Correctly" << endl;
+
     return true;
   
   }

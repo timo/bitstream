@@ -14,6 +14,7 @@ jm@icculus.org
 
 */
 
+//Too many includes.
 
 #include <iostream>
 #include <GL/gl.h>
@@ -23,7 +24,8 @@ jm@icculus.org
 #include <math.h>
 #include <string>
 #include <deque>
-
+#include <list>
+#include <iterator>
 
 #include "GLEntity.h"
 #include "GLPlayer.h"
@@ -45,8 +47,9 @@ static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
 //BSM player;
 BSM player;
 GLuint  base; /* Base Display List For The Font Set */
-deque < GLEntity * > shotptr;
-unsigned shotsize;
+list < GLEntity * > entityptr;
+list< GLEntity * >::iterator entityiter;
+unsigned entitysize;
 GLPlayer *playerptr;
 Texture playerSkin;
 Texture gndSkin;
@@ -81,15 +84,17 @@ int GLDraw(GLPlayer &Player1){
   glPushMatrix();  // Things affected by perspective
   map1.draw();
   
-  for(unsigned i=0; i < shotsize; i++){  // Draw the firepower
-    shotptr[i]->draw();
-    if(!shotptr[i]->isAlive()){
-      shotsize-=1;
-      delete shotptr[i];
-      shotptr.pop_front();
+
+  for (entityiter=entityptr.begin();entityiter!=entityptr.end();entityiter++){
+    (*entityiter)->draw();
+    if(!((*entityiter)->isAlive())){
+      delete *entityiter;
+      cout << "Deleted" << endl;
+      entityptr.erase(entityiter--);  
+
     }
   }
-  
+    
   glPopMatrix();
   
   Player1.collide();  // Player stuff
@@ -144,7 +149,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
   glViewport(0, 0, Width, Height); 
 
-  shotsize=0;
+  entitysize=0;
 
   glClearColor(0.67f, 0.70f, 0.76f, 0.0f);        
   glClearDepth(1.0);                         

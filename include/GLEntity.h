@@ -71,7 +71,7 @@ public:
    GLdouble getXtilt()const;
    GLdouble getYtilt()const;
    GLdouble getZtilt()const;
-	virtual bool isAlive();
+	virtual bool isAlive(){ return true; }
 // Inquiry
 
 protected:

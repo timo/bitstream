@@ -22,13 +22,16 @@ jm@icculus.org
 #include <SDL/SDL.h>
 #include <iostream>
 #include <vector>
+#include <deque>
+#include <list>
 #include "GLEntity.h"
 #include "GLPlayer.h"
 #include "GLMap.h"
 #include "GLShot.h"	
 
-extern vector < GLEntity * > shotptr;
-extern unsigned shotsize;
+extern list < GLEntity * > entityptr;
+extern list <GLEntity * >::iterator entityiter;
+extern unsigned entitysize;
 
 
 int process_events(GLPlayer &Player1)
@@ -96,9 +99,9 @@ int process_events(GLPlayer &Player1)
 	if ( event.jbutton.button == 0 )
 	  {
 
-	    shotsize+=1;
-	    shotptr.resize(shotsize);
-	    shotptr[shotsize-1]=new GLShot;
+	    entityiter=entityptr.end();
+	    *entityiter = new GLShot;
+	    entityptr.push_back(*entityiter);
 
 	  }
 
