@@ -126,55 +126,54 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
 SDL_Surface *ImageLoad(char *filename)
 {
-    Uint8 *rowhi, *rowlo;
-    Uint8 *tmpbuf, tmpch;
-    SDL_Surface *image;
-    int i, j;
-
-    image = SDL_LoadBMP(filename);
-    if ( image == NULL ) {
-        fprintf(stderr, "Unable to load %s: %s\n", filename, SDL_GetError());
-        return(NULL);
+  Uint8 *rowhi, *rowlo;
+  Uint8 *tmpbuf, tmpch;
+  SDL_Surface *image;
+  int i, j;
+  
+  image = SDL_LoadBMP(filename);
+  if ( image == NULL ) {
+    fprintf(stderr, "Unable to load %s: %s\n", filename, SDL_GetError());
+    return(NULL);
+  }
+  
+  /* GL surfaces are upsidedown and RGB, not BGR :-) */
+  tmpbuf = new unsigned char[image->pitch];
+  if ( tmpbuf == NULL ) 
+    {
+      fprintf(stderr, "Out of memory\n");
+      return(NULL);
     }
-
-    /* GL surfaces are upsidedown and RGB, not BGR :-) */
-
-    tmpbuf = new unsigned char[image->pitch];
-    if ( tmpbuf == NULL ) 
-      {
-	fprintf(stderr, "Out of memory\n");
-	return(NULL);
-      }
-    else
-      {
-	cout << "Alloc succeeded" << endl;
-      }
-
-    rowhi = (Uint8 *)image->pixels;
-    rowlo = rowhi + (image->h * image->pitch) - image->pitch;
-
-    for ( i=0; i<(image->h)/2; ++i ) {
-      for ( j=0; j<(image->w); ++j ) {
-	tmpch = rowhi[j*3];
-	rowhi[j*3] = rowhi[j*3+2];
-	rowhi[j*3+2] = tmpch;
-	tmpch = rowlo[j*3];
-	rowlo[j*3] = rowlo[j*3+2];
-	rowlo[j*3+2] = tmpch;
-      }
-
-      memcpy(tmpbuf, rowhi, image->pitch);
-      memcpy(rowhi, rowlo, image->pitch);
-      memcpy(rowlo, tmpbuf, image->pitch);
-      
-      rowhi += image->pitch;
-      rowlo -= image->pitch;
+  else
+    {
+      cout << "Alloc succeeded" << endl;
+    }
+  
+  rowhi = (Uint8 *)image->pixels;
+  rowlo = rowhi + (image->h * image->pitch) - image->pitch;
+  
+  for ( i=0; i<(image->h)/2; ++i ) {
+    for ( j=0; j<(image->w); ++j ) {
+      tmpch = rowhi[j*3];
+      rowhi[j*3] = rowhi[j*3+2];
+      rowhi[j*3+2] = tmpch;
+      tmpch = rowlo[j*3];
+      rowlo[j*3] = rowlo[j*3+2];
+      rowlo[j*3+2] = tmpch;
     }
     
-
-    delete tmpbuf;
-
-    return(image);
+    memcpy(tmpbuf, rowhi, image->pitch);
+    memcpy(rowhi, rowlo, image->pitch);
+    memcpy(rowlo, tmpbuf, image->pitch);
+    
+    rowhi += image->pitch;
+    rowlo -= image->pitch;
+  }
+  
+  
+  delete tmpbuf;
+  
+  return(image);
 }
 
 //=====================LoadGLTextures===========================
