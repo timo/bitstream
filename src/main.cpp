@@ -112,7 +112,7 @@ int main(int argc,char * argv[])
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
   //Initialize window
-  Surface = SDL_SetVideoMode(width, height, 0, SDL_OPENGL);
+  Surface = SDL_SetVideoMode(width, height, bpp, SDL_OPENGL);
 
   if ( Surface == NULL ) {
     fprintf(stderr, "Unable to create OpenGL screen: %s\n", SDL_GetError());
