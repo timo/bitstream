@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <math.h>
 
 #define MAXDIG 5
 
