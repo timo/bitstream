@@ -165,7 +165,7 @@ GLEntity::tilt(const GLdouble &x, const GLdouble &y, const GLdouble &z){
   m_dYtilt = -y*(0.05);
   m_dZtilt = z;
 }
-
+ 
 
 //============================= Access      ==================================
 

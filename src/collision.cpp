@@ -47,7 +47,7 @@ bool SphericalHit(GLEntity &object1, GLEntity &object2){
       avg.x = (object1.getX() + object2.getX())/2;
       avg.y = (object1.getY() + object2.getY())/2;
       avg.z = (object1.getZ() + object2.getZ())/2;
-      explosion(avg, 0.5, 0.5, expl_id);
+
       return true;
     }
     

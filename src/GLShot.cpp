@@ -73,6 +73,12 @@ GLShot::GLShot(const GLShot&)
 
 GLShot::~GLShot()
 {
+  int expl_id = 0;
+  position hit;
+  hit.x = m_xPos + m_xBase;
+  hit.y = m_yPos + m_yBase;
+  hit.z = m_zPos - 18;
+  explosion(hit, 0.5, 0.5, expl_id);
 }// ~GLShot
 
 

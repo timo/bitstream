@@ -9,7 +9,7 @@ void UpdateVelocity(velocity &v, const acceleration &a, const double &deltatime)
   v.y += a.y*deltatime;
   v.z += a.z*deltatime;
 
-}
+} 
 
 void UpdatePosition(position &p, const velocity& v, const double &deltatime){
 
