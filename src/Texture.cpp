@@ -126,7 +126,7 @@ Texture::LoadTGA (char* filename, const GLfloat &minFilter, const GLfloat &maxFi
   //Temp variable
   GLuint temp;
   //Set the default OpenGL mode to RBGA (32 BPP)
-  GLuint type=GL_RGBA;
+  GLenum type=GL_RGBA;
   
   // Open The TGA File
   FILE* file = fopen (filename, "rb");

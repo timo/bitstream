@@ -60,7 +60,7 @@ void ComputeNormal (VECTOR* v1, VECTOR* v2, VECTOR* v3) {
   result.vector[2] = (a.vector[0]*b.vector[1]) - (b.vector[0]*a.vector[1]);
 
   // calculate the length of the normal
-  length= (float) sqrtf (SQUARE (result.vector[0]) + SQUARE(result.vector[1]) + SQUARE (result.vector[2]));
+  length= (float) sqrt (SQUARE (result.vector[0]) + SQUARE(result.vector[1]) + SQUARE (result.vector[2]));
 
   // normalize and specify the normal
   glNormal3f (result.vector[0] / length, result.vector[1] / length, result.vector[2] / length);
