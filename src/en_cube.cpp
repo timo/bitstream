@@ -152,7 +152,8 @@ en_cube::draw()
 
   glRotatef(m_Rotation.z, 0, 1, 1);
 
-  glColor4f(0.0, 0.8, 0.0, 0.5);
+  glColor4f(0.0, 1.0, 0.0, 1.0);
+
   m_model.draw();
 
   glPopMatrix();

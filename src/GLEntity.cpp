@@ -157,7 +157,7 @@ GLEntity::shift(const GLdouble &xvel,const GLdouble &yvel, const GLdouble &zvel 
 
 void 
 GLEntity::tilt(const GLdouble &x, const GLdouble &y, const GLdouble &z){
-  m_dXtilt = x/10;
+  m_dXtilt = x/10.0;
   m_dYtilt = -y*(0.05);
   m_dZtilt = z;
 }

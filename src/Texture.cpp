@@ -50,57 +50,16 @@ Texture::~Texture ()
 bool 
 Texture::LoadBMP (char *filename, const GLint &minFilter, const GLint &maxFilter) {
 
-  /*
-    Taken from lesson 7 SDL port
-   */
-
-  Uint8 *rowhi, *rowlo;
-  Uint8 *tmpbuf, tmpch;
   SDL_Surface *image;
-  int i, j;
+
 
   image = SDL_LoadBMP (filename);
   if (image == NULL) {
-#ifdef _linux_
+#ifdef __linux__
     fprintf(stderr, "Texture::LoadBMP: unable to load \"%s\": %s\n", filename, SDL_GetError());
 #endif
     return false;
   }
-
-  /* GL surfaces are upsidedown and RGB, not BGR :-) */
-
-
-  tmpbuf = new unsigned char[image->pitch];
-
-  if ( tmpbuf == NULL ) {
-#ifdef _linux_
-    fprintf(stderr, "Texture::LoadBMP: could not allocate buffer\n");
-#endif
-    return false;
-  }
-
-  rowhi = (Uint8 *)image->pixels;
-  rowlo = rowhi + (image->h * image->pitch) - image->pitch;
-
-  for ( i=0; i<(image->h)/2; ++i ) {
-    for ( j=0; j<(image->w); ++j ) {
-      tmpch = rowhi[j*3];
-      rowhi[j*3] = rowhi[j*3+2];
-      rowhi[j*3+2] = tmpch;
-      tmpch = rowlo[j*3];
-      rowlo[j*3] = rowlo[j*3+2];
-      rowlo[j*3+2] = tmpch;
-    }
-
-    memcpy(tmpbuf, rowhi, image->pitch);
-    memcpy(rowhi, rowlo, image->pitch);
-    memcpy(rowlo, tmpbuf, image->pitch);
-
-    rowhi += image->pitch;
-    rowlo -= image->pitch;
-  }
-
-  delete tmpbuf;
 
   // Create Texture
 
@@ -113,10 +72,10 @@ Texture::LoadBMP (char *filename, const GLint &minFilter, const GLint &maxFilter
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, maxFilter);
   
-  glTexImage2D (GL_TEXTURE_2D, 0,  3, image->w, image->h, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
+  glTexImage2D (GL_TEXTURE_2D, 0,  3, image->w, image->h, 0, GL_BGR, GL_UNSIGNED_BYTE, image->pixels);
 
   //Bind the texture to a texture object 
-#ifdef _linux_  
+#ifdef __linux__  
   fprintf (stderr, "Texture::LoadBMP: loaded \"%s\" correctly\n", filename);
 #endif
   return true;

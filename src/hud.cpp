@@ -16,6 +16,7 @@ void DrawHealthBar(){
 
   glPushMatrix();
   glDisable(GL_LIGHTING);
+  glDisable(GL_DEPTH_TEST);
   glBegin(GL_TRIANGLES);
   glColor4f(0.2, 0.2, 0.2, 0.5);
 
@@ -42,6 +43,7 @@ void DrawHealthBar(){
 
   glEnd();
   glEnable(GL_LIGHTING);
+  glEnable(GL_DEPTH_TEST);
   glPopMatrix();
 }
 
@@ -53,6 +55,7 @@ void DrawEnergyBar(){
 
   glPushMatrix();
   glDisable(GL_LIGHTING);
+  glDisable(GL_DEPTH_TEST);
   glBegin(GL_TRIANGLES);
   glColor4f(0.2, 0.2, 0.2, 0.5);
 
@@ -79,13 +82,17 @@ void DrawEnergyBar(){
 
   glEnd();
   glEnable(GL_LIGHTING);
+  glEnable(GL_DEPTH_TEST);
   glPopMatrix();
 
 
 }
 
 void DrawHud(){
+  glPushMatrix();
+  glTranslatef(0.0f,0.0f,-1.0f);
   DrawHealthBar();
   DrawEnergyBar();
+  glPopMatrix();
   
 }
