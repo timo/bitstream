@@ -48,6 +48,8 @@ public:
 
 // Access
 
+	GLdouble getRho()const;
+
 // Inquiry
 
 protected:
@@ -59,7 +61,14 @@ private:
 	GLdouble m_Vel;
 	GLdouble m_xAngle;
 	GLdouble m_yAngle;
+	GLdouble m_xBase;
+	GLdouble m_yBase;
+	GLdouble m_zBase;
+	GLdouble m_xPos;
+	GLdouble m_yPos;
+	GLdouble m_zPos;
 	GLdouble m_rho;
+   Uint32 m_lastTime;
 
 
 //////////////////Removed

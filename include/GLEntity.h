@@ -43,18 +43,18 @@ public:
 // Operations
 
 	void drawAll()const;
-	virtual void draw()const=0;
+	virtual void draw();
 	GLint shift(const GLdouble &x=0, const GLdouble &y=0, const GLdouble &z=0);
 	void tilt(const GLdouble &x=0, const GLdouble &y=0);
 
 // Access
 
-	GLdouble getX()const;
-	GLdouble getY()const;
-	GLdouble getZ()const;
-	GLdouble getXtilt()const;
-	GLdouble getYtilt()const;
-	GLdouble getZtilt()const;
+	virtual GLdouble getX()const;
+	virtual GLdouble getY()const;
+	virtual GLdouble getZ()const;
+   GLdouble getXtilt()const;
+   GLdouble getYtilt()const;
+   GLdouble getZtilt()const;
 
 // Inquiry
 
