@@ -11,10 +11,10 @@
 #include "GLMap.h"
 
 
-static GLfloat LightAmbient[]=	   { 0.2f, 0.2f, 0.2f, 1.0f };
+static GLfloat LightAmbient[]=	   { 0.8f, 0.8f, 0.8f, 1.0f };
 static GLfloat LightDiffuse[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
-static GLfloat LightPosition[]=	   { 0.0f, 10.0f, 10.0f, 1.0f };
-static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
+static GLfloat LightPosition[]=	   { 0.0f, 10.0f, 2.0f, 1.0f };
+//static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
 
 GLvoid LoadGLTextures();
 
@@ -30,11 +30,14 @@ int GLDraw(const GLPlayer &Player1){
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   map1.draw();
-   Player1.draw();
-   SDL_GL_SwapBuffers();
+  glLoadIdentity();
+  glMatrixMode(GL_MODELVIEW);
 
-  //  SDL_GL_SwapBuffers();
+
+  map1.draw();
+  Player1.draw();
+  SDL_GL_SwapBuffers();
+
   return 0;
 
 }
@@ -58,7 +61,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
   glViewport(0, 0, Width, Height); 
 
-  glClearColor(0.67f, 0.76f, 0.86f, 0.0f);        
+  glClearColor(0.57f, 0.60f, 0.66f, 0.5f);        
   glClearDepth(1.0);                         
 
   glEnable(GL_TEXTURE_2D);	
@@ -67,7 +70,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
   glLineWidth(10);                   
 
-  glShadeModel(GL_SMOOTH);                   
+                  
   glMatrixMode(GL_PROJECTION);
 
   glLoadIdentity();                            
@@ -80,16 +83,20 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glFrontFace( GL_CCW );
   glEnable( GL_CULL_FACE );
 
-  glLightfv(GL_LIGHT0, GL_AMBIENT, LightAmbient);		
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, LightDiffuse);
-  glLightfv(GL_LIGHT0, GL_POSITION,LightPosition);	
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
-  // glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+  glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);		
+  glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);
+  glLightfv(GL_LIGHT1, GL_POSITION,LightPosition);	
+  // glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_amb);
+
+
 
   glEnable(GL_BLEND);
+
   glEnable(GL_DEPTH_TEST); 
+
   glDepthFunc(GL_LEQUAL); 
-  glEnable(GL_LIGHT0);
+
+  glEnable(GL_LIGHT1);
   glEnable(GL_COLOR_MATERIAL);	
   glEnable(GL_LIGHTING);
 
@@ -171,7 +178,7 @@ GLvoid LoadGLTextures()
     glGenTextures(3, &texture[0]);
 
     glBindTexture(GL_TEXTURE_2D, texture[0]);
-    
+  
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
@@ -191,7 +198,7 @@ GLvoid LoadGLTextures()
 
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); 
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST); 
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, texture1->w, texture1->h, 0, GL_RGB, GL_UNSIGNED_BYTE, texture1->pixels);
+    // glTexImage2D(GL_TEXTURE_2D, 0, 3, texture1->w, texture1->h, 0, GL_RGB, GL_UNSIGNED_BYTE, texture1->pixels);
 
     gluBuild2DMipmaps(GL_TEXTURE_2D, 3, texture1->w, texture1->h, GL_RGB, GL_UNSIGNED_BYTE, texture1->pixels);
 

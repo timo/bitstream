@@ -105,6 +105,8 @@ static GLuint tindices[42] = {
 void
 GLPlayer::draw()const{
 
+  //glLoadIdentity();
+
   glPushMatrix();
 
   glTranslatef(this->getX(),this->getY(),this->getZ());
@@ -130,8 +132,8 @@ GLPlayer::draw()const{
   }
   glEnd();
 
-  glPopMatrix();
 
+  glPopMatrix();
 
 
 #ifdef DEBUG
