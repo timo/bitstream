@@ -103,9 +103,9 @@ BSM::FindNormal( GLuint i, GLfloat *normals){
 
   mag = sqrt(tempx*tempx + tempy*tempy + tempz*tempz);
 
-  *normals = tempx/mag;
-  *(normals+sizeof(GLfloat)) = tempy/mag;
-  *(normals+2*sizeof(GLfloat)) = tempz/mag;
+  normals[0] = tempx/mag;
+  normals[1] = tempy/mag;
+  normals[2] = tempz/mag;
 
 
 }
@@ -129,9 +129,9 @@ BSM::draw(){
 	
 	for (unsigned i=0; i<m_ptrPoints.size(); i=i+3){	  
 	  FindNormal(i, ntemp);
-	  m_normals[i+0] = *ntemp;
-	  m_normals[i+1] = *(ntemp + sizeof(GLfloat));
-	  m_normals[i+2] = *(ntemp + 2*sizeof(GLfloat));
+	  m_normals[i+0] = ntemp[0];
+	  m_normals[i+1] = ntemp[1];
+	  m_normals[i+2] = ntemp[2];
 	}
 
 	foundnormals = 1;
