@@ -39,12 +39,14 @@ public:
 // Operator
    
    GLPlayer&   operator=(const GLPlayer&);     // assignment operator
-	void draw();
+
 
 // Operations
 
 	void move(const GLint &x=0, const GLint &y=0, const GLint &z=0);
 	void setVel(const GLdouble &x=0, const GLdouble &y=0);
+	void draw()const;
+	void collide();
 
 // Access
 

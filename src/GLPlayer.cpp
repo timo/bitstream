@@ -40,6 +40,8 @@ GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
 #ifdef DEBUG
   cout << "GLPlayer created" << endl;
 #endif
+  m_dOverrideY=0;
+  m_dOverrideX=0;
 
 }// GLPlayer
 
@@ -78,12 +80,11 @@ GLPlayer::operator=(const GLPlayer&rhs)
 
 
 void
-GLPlayer::draw(){
+GLPlayer::draw()const{
 
   //glLoadIdentity();
 
-  double y_Lheight, xwing, ywing;
-  double y_Rheight;
+
 
   glPushMatrix();
 
@@ -97,12 +98,41 @@ GLPlayer::draw(){
     glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
   }
 
+
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, playerSkin.getID());
+
+  glColor4f(0.31f, 0.35f, 0.45f, 0.8f);
+
+  player.draw();
+
+
+  glDisable(GL_TEXTURE_2D);
+
+  glPopMatrix();
+
+
+
+}
+
+
+void
+GLPlayer::collide(){
+
+  double y_Lheight, xwing, ywing;
+  double y_Rheight, y_Fheight, nose;
+  bool collide;
+
   ywing = 2*cos(-m_dXvel*0.3*DEGTORAD);
   xwing = 2*sin(-m_dXvel*0.3*DEGTORAD);
+  nose = 6*sin(m_dYvel*0.3*DEGTORAD);
 
   y_Lheight = this->getY() - xwing - ywing;
   y_Rheight = this->getY() + xwing - ywing;
+  y_Fheight = this->getY() + nose;
 
+
+  //ground collision
 
   if(y_Lheight < -5.0)
     {
@@ -116,21 +146,13 @@ GLPlayer::draw(){
       // m_dXvel = 0;
     }
 
-  glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, playerSkin.getID());
-
-  glColor4f(0.31f, 0.35f, 0.45f, 0.5f);
-
-  player.draw();
-
-  glDisable(GL_TEXTURE_2D);
-
-  glPopMatrix();
-
-
-
+  if(y_Fheight < -5.0)
+    {
+      m_dOverrideY = 12;
+      m_dYvel=0;
+      // m_dXvel = 0;
+    }
 }
-
 
 void 
 GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
@@ -168,7 +190,8 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
   
   // Y Speed manipulation
   
-  if(m_dOverrideY){
+  if(m_dOverrideY != 0){
+
 
     m_dYvel += m_dOverrideY;
 
