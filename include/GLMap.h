@@ -1,6 +1,6 @@
 /* -*- Mode: C++; tab-width: 3; indent-tabs-mode: t; c-basic-offset: 3 -*- */
 
-/*
+/* 
    Bitstream:  An OpenGL Space Action Game
    http://icculus.org/bitstream/
 
