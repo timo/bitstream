@@ -9,6 +9,8 @@
 ///////////////////////////////////////////////////////////////////////////
 #ifndef _BSM_h_
 #define _BSM_h_
+#include <vector>
+#include <GL/gl.h>
 
 // System Includes
 //
@@ -45,7 +47,7 @@ public:
 	void draw();
 	bool LoadBSM(char *filename);
 	void addVertex(const double &);
-	void addPoint(const double &);
+	void addPoint(const int &);
 	unsigned size()const;
 
 
@@ -57,14 +59,13 @@ protected:
 // Protected Methods
 private:
 
-	double *m_ptrVertex;        //Vertex array
-   double *m_ptrPoints;      //which vertex
-	unsigned m_uVSize;
-	unsigned m_uPSize;
+	vector< float > m_ptrVertex;        //Vertex array
+   vector< int > m_ptrPoints;      //which vertex
+	vector< vector <int> > m_vBSM;
 
 // Private Methods
 
-	int resize(const unsigned &, const unsigned &flag , unsigned &);
+	GLvoid FindNormal( GLuint i, GLfloat *normals);
 
 //////////////////Removed
 };

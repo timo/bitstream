@@ -16,6 +16,8 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 #define MAXDIG 5
 
@@ -24,10 +26,6 @@
 //============================= Lifecycle ====================================
 
 BSM::BSM()
-  :m_ptrVertex(NULL),
-   m_ptrPoints(NULL),
-   m_uVSize(0),
-   m_uPSize(0)
 {
 }// BSM
 
@@ -56,12 +54,65 @@ BSM::operator=(const BSM&rhs)
 
 }// =
 
+GLvoid 
+BSM::FindNormal( GLuint i, GLfloat *normals){
+
+  GLuint x=0;
+  GLuint y=1;
+  GLuint z=2;
+  GLfloat v1[3],v2[3];
+  GLfloat mag, tempx, tempy, tempz;
+
+  v1[x] = m_ptrVertex[(m_ptrPoints[i])*3] - m_ptrVertex[(m_ptrPoints[i+y])*3];
+  v2[x] = m_ptrVertex[(m_ptrPoints[i])*3] - m_ptrVertex[(m_ptrPoints[i+z])*3];
+  v1[y] = m_ptrVertex[(m_ptrPoints[i])*3+1] - m_ptrVertex[(m_ptrPoints[i+y])*3+1];
+  v2[y] = m_ptrVertex[(m_ptrPoints[i])*3+1] - m_ptrVertex[(m_ptrPoints[i+z])*3+1];
+  v1[z] = m_ptrVertex[(m_ptrPoints[i])*3+2] - m_ptrVertex[(m_ptrPoints[i+y])*3+2];
+  v2[z] = m_ptrVertex[(m_ptrPoints[i])*3+2] - m_ptrVertex[(m_ptrPoints[i+z])*3+2];
+
+  // fprintf(stderr,"%f   %f   \n", m_ptrVertex[(indices[i])*3], m_ptrVertex[(indices[i+y])*3]);
+
+  tempx = v1[y]*v2[z] - v1[z]*v2[y];
+  tempy = -v1[x]*v2[z] + v1[z]*v2[x];
+  tempz = v1[x]*v2[y] - v1[y]*v2[x];
+
+  mag = sqrt(tempx*tempx + tempy*tempy + tempz*tempz);
+
+  *normals = tempx/mag;
+  *(normals+sizeof(GLfloat)) = tempy/mag;
+  *(normals+2*sizeof(GLfloat)) = tempz/mag;
+
+
+}
 
 
 void 
 BSM::draw(){
 
-  cout << "Nothing Yet." << endl;
+
+  GLfloat normal[3];
+  GLfloat *ntemp = new GLfloat[3];
+
+  glColor3f(0.5f, 0.5f, 0.5f);
+
+  glBegin(GL_TRIANGLES);
+  for (unsigned i=0; i<m_ptrPoints.size(); i=i+3){
+
+
+    FindNormal(i, ntemp);
+    normal[0] = *ntemp;
+    normal[1] = *(ntemp + sizeof(GLfloat));
+    normal[2] = *(ntemp + 2*sizeof(GLfloat));
+    glNormal3fv(normal);
+
+    glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+0]-1)*3]);
+    glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+1]-1)*3]);
+    glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+2]-1)*3]);
+
+  }
+  glEnd();
+  
+  delete ntemp;
 
 }
 
@@ -77,9 +128,11 @@ BSM::LoadBSM(char *filename){
     return false;
   }
   
-  //  while(myFile.peek() == '#'){
-  //
-  // }
+    while(file.peek() == '#'){
+  
+      file.getline(cTemp, MAXDIG);
+
+  }
 
   while(file.get() != '<' ){
   }
@@ -89,192 +142,63 @@ BSM::LoadBSM(char *filename){
 
     if(file.peek() != ' ' && file.peek() != '\n' && file.peek() != '>' ){
       for(int i=0; i < MAXDIG; i++){
-	cTemp[i]=0;
+	cTemp[i]=' ';
       }
-      counter = MAXDIG-1;
-      while(file.peek() != ',' && counter >= 0){
+      cTemp[MAXDIG-1]='\0';
+      counter = 0;
+      while(file.peek() != ',' && file.peek() != '>' && counter < MAXDIG){
 	cTemp[counter] = file.get();
-       	cout << counter << endl;
-	counter--;
+	counter++;
       }
 
       dTemp = atof(cTemp);
-      cout << dTemp << endl;  
-      addVertex(dTemp);
-
+      cout << dTemp << " ";  
+       m_ptrVertex.push_back(dTemp);
+      
     }
   }  
 
-  cout << "First Part" << endl;
+  cout << "\n" << endl;
 
   while(file.get() != '[' ){
   }
 
-  while( file.get() != ']' || !file.eof()){
+  while( file.get() != ']'){
 
-    if(file.peek() != ' ' && file.peek() != '\n'){
+    if(file.peek() != ' ' && file.peek() != '\n' && file.peek() != ']' ){
+      for(int i=0; i < MAXDIG; i++){
+	cTemp[i]=' ';
+      }
 
-    file.get(cTemp, 5, ',');
+      cTemp[MAXDIG-1]='\0';
+      counter = 0;
 
-    dTemp = atof(cTemp);
+      while(file.peek() != ',' && file.peek() != ']' && counter < MAXDIG){
+	cTemp[counter] = file.get();
+	counter++;
+      }
 
-      cout << dTemp << endl;  
-      addPoint(dTemp);
+      dTemp = atoi(cTemp);
+      cout << dTemp << " "; 
+      m_ptrPoints.push_back(dTemp);
     }
-  }  
 
+
+ 
+  }
+
+  cout << endl;
   file.close();
-
+  delete cTemp;
   return true;
   
 }
 
 
 
-void 
-BSM::addVertex(const double &vertex){
+// //============================= Operations ===================================
+// //============================= Access      ==================================
+// //============================= Inquiry    ===================================
+// /////////////////////////////// Protected Methods ////////////////////////////
 
-  if(resize(m_uVSize+1, 0, m_uVSize)){    // Make sure we get memory
-    cout << "memory allocation failed, the number: "<< vertex
-	 << "was not inserted into the set" << endl;       
-  }
-  
-  else{
-    m_ptrVertex[m_uVSize-1]=vertex;         // If it is, set it
-  }
-
-}
-
-void 
-BSM::addPoint(const double &point){
-
-  if(resize(m_uPSize+1, 1 , m_uPSize)){    // Make sure we get memory
-    cout << "memory allocation failed, the number: "<< point
-	 << "was not inserted into the set" << endl;       
-  }
-  
-  else{
-    m_ptrPoints[m_uPSize-1]=point;         // If it is, set it
-  }
-
-}
-
-
-
-int
-BSM::resize(const unsigned &Uns, const unsigned &flag, unsigned &counter){
-
-  unsigned place=0;
-  double *tmpPointer = new double[Uns];
-
-  if(!tmpPointer){
-    return 1; //Allocation failed!
-  }
-
-  if(flag==0){
-    if(Uns == 0) {         //See if it is resize to zero or 
-      if(m_ptrVertex){
-	delete [] m_ptrVertex;
-      }
-      m_ptrVertex = NULL;
-      counter = Uns;
-
-    }
-
-    for(unsigned i=0; i<Uns; i++){   //Constructor sets all values to 0
-      tmpPointer[i]=0;
-    }
-
-    if(counter < Uns){
-      while(place < counter){
-
-	tmpPointer[place] = m_ptrVertex[place];
-
-	place++;
-
-      }
-    }
-
-    place = 0;
-
-    if(counter >= Uns){
-      while(place < Uns){
-	tmpPointer[place] = m_ptrVertex[place];
-
-	place++;
-      }
-    }
-
-
-    if(m_ptrVertex){
-      delete [] m_ptrVertex;
-    }
-
-    m_ptrVertex = tmpPointer;
-  }
-
-
-  if(flag==1){
-
-    if(Uns == 0) {         //See if it is resize to zero or 
-      if(m_ptrPoints){
-	delete [] m_ptrPoints;
-      }
-      m_ptrPoints = NULL;
-      counter = Uns;
-
-    }
-
-    for(unsigned i=0; i<Uns; i++){   //Constructor sets all values to 0
-      tmpPointer[i]=0;
-    }
-
-    if(counter < Uns){
-      while(place < counter){
-
-	tmpPointer[place] = m_ptrPoints[place];
-
-	place++;
-
-      }
-    }
-
-    place = 0;
-
-    if(counter >= Uns){
-      while(place < Uns){
-	tmpPointer[place] = m_ptrPoints[place];
-
-	place++;
-      }
-    }
-
-
-    if(m_ptrPoints){
-      delete [] m_ptrPoints;
-    }
-
-    m_ptrPoints = tmpPointer;
-
-  }
-
-  counter = Uns;
-
-  return 0;
-
-}
-
-unsigned
-BSM::size()const
-{
-
-  return m_uVSize;
-
-}
-
-//============================= Operations ===================================
-//============================= Access      ==================================
-//============================= Inquiry    ===================================
-/////////////////////////////// Protected Methods ////////////////////////////
-
-/////////////////////////////// Private   Methods ////////////////////////////
+// /////////////////////////////// Private   Methods ////////////////////////////

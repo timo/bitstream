@@ -93,14 +93,6 @@ GLint
 GLEntity::shift(const GLdouble &xvel,const GLdouble &yvel, const GLdouble &zvel )
 {
   if(m_idraw==1){
-
-//     // Bad hack because I'm getting 0 draw time with SDL_GetTicks()
-
-//     if(m_dThisTime >= SDL_GetTicks())
-//       {
-//       	m_dThisTime += 11;
-//       }
-//     else{
       
       m_dThisTime = SDL_GetTicks();
       //    }

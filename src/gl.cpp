@@ -21,9 +21,10 @@ static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
 static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
 
 
-//MD2 player;
+//BSM player;
 
 BSM player;
+
 Texture playerSkin;
 Texture gndSkin;
 Texture skySkin;
@@ -44,6 +45,7 @@ int GLDraw(const GLPlayer &Player1){
   glMatrixMode(GL_MODELVIEW);
 
   map1.draw();
+
   Player1.draw();
 
   SDL_GL_SwapBuffers();
@@ -59,7 +61,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
 
   //Textures
-  playerSkin.LoadPCX ("data/player/player.pcx", GL_LINEAR, GL_LINEAR);
+  //  playerSkin.LoadPCX ("data/player/player.pcx", GL_LINEAR, GL_LINEAR);
   gndSkin.LoadBMP("data/ground.bmp", GL_LINEAR, GL_LINEAR);
   skySkin.LoadBMP("data/sky.bmp", GL_LINEAR, GL_LINEAR);
 
@@ -83,12 +85,12 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glMatrixMode(GL_MODELVIEW);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-//   glPolygonMode (GL_FRONT, GL_FILL);
-//   glPolygonMode (GL_BACK, GL_FILL);
+  // glPolygonMode (GL_FRONT, GL_FILL);
+  //  glPolygonMode (GL_BACK, GL_FILL);
 
-//    glCullFace( GL_BACK );
-//    glFrontFace( GL_CCW );
-//    glEnable( GL_CULL_FACE );
+  //   glCullFace( GL_BACK );
+  //   glFrontFace( GL_CCW );
+  //   glEnable( GL_CULL_FACE );
 
   glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);		
   glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);

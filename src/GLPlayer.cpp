@@ -85,14 +85,13 @@ GLPlayer::draw()const{
 
   glTranslatef(this->getX(),this->getY(),this->getZ());
 
-  glRotatef(-(double)m_dXvel*0.3, 0.0f, 0.0f, 1.0f);
-  glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
+   glRotatef(-(double)m_dXvel*0.3, 0.0f, 0.0f, 1.0f);
+   glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
 
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, playerSkin.getID());
 
-  glScalef(0.05f, 0.05f, 0.05f);
-  glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+  //  glScalef(0.05f, 0.05f, 0.05f);
 
   player.draw();
 
