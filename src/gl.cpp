@@ -19,7 +19,7 @@ jm@icculus.org
 #include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/glx.h>
+// #include <GL/glx.h>
 #include <SDL/SDL.h>
 #include <math.h>
 #include <string>

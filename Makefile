@@ -6,9 +6,11 @@ SRCDIR = src
 SRCS = src/main.cpp src/GLEntity.cpp src/GLPlayer.cpp src/events.cpp src/GLMap.cpp src/gl.cpp src/Texture.cpp src/BSM.cpp src/BSMPiece.cpp src/GLShot.cpp
 
 CXX     = g++
-CFLAGS  = -g   -Wall  -ansi -DDEBUG
+CFLAGS  = -g  -Wall -ansi -DDEBUG
 INCLUDE = -I. -Iinclude
-LDFLAGS = -Llib -L$(CYGWIN_DIR)/lib -lGL -lGLU `sdl-config --libs`
+LDFLAGS = -Llib -L$(CYGWIN_DIR)/lib -lGL -lGLU 
+
+# `sdl-config --libs`
 
 #############################################################################################
 # you should not need to edit anything below this line
