@@ -131,12 +131,12 @@ GLPlayer::draw()const{
 
   if(!m_collide)
     {
-       glDisable(GL_BLEND);
+      //       glDisable(GL_BLEND);
     }
   if(m_collide){
     
-       glColor4f(1.0f,1.0f,1.0f,1.0f);
-       glEnable(GL_BLEND);
+    //glColor4f(1.0f,1.0f,1.0f,1.0f);
+    //       glEnable(GL_BLEND);
 
   }
   

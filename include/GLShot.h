@@ -86,6 +86,7 @@ private:
 	GLdouble m_yPos;
 	GLdouble m_zPos;
 	GLdouble m_rho;
+	int m_SourceExplosion;
    Uint32 m_lastTime;
 
 

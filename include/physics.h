@@ -24,7 +24,7 @@ struct velocity{
 
 struct acceleration{
 
-	GLdouble x;
+	GLdouble x; 
 	GLdouble y;
 	GLdouble z;
 

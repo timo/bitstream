@@ -27,7 +27,8 @@ jm@icculus.org
 #include "GLEntity.h"
 #include "GLPlayer.h"
 #include "GLMap.h"
-#include "GLShot.h"	
+#include "GLShot.h"
+	
 
 using namespace std;
 

@@ -99,7 +99,9 @@ GLMap::draw()const{
       // glBindTexture(GL_TEXTURE_2D, texture[2]);
 
       glBindTexture(GL_TEXTURE_2D, gndSkin.getID());
-      // FIXME This lighting doesn't even make sense
+
+      glDisable(GL_LIGHTING);
+      glDisable(GL_DEPTH_TEST);
 
       glBegin(GL_QUADS);
       int x=0;
@@ -130,7 +132,7 @@ GLMap::draw()const{
       
       glEnd();
 
-
+  
       glBindTexture(GL_TEXTURE_2D, skySkin.getID());
       glBegin(GL_QUADS);
 
@@ -147,6 +149,10 @@ GLMap::draw()const{
 
       glEnd();
       glDisable(GL_TEXTURE_2D);
+
+      glEnable(GL_LIGHTING);
+      glEnable(GL_DEPTH_TEST);
+
       glFlush();
 
       

@@ -40,7 +40,6 @@ jm@icculus.org
 
 using namespace std;
 
-// static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
 
 
 
@@ -88,7 +87,6 @@ int GLDraw(GLPlayer &Player1){
   glPushMatrix();  // Things affected by perspective
   map1.draw();
 
-  //   firstcube.draw();
    if(once==0){
      entityiter=entityptr.end();
      *entityiter = new en_cube(0, 0, -40);
@@ -98,18 +96,15 @@ int GLDraw(GLPlayer &Player1){
 
   for (entityiter=entityptr.begin();entityiter!=entityptr.end();entityiter++){
     (*entityiter)->draw();
+      glColor4f(0.0, 0.0, 0.0, 1.0);
     if(!((*entityiter)->isAlive())){
       delete *entityiter;
       entityptr.erase(entityiter--);  // Take it out of the list
 
     }
   }
-    
-
   
   Player1.collide();  // Player stuff
-  glEnable(GL_BLEND);
-
 
   if(player.getDamage()>0){
     Player1.draw();
@@ -124,11 +119,11 @@ int GLDraw(GLPlayer &Player1){
     }
   glPopMatrix();
   //TEXT
-  glColor3f(0.5, 0.5, 0.8);
 
+  glColor4f(0.5, 0.5, 0.8, 1.0);
   glTranslatef(0.0f,0.0f,-1.0f);
   glRasterPos2f( -0.5f, 0.36f );				       
-    glPrint("Bitstream pre-Alpha");
+  glPrint("Bitstream pre-Alpha");
 
   //FPS
     Frames++;
@@ -146,7 +141,7 @@ int GLDraw(GLPlayer &Player1){
   glPrint("fps: %3.2f", fps);
 
   glRasterPos2f( -0.5f, -0.4f );
-  glColor3f(1.0f, 1.0f, 1.0f);
+
 
   if(player.getDamage()>0){
        glPrint("Health: %3.0f", player.getDamage());
@@ -195,7 +190,15 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
   glLoadIdentity(); 
 
-  GLfloat LightAmbient[]=	   { 0.8f, 0.8f, 0.8f, 1.0f };
+  GLfloat mat_ambient[]=  { 0, 0, 0, 1.0};
+  GLfloat mat_specular[]=  { 0.0, 0.0, 0.0, 1.0};
+  GLfloat mat_shininess[] = { 50.0 };
+
+  glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+  glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
+  GLfloat LightAmbient[]=	   { 0.5f, 0.5f, 0.5f, 1.0f };
   GLfloat LightDiffuse[]=	   { 0.5f, 0.5f, 0.5f, 1.0f };
   GLfloat LightPosition[]=	   { 0.0f, 10.0f, -20.0f, 1.0f };
 
@@ -211,12 +214,14 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
   glBlendFunc(GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_BLEND);
+
 
   glPolygonMode (GL_FRONT, GL_FILL);
   glPolygonMode (GL_BACK, GL_FILL);
 
-  glCullFace( GL_BACK );
-  glFrontFace( GL_CCW );
+  // glCullFace( GL_BACK );
+  // glFrontFace( GL_CCW );
   // glEnable( GL_CULL_FACE );
 
 	

@@ -35,6 +35,8 @@ jm@icculus.org
 #include "Texture.h"
 #include "BSM.h"
 #include "GLPlayer.h"
+#include "physics.h"
+#include "effects.h"
 
 using namespace std;
 
@@ -51,7 +53,7 @@ GLShot::GLShot()
    m_rho(0),
    m_lastTime(0)
 {
-
+  m_SourceExplosion = 0;
   shot.LoadBSM ("data/player/shot.bsm");
 
 }// GLShot
@@ -100,13 +102,20 @@ GLShot::draw(){
     m_yAngle = -2.2*(playerptr->getXtilt()) ;
   }
 
+  position source;
+  source.x = m_xBase;
+  source.y = m_yBase;
+  source.z = -18;
+
+  explosion(source, 0.5, 0.5, m_SourceExplosion);
+
   // cout << m_xBase << "," << m_yBase << endl;
 
     m_rho += (SDL_GetTicks() - m_lastTime)/20.0 * m_Vel;
 
   glTranslatef(0.0f, 0.0f, -18);
 
-   glTranslatef(m_xBase, m_yBase, 0.0f);
+  glTranslatef(m_xBase, m_yBase, 0.0f);
 
   glRotatef(m_xAngle, 1.0f, 0.0f, 0.0f);
   glRotatef(m_yAngle, 0.0f, 1.0f, 0.0f);
