@@ -130,7 +130,9 @@ int GLDraw(GLPlayer &Player1){
     }
     
     if(!((*entityiter)->isAlive())){
-      delete *entityiter;
+      if(!((*entityiter)->isPlayer())){
+	delete *entityiter;
+      }      
       entityptr.erase(entityiter--);  // Take it out of the list
     } 
 
