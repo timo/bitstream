@@ -116,6 +116,13 @@ en_cube::en_idle()
     m_Acceleration.z *= -1;
   }
 
+  //  cout << m_Position.z << endl;
+  if(m_Position.z < -60){
+    if(m_Acceleration.z < 0){
+      m_Acceleration.z *= -1;
+    }
+  }
+
   UpdateVelocity(m_Velocity, m_Acceleration, deltatime);
   UpdatePosition(m_Position, m_Velocity, deltatime);
 

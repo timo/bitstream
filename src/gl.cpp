@@ -89,13 +89,13 @@ int GLDraw(GLPlayer &Player1){
   glPushMatrix();  // Things affected by perspective
   map1.draw();
 
-  if(SDL_GetTicks() - cubetime > 5000){
+  if(SDL_GetTicks() - cubetime > 3000){
     once = 0;
   }
   
    if(once==0){
      entityiter=entityptr.end();
-     *entityiter = new en_cube(0, 0, -40);
+     *entityiter = new en_cube(0, 0, -200);
      entityptr.push_back(*entityiter);
      cubetime = SDL_GetTicks();
      once = 1;
