@@ -51,7 +51,7 @@ extern Texture playerSkin;
 
 GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
   :GLEntity(x, y, z),
-   m_dThistime(0),
+   m_dLasttime(0),
    hitTime(0)
 {
 
@@ -205,15 +205,18 @@ GLPlayer::collide(){
 void 
 GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
 
-  if(!m_dThistime){ m_dThistime= SDL_GetTicks();}
+  if(!m_dLasttime){ m_dLasttime= SDL_GetTicks();}
 
-  GLdouble deltatime = SDL_GetTicks() - m_dThistime;
+  GLdouble deltatime = (double)(SDL_GetTicks() - m_dLasttime)/8.0;
+
+  m_dLasttime = SDL_GetTicks();
 
   // X Speed manipulation
 
   if(x==1){
     
     //FIXME acceleration may be different on some machines
+    //FIXED
 
     if(m_dXvel < MAXSPEED){
       m_dXvel += ACCEL*deltatime;
@@ -253,7 +256,7 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
       m_dOverrideY = -2;
     }
 
-    if( fabs(m_dYvel) <  0.7 ){
+    if( fabs(m_dYvel) <  1.0 ){
       m_dOverrideY=0;
     }
 
