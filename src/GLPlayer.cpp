@@ -211,11 +211,11 @@ GLPlayer::collide(){
 void 
 GLPlayer::move(const GLint &x, const GLint &y, const GLint &z){
 
-  if(!m_dLasttime){ m_dLasttime= SDL_GetTicks();}
+  if(!m_dLasttime){ m_dLasttime= (double)SDL_GetTicks();}
 
   GLdouble deltatime = (double)(SDL_GetTicks() - m_dLasttime);
 
-  m_dLasttime = SDL_GetTicks();
+  m_dLasttime = (double)SDL_GetTicks();
 
   // X Speed manipulation
 

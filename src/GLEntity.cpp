@@ -133,19 +133,19 @@ GLEntity::shift(const GLdouble &xvel,const GLdouble &yvel, const GLdouble &zvel 
 {
   if(m_idraw==1){
       
-      m_dThisTime = SDL_GetTicks();
+      m_dThisTime = (double)SDL_GetTicks();
       //    }
 
     if(m_dX < 5 && m_dX > -5 || (m_dX >= 5 && xvel <=0) 
        || (m_dX <= -5 && xvel >=0)){ 
-      m_dX += ((double)m_dThisTime-m_dLastTime)/1000 * xvel/10;
+      m_dX += (m_dThisTime-m_dLastTime)/1000 * xvel/10;
     }
   
     if(m_dY < 4 && m_dY > -2.5 || (m_dY >= 4 && yvel <=0) 
        || (m_dY <= -2.5 && yvel >=0)){ 
-      m_dY += ((double)m_dThisTime-m_dLastTime)/1000 * yvel/10;
+      m_dY += (m_dThisTime-m_dLastTime)/1000 * yvel/10;
     }
-    m_dZ += ((double)m_dThisTime-m_dLastTime)/1000 * zvel/10;
+    m_dZ += (m_dThisTime-m_dLastTime)/1000 * zvel/10;
   
     m_dLastTime = m_dThisTime;
     
