@@ -68,6 +68,8 @@ public:
 
 // Inquiry
 
+	virtual bool isAlive();
+
 protected:
 // Protected Methods
 private:
