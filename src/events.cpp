@@ -112,29 +112,37 @@ int process_events(GLPlayer &Player1)
 
       case SDL_KEYDOWN:
 
-	if(event.key.state == SDL_PRESSED && event.key.keysym.sym == SDLK_LEFT){
+	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_LEFT){
 
 	  keyx=-1;
 
 	}
 
-	if(event.key.state == SDL_PRESSED && event.key.keysym.sym == SDLK_RIGHT){
+	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_RIGHT){
 
 	  keyx=1;
 
 	}
 
-	if(event.key.state == SDL_PRESSED && event.key.keysym.sym == SDLK_UP){
+	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_UP){
 
 	  keyy=-1;
 
 	}
 
-	if(event.key.state == SDL_PRESSED && event.key.keysym.sym == SDLK_DOWN){
+	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_DOWN){
 
 	  keyy=1;
 
 	}
+
+	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_SPACE){
+	    entityiter=entityptr.end();
+	    *entityiter = new GLShot;
+	    entityptr.push_back(*entityiter);
+
+	}
+	   
 
 	x=keyx;
 	y=keyy;

@@ -253,7 +253,7 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
     m_dYvel += m_dOverrideY;
 
     if(m_dYvel > MAXSPEED){
-      m_dOverrideY = -2;
+      m_dOverrideY = -2*deltatime;
     }
 
     if( fabs(m_dYvel) <  1.0 ){

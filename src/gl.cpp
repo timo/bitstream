@@ -89,8 +89,7 @@ int GLDraw(GLPlayer &Player1){
     (*entityiter)->draw();
     if(!((*entityiter)->isAlive())){
       delete *entityiter;
-      cout << "Deleted" << endl;
-      entityptr.erase(entityiter--);  
+      entityptr.erase(entityiter--);  // Take it out of the list
 
     }
   }
