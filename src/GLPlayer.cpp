@@ -213,7 +213,7 @@ GLPlayer::move(const GLint &x, const GLint &y, const GLint &z){
 
   if(!m_dLasttime){ m_dLasttime= (double)SDL_GetTicks();}
 
-  GLdouble deltatime = (double)(SDL_GetTicks() - m_dLasttime);
+  GLdouble deltatime =( (double)SDL_GetTicks() - m_dLasttime);
 
   m_dLasttime = (double)SDL_GetTicks();
 
