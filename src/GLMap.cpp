@@ -75,7 +75,7 @@ GLMap::draw()const{
   int x=0;
   for(int z=0; z <= 20; z++  ){
 
-    glColor3f(z*0.1f+0.1f, z*0.1f+0.1f, z*0.1f+0.1f);
+    glColor3f(z*0.1f+0.2f, z*0.1f+0.2f, z*0.1f+0.2f);
 
       glNormal3f(0.0f, 1.0f, 0.0f);
   
@@ -84,7 +84,7 @@ GLMap::draw()const{
           glTexCoord2f(5.0f, 0.0f+x*0.1+dZ);    
       glVertex3f( 150.0f, -5.0f, z*(-5.0f));
 
-    glColor3f(z*0.1f+ 0.15f, z*0.1f+0.15f, z*0.1f+0.15f);
+    glColor3f(z*0.1f+ 0.25f, z*0.1f+0.25f, z*0.1f+0.25f);
 
           glTexCoord2f(5.0f, 0.1f+x*0.1+dZ);    
       glVertex3f( 150.0f, -5.0f, z*(-5.0f)-5.0f);
@@ -94,10 +94,19 @@ GLMap::draw()const{
       if(x==10){x=0;}
   }
 
+
+
+
+  glColor3f(1.0f, 1.0f, 1.0f);
+  glNormal3f(0.0f, 0.0f, 1.0f);
+  glVertex3f(-150.0f, -5.0f, -95.0f);
+  glVertex3f(150.0f, -5.0f, -95.0f);
+  glVertex3f(150.0f, 10.0f, -95.0f);
+  glVertex3f(-150.0f, 10.0f, -95.0f);
+
   dZ+=0.007;
 
   glEnd();
-
   glDisable(GL_TEXTURE_2D);
   glFlush();
   glPopMatrix();

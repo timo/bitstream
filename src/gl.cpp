@@ -11,10 +11,11 @@
 #include "GLMap.h"
 
 
-static GLfloat LightAmbient[]=	   { 0.8f, 0.8f, 0.8f, 1.0f };
+static GLfloat LightAmbient[]=	   { 0.9f, 0.9f, 0.9f, 1.0f };
 static GLfloat LightDiffuse[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
 static GLfloat LightPosition[]=	   { 0.0f, 10.0f, 2.0f, 1.0f };
 //static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
+static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
 
 GLvoid LoadGLTextures();
 
@@ -61,7 +62,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
   glViewport(0, 0, Width, Height); 
 
-  glClearColor(0.57f, 0.60f, 0.66f, 0.5f);        
+  glClearColor(0.67f, 0.70f, 0.76f, 0.5f);        
   glClearDepth(1.0);                         
 
   glEnable(GL_TEXTURE_2D);	
@@ -102,7 +103,16 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
  
+  // Fog stuff
 
+  glFogi(GL_FOG_MODE, GL_LINEAR);
+  glFogfv(GL_FOG_COLOR, fogColor);
+  glFogf(GL_FOG_DENSITY, 1.0);
+  glHint(GL_FOG_HINT, GL_DONT_CARE);
+  glFogf(GL_FOG_START, 50.0);
+  glFogf(GL_FOG_END, 90.0);
+
+  glEnable(GL_FOG);
 
 }
 
