@@ -8,7 +8,7 @@ SRCS = src/main.cpp src/GLEntity.cpp src/GLPlayer.cpp src/events.cpp src/GLMap.c
 CXX     = g++
 CFLAGS  = -g   -Wall  -ansi -DDEBUG
 INCLUDE = -I. -Iinclude
-LDFLAGS = -Llib -rdynamic -L$(CYGWIN_DIR)/lib -lGL -lGLU -ldl `sdl-config --libs`
+LDFLAGS = -Llib  -lGL -lGLU -lm `sdl-config --libs`
 
 #############################################################################################
 
