@@ -52,9 +52,6 @@ int process_events(GLPlayer &Player1)
       switch (event.type) {
 	
       case SDL_MOUSEBUTTONDOWN:
-	printf("Mouse button %d pressed at (%d,%d)\n",
-	       event.button.button, event.button.x, event.button.y);
-	break;
 
       case SDL_QUIT:
 	return 1;
@@ -98,11 +95,11 @@ int process_events(GLPlayer &Player1)
       case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
 	if ( event.jbutton.button == 0 )
 	  {
-
+  if(Player1.isAlive()){
 	    entityiter=entityptr.end();
 	    *entityiter = new GLShot;
 	    entityptr.push_back(*entityiter);
-
+  }
 	  }
 
 	x=joyx;
@@ -136,11 +133,13 @@ int process_events(GLPlayer &Player1)
 
 	}
 
-	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_SPACE){
+	if(event.key.state == SDL_PRESSED & event.key.keysym.sym == SDLK_SPACE){  
+	  if(Player1.isAlive()){
+
 	    entityiter=entityptr.end();
 	    *entityiter = new GLShot;
 	    entityptr.push_back(*entityiter);
-
+	  }
 	}
 	   
 
@@ -201,8 +200,11 @@ int process_events(GLPlayer &Player1)
 
   /* Check current key state for special commands */
 
-  Player1.move(x,y);
+  if(Player1.isAlive()){
+    
+    Player1.move(x,y);
 
+  }
   return 0;
 
 }

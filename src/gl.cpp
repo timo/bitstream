@@ -98,7 +98,18 @@ int GLDraw(GLPlayer &Player1){
   
   Player1.collide();  // Player stuff
   glEnable(GL_BLEND);
-  Player1.draw();
+
+  if(player.getDamage()>0){
+    Player1.draw();
+  }
+  else
+    {
+      glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+      glTranslatef(0.0f,0.0f,-1.0f);
+      glRasterPos2f( -0.05f, 0.0f );
+      glPrint("You Lose");
+      glTranslatef(0.0f,0.0f,1.0f);
+    }
 
   //TEXT
 
@@ -123,7 +134,12 @@ int GLDraw(GLPlayer &Player1){
 
   glRasterPos2f( -0.5f, -0.4f );
   glColor3f(1.0f, 1.0f, 1.0f);
-  glPrint("Health: %3.0f", player.getDamage());
+  if(player.getDamage()>0){
+    glPrint("Health: %3.0f", player.getDamage());
+  }
+  else{
+    glPrint("Health: 0");
+  }
   SDL_GL_SwapBuffers();
 
   return 0;

@@ -67,6 +67,8 @@ public:
 
 // Access
 
+	bool isAlive();
+
 // Inquiry
 
 protected:
