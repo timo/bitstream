@@ -41,6 +41,7 @@ jm@icculus.org
 #include "collision.h"
 #include "effects.h"
 #include "text.h"
+#include <typeinfo>
 
 using namespace std;
 
@@ -74,6 +75,7 @@ int GLDraw(GLPlayer &Player1){
   static GLfloat fps;
   static int once = 0;
   static int once_really = 0;
+  static int cubedeaths=0;
 
   playerptr = &Player1;
 
@@ -81,7 +83,10 @@ int GLDraw(GLPlayer &Player1){
     entityiter=entityptr.end();
     *entityiter = playerptr;
     entityptr.push_back(*entityiter);
+
     once_really = 1;
+
+
   }
 
   if(SDL_GetTicks() - cubetime > 3000){
@@ -116,12 +121,14 @@ int GLDraw(GLPlayer &Player1){
     for (entityiter2=entityiter;entityiter2!=entityptr.end();entityiter2++){
 
       if(entityiter!=entityiter2){
+	  if(!strcmp("en_cube", (typeid(**entityiter2).name()+1) )){
+	    cubedeaths = (*entityiter2)->GetDestroyed();
+	  }
 	if(SphericalHit(**entityiter, **entityiter2)){
 	  (*entityiter2)->ApplyDamage((*entityiter)->GetHitDamage()); 
 	  (*entityiter)->ApplyDamage((*entityiter2)->GetHitDamage()); 
 	  if(!((*entityiter2)->isAlive())){
 	    if(!((*entityiter2)->isPlayer())){
-	      //     cout << "Not the Player" << endl;
 	      delete *entityiter2;
 	    }
 	    entityptr.erase(entityiter2--);  // Take it out of the list
@@ -132,7 +139,7 @@ int GLDraw(GLPlayer &Player1){
     
     if(!((*entityiter)->isAlive())){
       if(!((*entityiter)->isPlayer())){
-	//	cout << "Not the Player" << endl;
+
 	delete *entityiter;
       }
       entityptr.erase(entityiter--);  // Take it out of the list
@@ -148,6 +155,7 @@ int GLDraw(GLPlayer &Player1){
   if(!(playerptr->isAlive())){
     glColor4f(1.0, 0.2, 0.2, 1.0);
     glPrint(320, 380, 0, "Press SPACE to fail again, loser");
+    glPrint(320, 360, 0, "     You scored %d kills", cubedeaths);
   }
   
 
@@ -158,7 +166,7 @@ int GLDraw(GLPlayer &Player1){
   DrawHud();
 
   glColor4f(1.0, 1.0, 1.0, 1.0);
-
+  glPrint(20, 40, 0, "CUBES WASTED: %d", cubedeaths);
   glPrint(20, 20 , 0, "BITSTREAM: ATTACK OF THE CUBES");
   glPrint(920, 20, 0, "FPS: %3.0f", fps);
   //FPS
@@ -269,89 +277,3 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glMatrixMode(GL_MODELVIEW);
 }
 
-// Shamelessly stolen from Ti Leggett's SDL port of NeHe tutorial 13
-
-
-// GLvoid KillFont( GLvoid )
-// {
-// #ifdef __linux__
-//     glDeleteLists( base, 96 );
-// #endif
-//     return;
-// }
-
-
-// GLvoid buildFont( GLvoid )
-// {
-// #ifdef __linux__
-
-//     Display *dpy;          /* Our current X display */
-//     XFontStruct *fontInfo; /* Our font info */
-
-//     /* Sotrage for 96 characters */
-//     base = glGenLists( 96 );
-
-//     /* Get our current display long enough to get the fonts */
-//     dpy = XOpenDisplay( NULL );
-
-//     /* Get the font information */
-//     fontInfo = XLoadQueryFont( dpy, "-adobe-helvetica-medium-r-normal--18-*-*-*-p-*-iso8859-1" );
-
-//     /* If the above font didn't exist try one that should */
-//     if ( fontInfo == NULL )
-// 	{
-// 	    fontInfo = XLoadQueryFont( dpy, "fixed" );
-// 	    /* If that font doesn't exist, something is wrong */
-// 	    if ( fontInfo == NULL )
-// 		{
-// 		    fprintf( stderr, "no X font available?\n" );
-// 		    SDL_Quit();
-// 		}
-// 	}
-
-//     /* generate the list */
-//     glXUseXFont( fontInfo->fid, 32, 96, base );
-
-//     /* Recover some memory */
-//     XFreeFont( dpy, fontInfo );
-
-//     /* close the display now that we're done with it */
-//     XCloseDisplay( dpy );
-
-// #else
-//     cout << "Stub: Font loading" << endl;
-// #endif
-//     return;
-// }
-
-// /* Print our GL text to the screen */
-// GLvoid glPrint( const char *fmt, ... )
-// {
-// #ifdef __linux__
-//     char text[256]; /* Holds our string */
-//     va_list ap;     /* Pointer to our list of elements */
-
-//     /* If there's no text, do nothing */
-//     if ( fmt == NULL )
-// 	return;
-
-//     /* Parses The String For Variables */
-//     va_start( ap, fmt );
-//       /* Converts Symbols To Actual Numbers */
-//     vsprintf( text, fmt, ap );
-//     va_end( ap );
-
-//     /* Pushes the Display List Bits */
-//     glPushAttrib( GL_LIST_BIT );
-
-//     /* Sets base character to 32 */
-//     glListBase( base - 32 );
-
-//     /* Draws the text */
-//     glCallLists( strlen( text ), GL_UNSIGNED_BYTE, text );
-
-//     /* Pops the Display List Bits */
-//     glPopAttrib( );
-// #endif
-
-// }

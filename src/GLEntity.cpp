@@ -190,6 +190,22 @@ GLEntity::getYtilt()const{
   return m_dYtilt;
 }
 
+void
+GLEntity::setX(const double &x){
+  m_dX = x;
+  cout << "Setting Player x:" << m_dX << endl;
+
+}
+void
+GLEntity::setY(const double &y){
+  m_dY = y;
+  cout << "Setting Player y:" << m_dY << endl;
+}
+void
+GLEntity::setZ(const double &z){
+  m_dZ = z;
+  cout << "Setting Player z:" << m_dZ << endl;
+}
 
 GLdouble 
 GLEntity::GetLongestRadius(){
@@ -210,6 +226,17 @@ bool
 GLEntity::isPlayer(){
 
   return false;
+
+}
+
+void
+GLEntity::SetDestroyed(const int & i){
+
+
+}
+GLint
+GLEntity::GetDestroyed(){
+  return 0;
 
 }
 //============================= Inquiry    ===================================

@@ -69,6 +69,9 @@ public:
 	virtual GLdouble getX();
 	virtual GLdouble getY();
 	virtual GLdouble getZ();
+	virtual void setX(const double &);
+	virtual void setY(const double &);
+	virtual void setZ(const double &);
    GLdouble getXtilt()const;
    GLdouble getYtilt()const;
    GLdouble getZtilt()const;
@@ -79,6 +82,9 @@ public:
 	virtual void ApplyDamage(const GLdouble &);
 	virtual GLdouble GetHitDamage();
 	virtual bool isPlayer();
+
+	virtual void SetDestroyed(const int &i);
+	virtual GLint GetDestroyed();
 // Inquiry
 
 protected:

@@ -26,7 +26,7 @@ jm@icculus.org
 #include "GLPlayer.h"
 #include "GLMap.h"
 #include "GLShot.h"
-	
+#include "en_cube.h"	
 
 using namespace std;
 
@@ -121,6 +121,7 @@ int process_events()
 
 	  case SDLK_RIGHT:
 	    keyx=1;
+
 	    break;
 	  case SDLK_UP:
 	    keyy=-1;
@@ -134,10 +135,19 @@ int process_events()
 	      *entityiter = new GLShot;
 	      entityptr.push_back(*entityiter);
 	    }else{
+	      glLoadIdentity();
 	      entityiter=entityptr.end();
 	      playerptr->SetDamage(100);
 	      *entityiter = playerptr;
 	      entityptr.push_back(*entityiter); 
+	      playerptr->SetPosition(0, 0, -11);
+
+
+	      entityiter=entityptr.end();
+	      *entityiter = new en_cube(0, 0, -200);
+	      entityptr.push_back(*entityiter);
+	      (*entityiter)->SetDestroyed(0);
+
 	    } 
 	    break;
 
@@ -196,7 +206,10 @@ int process_events()
     
     playerptr->move(x,y);
 
+  }else{
+    playerptr->move(0,0);
   }
+
   return 0;
 
 }

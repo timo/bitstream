@@ -63,6 +63,7 @@ public:
 
 	void move(const GLint &x=0, const GLint &y=0, const GLint &z=0);
 	void setVel(const GLdouble &x=0, const GLdouble &y=0);
+	void SetPosition(const GLdouble &x,const GLdouble &y, const GLdouble &z );
 	void draw();
 	void collide();
 

@@ -15,6 +15,7 @@
 #include <iostream>
 #include "en_cube.h"                                // class implemented
 #include "GLEntity.h"
+#include "GLPlayer.h"
 #include "physics.h"
 #include "effects.h"
 /////////////////////////////// Public ///////////////////////////////////////
@@ -22,7 +23,9 @@ using namespace std;
 //============================= Lifecycle ====================================
 const int ROT_PER_SEC = 90;
 const double MSEC_PER_SEC = 1000;
-
+const double REACTION_TIME = 5;
+const double MAX_HEALTH = 30;
+extern GLPlayer* playerptr;
 
 en_cube::en_cube(const double &x, const double &y, const double &z)
   :GLEnemy(x,y,z)
@@ -47,12 +50,24 @@ en_cube::build(){
 
   m_LastTime=0;
   m_model.LoadBSM("data/enemies/cube/cube.bsm");
-  m_model.SetMainDamage(30);
+  m_model.SetMainDamage(MAX_HEALTH);
   m_IdleTime = 0;
   m_Position.boundaries = 1;
-  m_dDamage = 10;
+  m_dDamage = 20;
+  m_Behavior = IDLE;
+  m_Color[RED]=0;
+  m_Color[GREEN]=1;
+  m_Color[BLUE]=0;
+  m_Color[ALPHA]=1;
+  m_Velocity.x = 0;
+  m_Velocity.y = 0;
+  m_Velocity.z = 0;
+  m_Acceleration.x = 0;
+  m_Acceleration.y = 0;
+  m_Acceleration.z = 0;
 }
 
+GLint en_cube::m_iDestroyed=0;
 
 en_cube::en_cube(const en_cube&)
 {
@@ -87,50 +102,80 @@ en_cube::operator=(const en_cube&rhs)
 void
 en_cube::en_attack()
 {
+  m_Rotation.z += m_DeltaSeconds*ROT_PER_SEC;  
 
+  if(playerptr->getX() > m_Position.x){
+    m_Acceleration.x = 5*(playerptr->getX()-m_Position.x) - m_Velocity.x;
+  }else{
+    m_Acceleration.x = -5*(-playerptr->getX()+m_Position.x) + m_Velocity.x;
+  }
+  cout << m_Velocity.z << endl;
+  if(playerptr->getY() > m_Position.y){
+    m_Acceleration.y = 5*(playerptr->getY()-m_Position.y) - m_Velocity.y;
+  }else{
+    m_Acceleration.y = -5*(-playerptr->getY()+m_Position.y) + m_Velocity.y;
+  }
+
+  m_Acceleration.z = 0;
+
+
+  if(m_Position.z > 10){
+    m_model.hit(100);
+  }
+
+  if(m_Position.y < -5 + m_model.GetLongestRadius()){
+    m_Velocity.y = 10;
+  }
+  UpdateVelocity(m_Velocity, m_Acceleration, m_DeltaSeconds);
+  UpdatePosition(m_Position, m_Velocity, m_DeltaSeconds);
 }
-   
+
+void
+en_cube::en_react()
+{
+  
+  m_Rotation.z += m_DeltaSeconds*ROT_PER_SEC;
+
+  if(m_Color[RED] < 1){ m_Color[RED] += m_DeltaSeconds; }
+  else{ m_Color[RED] = 1; }
+  if(m_Color[GREEN] > 0){ m_Color[GREEN] -= m_DeltaSeconds; }
+  else{ 
+    m_Color[GREEN] = 0; 
+    m_Behavior = ATTACK;
+    m_Position.boundaries = 0;
+    m_Velocity.x = 0;
+    m_Velocity.y = 0;
+    
+  }
+}
+     
 void 
 en_cube::en_idle()
 {
   
-  if(!m_LastTime){ 
-    m_LastTime= SDL_GetTicks();
-    m_Acceleration.x = 4;
-    m_Acceleration.y = 2;
-    m_Acceleration.z = 1.5;
-  }
 
-  GLdouble deltatime = (double)(SDL_GetTicks() - m_LastTime)/MSEC_PER_SEC;
-
-  srand(SDL_GetTicks());
-
-  m_LastTime = SDL_GetTicks();
-
-  m_Rotation.z += deltatime*ROT_PER_SEC;
-  m_IdleTime += deltatime;
+  m_Rotation.z += m_DeltaSeconds*ROT_PER_SEC;
+  m_IdleTime += m_DeltaSeconds;
 
   if(m_IdleTime > rand()%2){
     srand(SDL_GetTicks());
     m_IdleTime = -(rand()%2);
     m_Acceleration.x *= -1;
     m_Acceleration.y *= -1;
-    m_Acceleration.z *= -1;
+    //    m_Acceleration.z *= -1;
   }
 
   //  cout << m_Position.z << endl;
-  if(m_Position.z < -80){
-    if(m_Acceleration.z < 0){
-      m_Acceleration.z *= -1;
-    }
-  }
 
+  if(m_Position.z > -70){
+    m_Behavior = REACT;
+  }
   if(m_Position.z > 10){
     m_model.hit(100);
   }
 
-  UpdateVelocity(m_Velocity, m_Acceleration, deltatime);
-  UpdatePosition(m_Position, m_Velocity, deltatime);
+  UpdateVelocity(m_Velocity, m_Acceleration, m_DeltaSeconds);
+  UpdatePosition(m_Position, m_Velocity, m_DeltaSeconds);
 
 
 }
@@ -139,6 +184,36 @@ void
 en_cube::en_move()
 {
 
+  if(!m_LastTime){ 
+    m_LastTime= SDL_GetTicks();
+    m_Acceleration.x = 4;
+    m_Acceleration.y = 2;
+    m_Acceleration.z = 1.2;
+
+  }
+
+  if(m_Behavior == IDLE){
+    if(m_model.getDamage() < MAX_HEALTH){ m_Behavior = REACT; }
+  }
+
+  m_DeltaSeconds = (double)(SDL_GetTicks() - m_LastTime)/MSEC_PER_SEC;
+  m_LastTime = SDL_GetTicks();
+
+  switch(m_Behavior){
+  case IDLE:
+    this->en_idle();
+    break;
+  case REACT:
+    this->en_react();
+    break;
+  case ATTACK:
+    this->en_attack();
+    break;
+  default:
+    break;
+  }
+
+
 }
 
 
@@ -146,7 +221,7 @@ en_cube::en_move()
 void 
 en_cube::draw()
 {
-  this->en_idle();
+  this->en_move();
 
   glPushMatrix();
 
@@ -154,7 +229,7 @@ en_cube::draw()
 
   glRotatef(m_Rotation.z, 0, 1, 1);
 
-  glColor4f(0.0, 1.0, 0.0, 1.0);
+  glColor4fv(m_Color);
 
   m_model.draw();
 
@@ -193,15 +268,30 @@ en_cube::getZ(){
 
 void 
 en_cube::ApplyDamage(const GLdouble &hit){
-
+  
   m_model.hit(hit);
-
+  if(((hit == 10) || (hit == 100)) && (m_model.getDamage() <=0)){ // Killed by a player shot
+    m_iDestroyed++;
+  }
 }
 
 GLdouble 
 en_cube::GetHitDamage(){
 
   return m_dDamage;
+}
+
+GLint
+en_cube::GetDestroyed(){
+
+  return m_iDestroyed;
+
+}
+
+void
+en_cube::SetDestroyed(const GLint &i){
+
+  m_iDestroyed = i;
 }
 
 bool 

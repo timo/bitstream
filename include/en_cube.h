@@ -45,10 +45,12 @@ public:
    en_cube&   operator=(const en_cube&);     // assignment operator
 
 // Operations
-	void build();  // Common constructor code
+
 	void en_attack();
    void en_idle();
+	void en_react();
 	void en_move();
+
    void draw();
    GLdouble GetLongestRadius();
 // Access
@@ -60,18 +62,30 @@ public:
 	void ApplyDamage(const GLdouble &);
    GLdouble GetHitDamage();
 	bool isAlive();
+
+	void SetDestroyed(const GLint &i);
+	GLint GetDestroyed();
 protected:
 // Protected Methods
 private:
 // Private Methods
+
+	void build();  // Common constructor code
+	enum mood {IDLE, REACT, ATTACK};
+	enum color {RED=0, GREEN, BLUE, ALPHA};
+
 	BSM m_model;
    velocity m_Velocity;
    acceleration m_Acceleration;
    position m_Position;
    rotation m_Rotation;
    Uint32 m_LastTime;
+	GLdouble m_DeltaSeconds;
    GLdouble m_IdleTime;
 	GLdouble m_dDamage;
+	GLfloat m_Color[4];
+	mood m_Behavior;
+   static GLint m_iDestroyed;
 
 //////////////////Removed
 };

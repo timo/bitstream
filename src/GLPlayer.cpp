@@ -56,7 +56,7 @@ GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
   :GLEntity(x, y, z),
    m_dLasttime(0),
    m_dEnergy(100),
-   m_dDamage(10),
+   m_dDamage(100),
    hitTime(0)
 {
 
@@ -338,6 +338,15 @@ GLPlayer::setVel(const GLdouble &x, const GLdouble &y){
 
   m_dXvel = x;
   m_dYvel = y;
+
+}
+
+void 
+GLPlayer::SetPosition(const GLdouble &x, const GLdouble &y, const GLdouble &z){
+  
+  this->setX(x);
+  this->setY(y);
+  this->setZ(z);
 
 }
 
