@@ -3,13 +3,13 @@
 #include "BSM.h"
 #include <GL/gl.h>
 
-extern BSM player;
+
 extern GLPlayer* playerptr;
 
 void DrawHealthBar(){
 
   GLdouble healthfactor, health;
-  healthfactor = player.getDamage()/100.0;
+  healthfactor = playerptr->GetDamage()/100.0;
   health = HUD_LEFT_FG + HUD_HEALTH_DIFF*healthfactor;
 
   if(health < HUD_LEFT_FG){ health = HUD_LEFT_FG; }

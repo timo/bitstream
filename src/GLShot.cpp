@@ -41,6 +41,7 @@ jm@icculus.org
 using namespace std;
 //static const GLdouble DEGTORAD = 0.0349066;
 static const GLdouble DEGTORAD = 0.017453278;
+static const GLdouble HIT_RADIUS = 0.00;
 extern GLPlayer *playerptr;
 
 /////////////////////////////// Public ///////////////////////////////////////
@@ -56,7 +57,7 @@ GLShot::GLShot()
    m_lastTime(0)
 {
   m_SourceExplosion = 0;
-  shot.LoadBSM ("data/player/shot.bsm");
+  m_model.LoadBSM ("data/player/shot.bsm");
   if(!(playerptr->DrawEnergy(10))){
     m_rho = 200;
   }
@@ -160,7 +161,7 @@ GLShot::draw(){
 
 
   glColor3f(0.4f, 0.0f, 0.0f);
-  shot.draw();
+  m_model.draw();
 
 
   glPopMatrix();
@@ -177,6 +178,14 @@ GLShot::getRho()const{
 }
 
 
+GLdouble 
+GLShot::GetLongestRadius(){
+
+  // return  m_model.GetLongestRadius();
+  return HIT_RADIUS;
+}
+
+
 //============================= Access      ==================================
 //============================= Inquiry    ===================================
 
@@ -186,6 +195,25 @@ GLShot::isAlive(){
   if( m_rho > 195 ) return false;
 
   return true;
+  
+}
+
+GLdouble 
+GLShot::getX(){
+
+  return m_xPos + m_xBase;
+
+}
+
+GLdouble 
+GLShot::getY(){
+
+  return m_yPos + m_yBase;
+}
+
+GLdouble 
+GLShot::getZ(){
+  return m_zPos - 18;
 
 }
 /////////////////////////////// Protected Methods ////////////////////////////

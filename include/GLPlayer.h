@@ -33,6 +33,7 @@ jm@icculus.org
 // Project Includes
 //
 #include "GLEntity.h"
+#include "BSM.h"
 // Local Includes
 //
 
@@ -62,19 +63,21 @@ public:
 
 	void move(const GLint &x=0, const GLint &y=0, const GLint &z=0);
 	void setVel(const GLdouble &x=0, const GLdouble &y=0);
-	void draw()const;
+	void draw();
 	void collide();
 
 	bool isAlive();
 	GLdouble GetEnergy();
+	GLdouble GetDamage();
 	int DrawEnergy(const GLdouble &energy);
-
+	GLdouble GetLongestRadius();
 
 protected:
 // Protected Methods
 private:
 // Private Methods
 
+	BSM m_model;
    GLdouble m_dLasttime, m_dThistime;
 	GLdouble m_dXvel, m_dYvel;
    GLdouble m_dOverrideX, m_dOverrideY;

@@ -67,6 +67,11 @@ public:
    virtual void en_idle()=0;
 	virtual void en_move()=0;
 	virtual void draw()=0;
+	virtual GLdouble GetLongestRadius()=0;
+
+	virtual GLdouble getX()=0;
+	virtual GLdouble getY()=0;
+	virtual GLdouble getZ()=0;
 
 // Access
 

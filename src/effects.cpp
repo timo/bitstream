@@ -58,7 +58,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
 
 
   alpha[index] = 1.0 - (double)(SDL_GetTicks() - starttime[index]) /(duration*1000);
-  // cout << alpha[index] << endl;
+  //cout << alpha[index] << endl;
 
   if((alpha[index] < 0.0) && (explosionindex[index] == 1)){
 
@@ -75,6 +75,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
 
     glPushMatrix();
 
+
     if(qobj[index]){
       gluDeleteQuadric(qobj[index]);
     }
@@ -87,7 +88,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
     glColor4f(1.0f, 0.5f, 0.0f, alpha[index]);
     
     gluSphere(qobj[index], radius, 15, 15);
-    
+
     glPopMatrix(); 
     
   }

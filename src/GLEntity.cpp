@@ -171,17 +171,17 @@ GLEntity::tilt(const GLdouble &x, const GLdouble &y){
 //============================= Access      ==================================
 
 GLdouble 
-GLEntity::getX()const{
+GLEntity::getX(){
   return m_dX;
 }
 
 GLdouble 
-GLEntity::getY()const{
+GLEntity::getY(){
   return m_dY;
 }
 
 GLdouble 
-GLEntity::getZ()const{
+GLEntity::getZ(){
   return m_dZ;
 }
 
@@ -195,6 +195,11 @@ GLEntity::getYtilt()const{
   return m_dYtilt;
 }
 
+
+GLdouble 
+GLEntity::GetLongestRadius(){
+  return 0;
+}
 //============================= Inquiry    ===================================
 /////////////////////////////// Protected Methods ////////////////////////////
 

@@ -140,7 +140,33 @@ en_cube::draw()
   glPopMatrix();
 }
 
+GLdouble 
+en_cube::GetLongestRadius(){
 
+  return  m_model.GetLongestRadius();
+
+}
+
+GLdouble 
+en_cube::getX(){
+
+  return m_Position.x;
+
+}
+
+GLdouble 
+en_cube::getY(){
+
+  return m_Position.y;
+
+}
+
+GLdouble 
+en_cube::getZ(){
+
+  return m_Position.z;
+  
+}
 
 //============================= Operations ===================================
 //============================= Access      ==================================

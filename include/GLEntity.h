@@ -66,13 +66,16 @@ public:
 
 // Access
 
-	virtual GLdouble getX()const;
-	virtual GLdouble getY()const;
-	virtual GLdouble getZ()const;
+	virtual GLdouble getX();
+	virtual GLdouble getY();
+	virtual GLdouble getZ();
    GLdouble getXtilt()const;
    GLdouble getYtilt()const;
    GLdouble getZtilt()const;
 	virtual bool isAlive(){ return true; }
+
+	virtual GLdouble GetLongestRadius();
+
 // Inquiry
 
 protected:

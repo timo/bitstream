@@ -29,6 +29,7 @@ jm@icculus.org
 //
 /////////////////////////////////////////////////////////////////////////
 #include "BSM.h"                                // class implemented
+#include "collision.h"
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -49,6 +50,7 @@ BSM::BSM()
   :m_mainDamage(100)
 {
   //  cout << "In BSM Constructor" << endl;
+
 }// BSM
 
 BSM::BSM(const BSM&)
@@ -187,6 +189,7 @@ BSM::LoadBSM(char *filename){
 	
 	dTemp = atof(cTemp); 
 	m_ptrVertex[j++]=dTemp;
+	m_vertices.push_back(dTemp);
       }
     }  
     
@@ -252,6 +255,8 @@ BSM::LoadBSM(char *filename){
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
+    m_dLongestRadius = LongestRadius(*this);
+
     return true;
   
   }
@@ -262,6 +267,31 @@ BSM::getDamage(){
   return m_mainDamage;
 
 }
+GLint 
+BSM::GetNumPieces(){
+
+  return m_vBSM.size();
+
+}
+
+GLint 
+BSM::GetNumVertices(){
+ 
+  return m_vertices.size();
+}
+
+GLfloat* 
+BSM::GetVert(GLint i){
+
+    return &m_vertices[i];
+}
+
+GLdouble 
+BSM::GetLongestRadius(){
+
+  return m_dLongestRadius;
+}
+
 // //============================= Operations ===================================
 // //============================= Access      ==================================
 // //============================= Inquiry    ===================================

@@ -38,6 +38,7 @@ jm@icculus.org
 #include "BSM.h"
 #include "en_cube.h"
 #include "hud.h"
+#include "collision.h"
 
 using namespace std;
 
@@ -46,14 +47,12 @@ using namespace std;
 
 //UGLY GLOBALS
 
-//BSM player;
-BSM player;
+
 GLuint  base; /* Base Display List For The Font Set */
 list < GLEntity * > entityptr;
-list< GLEntity * >::iterator entityiter;
+list< GLEntity * >::iterator entityiter, entityiter2;
 unsigned entitysize;
 GLPlayer *playerptr;
-Texture playerSkin;
 Texture gndSkin;
 Texture skySkin;
 GLuint texture[3];
@@ -97,17 +96,23 @@ int GLDraw(GLPlayer &Player1){
 
   for (entityiter=entityptr.begin();entityiter!=entityptr.end();entityiter++){
     (*entityiter)->draw();
-      glColor4f(0.0, 0.0, 0.0, 1.0);
+    glColor4f(0.0, 0.0, 0.0, 1.0);
+
     if(!((*entityiter)->isAlive())){
       delete *entityiter;
       entityptr.erase(entityiter--);  // Take it out of the list
-
     }
+    for (entityiter2=entityptr.begin();entityiter2!=entityptr.end();entityiter2++){
+      if(entityiter!=entityiter2){
+	SphericalHit(**entityiter, **entityiter2);
+      }
+    }
+
   }
   
   Player1.collide();  // Player stuff
 
-  if(player.getDamage()>0){
+  if(Player1.GetDamage()>0){
     Player1.draw();
   }
   else
@@ -144,8 +149,8 @@ int GLDraw(GLPlayer &Player1){
   glRasterPos2f( -0.5f, -0.4f );
 
 
-  if(player.getDamage()>0){
-       glPrint("Health: %3.0f", player.getDamage());
+  if(Player1.GetDamage()>0){
+       glPrint("Health: %3.0f", Player1.GetDamage());
   }
   else{
       glPrint("Health: 0");
@@ -174,7 +179,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   skySkin.LoadBMP("data/sky.bmp", GL_LINEAR, GL_LINEAR);
 
   //BSM
-  player.LoadBSM ("data/player/player.bsm");
+
   // player.LoadBSM ("data/enemies/cube/cube.bsm");
 
   glEnable(GL_DEPTH_TEST); 

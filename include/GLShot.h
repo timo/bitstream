@@ -62,12 +62,14 @@ public:
 
 	void draw();
 
-// Access
+
 
 	GLdouble getRho()const;
+	GLdouble GetLongestRadius();
 
-// Inquiry
-
+	virtual GLdouble getX();
+	virtual GLdouble getY();
+	virtual GLdouble getZ();
 	virtual bool isAlive();
 
 protected:
@@ -75,7 +77,7 @@ protected:
 private:
 // Private Methods
 
-	BSM shot;
+	BSM m_model;
 	GLdouble m_Vel;
 	GLdouble m_xAngle;
 	GLdouble m_yAngle;

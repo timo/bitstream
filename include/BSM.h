@@ -73,8 +73,11 @@ public:
 // Access
 
 // Inquiry
-
+	GLint GetNumPieces();
+	GLint GetNumVertices();
+	GLfloat* GetVert(GLint i);
 	GLdouble getDamage();
+	GLdouble GetLongestRadius();
 
 protected:
 // Protected Methods
@@ -85,8 +88,9 @@ private:
 	vector < BSMPiece > m_vBSM;
 	vector < GLint > m_ptrPoints;
 	vector < GLfloat > m_normals;
-
+	vector < GLfloat > m_vertices;
 	GLdouble m_mainDamage;
+	GLdouble m_dLongestRadius;
 
 // Private Methods
 

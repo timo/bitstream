@@ -5,8 +5,8 @@
 
 #include <GL/gl.h>
 
-const double X_LEFT_BOUND = -15;
-const double X_RIGHT_BOUND = 15;
+const double X_LEFT_BOUND = -10;
+const double X_RIGHT_BOUND = 10;
 
 const double Y_TOP_BOUND = 5;
 const double Y_BOTTOM_BOUND = -2;

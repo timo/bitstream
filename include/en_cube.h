@@ -50,10 +50,12 @@ public:
    void en_idle();
 	void en_move();
    void draw();
-
+   GLdouble GetLongestRadius();
 // Access
 
-
+	GLdouble getX();
+	GLdouble getY();
+	GLdouble getZ();
 
 protected:
 // Protected Methods

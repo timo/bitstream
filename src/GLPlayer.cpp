@@ -45,12 +45,12 @@ using namespace std;
 
 static const GLdouble ACCEL = 0.125;
 static const GLdouble SLOW = 0.125;
-static GLdouble DRIFT = 0.0625;
+static const GLdouble DRIFT = 0.0625;
 static const GLdouble MAXSPEED = 80;
 static const GLdouble DEGTORAD = 0.017453278;
-static const GLdouble RECHARGE_FACTOR = 10;
-extern BSM player;
-extern Texture playerSkin;
+static const GLdouble RECHARGE_FACTOR = 20;
+
+
 
 GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
   :GLEntity(x, y, z),
@@ -62,6 +62,7 @@ GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
 #ifdef DEBUG
   cout << "GLPlayer created" << endl;
 #endif
+  m_model.LoadBSM ("data/player/player.bsm");
   m_dOverrideY=0;
   m_dOverrideX=0;
 
@@ -102,7 +103,7 @@ GLPlayer::operator=(const GLPlayer&rhs)
 
 
 void
-GLPlayer::draw()const{
+GLPlayer::draw(){
 
   //glLoadIdentity();
 
@@ -121,14 +122,14 @@ GLPlayer::draw()const{
   }
 
 
-  glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, playerSkin.getID());
-
+  // glEnable(GL_TEXTURE_2D);
+  //  glBindTexture(GL_TEXTURE_2D, playerSkin.getID());
+  
   glColor4f(0.2f, 0.2f, 0.2f, 0.6f);
 
-  player.draw();
+  m_model.draw();
 
-  glDisable(GL_TEXTURE_2D);
+  // glDisable(GL_TEXTURE_2D);
 
   if(!m_collide)
     {
@@ -177,7 +178,7 @@ GLPlayer::collide(){
 	m_dOverrideY = 8;
 	if(m_collide==0){  
 	  m_collide=1;
-	  player.hit(4);
+	  m_model.hit(4);
 	  hitTime=SDL_GetTicks();
 	}
       }
@@ -187,7 +188,7 @@ GLPlayer::collide(){
 	m_dOverrideY = 8;
 	if(m_collide==0){
 	  m_collide=1;
-	  player.hit(3); 
+	  m_model.hit(3); 
 	  hitTime=SDL_GetTicks();
 	}
 	
@@ -198,7 +199,7 @@ GLPlayer::collide(){
 	m_dOverrideY = 8;
 	if(m_collide==0) {
 	  m_collide=1;
-	  player.hit(0);
+	  m_model.hit(0);
 	  hitTime=SDL_GetTicks();
 	}
       }
@@ -331,7 +332,7 @@ GLPlayer::setVel(const GLdouble &x, const GLdouble &y){
 bool
 GLPlayer::isAlive(){
 
-  if(player.getDamage() > 0) return true;
+  if(m_model.getDamage() > 0) return true;
 
   return false;
 
@@ -341,6 +342,13 @@ GLdouble
 GLPlayer::GetEnergy(){
 
   return m_dEnergy;
+
+}
+
+GLdouble
+GLPlayer::GetDamage(){
+
+  return m_model.getDamage();
 
 }
 
@@ -356,6 +364,12 @@ GLPlayer::DrawEnergy(const GLdouble &energy){
 
 
   return 1;
+
+}
+GLdouble
+GLPlayer::GetLongestRadius(){
+
+  return m_model.GetLongestRadius();
 
 }
 //============================= Access      ==================================
