@@ -15,7 +15,7 @@
 
 static GLfloat LightAmbient[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
 static GLfloat LightDiffuse[]=	   { 1.0f, 1.0f, 1.0f, 1.0f };
-static GLfloat LightPosition[]=	   { 0.0f, 10.0f, 2.0f, 1.0f };
+static GLfloat LightPosition[]=	   { 0.0f, 0.0f, 10.0f, 1.0f };
 static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
 static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
 
@@ -64,7 +64,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   gndSkin.LoadBMP("data/ground.bmp", GL_LINEAR, GL_LINEAR);
   skySkin.LoadBMP("data/sky.bmp", GL_LINEAR, GL_LINEAR);
 
-  //MD2s
+  //BSM
   player.LoadBSM ("data/player/player.bsm");
 
   glViewport(0, 0, Width, Height); 
@@ -84,7 +84,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glMatrixMode(GL_MODELVIEW);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-  // glPolygonMode (GL_FRONT, GL_FILL);
+  //  glPolygonMode (GL_FRONT, GL_FILL);
   //  glPolygonMode (GL_BACK, GL_FILL);
 
   //   glCullFace( GL_BACK );

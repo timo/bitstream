@@ -21,7 +21,7 @@
 #include <math.h>
 
 #define MAXDIG 5
-
+#define COMMENT 150
 /////////////////////////////// Public ///////////////////////////////////////
 
 //============================= Lifecycle ====================================
@@ -91,109 +91,120 @@ void
 BSM::draw(){
 
 
-  GLfloat normal[3];
-  GLfloat *ntemp = new GLfloat[3];
 
-  glColor3f(0.5f, 0.5f, 0.5f);
+  for(unsigned j=0; j<m_vBSM.size(); j++){
 
-  glBegin(GL_TRIANGLES);
-  for (unsigned i=0; i<m_ptrPoints.size(); i=i+3){
+    m_ptrPoints = m_vBSM[j]; 
+    GLfloat normal[3];
+    GLfloat *ntemp = new GLfloat[3];
 
 
-    FindNormal(i, ntemp);
-    normal[0] = *ntemp;
-    normal[1] = *(ntemp + sizeof(GLfloat));
-    normal[2] = *(ntemp + 2*sizeof(GLfloat));
-    glNormal3fv(normal);
-
-    glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+0]-1)*3]);
-    glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+1]-1)*3]);
-    glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+2]-1)*3]);
-
+    
+    glBegin(GL_TRIANGLES);
+    for (unsigned i=0; i<m_ptrPoints.size(); i=i+3){
+      
+      
+      FindNormal(i, ntemp);
+      normal[0] = *ntemp;
+      normal[1] = *(ntemp + sizeof(GLfloat));
+      normal[2] = *(ntemp + 2*sizeof(GLfloat));
+      glNormal3fv(normal);
+      
+      glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+0]-1)*3]);
+      glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+1]-1)*3]);
+      glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+2]-1)*3]);
+      
   }
-  glEnd();
-  
-  delete ntemp;
-
+    glEnd();
+    
+    delete ntemp;
+  }
 }
-
-bool 
+  
+  bool 
 BSM::LoadBSM(char *filename){
 
-  double dTemp;
-  char *cTemp = new char[MAXDIG];
-  int counter;
-  ifstream file(filename);
-  if(!file){
-    cout << "Unable to open file" << endl;
-    return false;
-  }
+    double dTemp;
+    char *cTemp = new char[MAXDIG];
+    char *comment = new char[COMMENT];
+    int counter;
+    ifstream file(filename);
+    if(!file){
+      cout << "Unable to open file" << endl;
+      return false;
+    }
   
     while(file.peek() == '#'){
-  
-      file.getline(cTemp, MAXDIG);
-
-  }
-
-  while(file.get() != '<' ){
-  }
-
-
-  while( file.get() != '>'){
-
-    if(file.peek() != ' ' && file.peek() != '\n' && file.peek() != '>' ){
-      for(int i=0; i < MAXDIG; i++){
-	cTemp[i]=' ';
-      }
-      cTemp[MAXDIG-1]='\0';
-      counter = 0;
-      while(file.peek() != ',' && file.peek() != '>' && counter < MAXDIG){
-	cTemp[counter] = file.get();
-	counter++;
-      }
-
-      dTemp = atof(cTemp);
-      cout << dTemp << " ";  
-       m_ptrVertex.push_back(dTemp);
+      
+      file.getline(comment, COMMENT);
+      
+      // cout << comment << endl;
+    }
+    
+    while(file.get() != '<' ){
       
     }
-  }  
 
-  cout << "\n" << endl;
-
-  while(file.get() != '[' ){
-  }
-
-  while( file.get() != ']'){
-
-    if(file.peek() != ' ' && file.peek() != '\n' && file.peek() != ']' ){
-      for(int i=0; i < MAXDIG; i++){
-	cTemp[i]=' ';
+    
+    while( file.get() != '>'){
+      
+      if(file.peek() != ' ' && file.peek() != '\n' && file.peek() != '>' ){
+	for(int i=0; i < MAXDIG; i++){
+	  cTemp[i]=' ';
+	}
+	cTemp[MAXDIG-1]='\0';
+	counter = 0;
+	while(file.peek() != ',' && file.peek() != '>' && counter < MAXDIG){
+	  cTemp[counter] = file.get();
+	  counter++;
+	}
+	
+	dTemp = atof(cTemp); 
+	m_ptrVertex.push_back(dTemp);
+	
       }
+    }  
+    
+    cout << "\n" << endl;
+    
+    int iTemp;
+    
+    while( !file.eof()){
 
-      cTemp[MAXDIG-1]='\0';
-      counter = 0;
-
-      while(file.peek() != ',' && file.peek() != ']' && counter < MAXDIG){
-	cTemp[counter] = file.get();
-	counter++;
+      if(file.get() == '['){
+	
+	while( file.get() != ']'){
+	  
+	  if(file.peek() != ' ' && file.peek() != '\n' && file.peek() != ']' ){
+	    for(int i=0; i < MAXDIG; i++){
+	    cTemp[i]=' ';
+	    }
+	    
+	    cTemp[MAXDIG-1]='\0';
+	    counter = 0;
+	    
+	    while(file.peek() != ',' && file.peek() != ']' && counter < MAXDIG){
+	      cTemp[counter] = file.get();
+	      counter++;
+	}
+	    
+	    iTemp = atoi(cTemp);
+	    m_ptrPoints.push_back(iTemp);
+	  } 
+	}
+      
       }
-
-      dTemp = atoi(cTemp);
-      cout << dTemp << " "; 
-      m_ptrPoints.push_back(dTemp);
     }
-
-
- 
-  }
-
-  cout << endl;
-  file.close();
-  delete cTemp;
-  return true;
+    
+    m_vBSM.push_back(m_ptrPoints);
+    m_ptrPoints.clear();
+    cout << endl;
+    file.close();
+    delete cTemp;
+    delete comment;
+    return true;
   
-}
+  }
 
 
 

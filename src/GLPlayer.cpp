@@ -26,6 +26,7 @@
 
 static const GLint ACCEL = 1;
 static const GLint SLOW = 1;
+static const GLdouble DRIFT = 0.5;
 static const GLint MAXSPEED = 80;
 
 extern BSM player;
@@ -84,13 +85,15 @@ GLPlayer::draw()const{
 
   glTranslatef(this->getX(),this->getY(),this->getZ());
 
-   glRotatef(-(double)m_dXvel*0.3, 0.0f, 0.0f, 1.0f);
-   glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
+  glRotatef(-(double)m_dXvel*0.2, 0.0f, 1.0f, 0.0f);
+  glRotatef(-(double)m_dXvel*0.3, 0.0f, 0.0f, 1.0f);
+  glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
+
 
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, playerSkin.getID());
 
-  //  glScalef(0.05f, 0.05f, 0.05f);
+  glColor4f(0.31f, 0.35f, 0.45f, 0.5f);
 
   player.draw();
 
@@ -109,15 +112,15 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
   // X Speed manipulation
 
   if(x==1){
-
+    
     //FIXME acceleration may be different on some machines
 
     if(m_dXvel < MAXSPEED){
-    m_dXvel += ACCEL;
+      m_dXvel += ACCEL;
     }
-
+    
   }
-
+  
   if(x==0 && m_dXvel > 0){
     m_dXvel -= SLOW;
   }
@@ -127,42 +130,45 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
   else if(x==0 && m_dXvel == 0){
     m_dXvel = 0;
   }
-
+  
   if(x==-1){
-
+    
     if(m_dXvel > -MAXSPEED){
       m_dXvel -= ACCEL;
     }
-
+    
   }
-
-
+  
+  
   // Y Speed manipulation
-
+  
   if(y==1){
-
+    
     if(m_dYvel < MAXSPEED){
-    m_dYvel += ACCEL;
+      m_dYvel += ACCEL;
     }
-
+    
   }
-
+  
   if(y==0 && m_dYvel > 0){
     m_dYvel -= SLOW;
   }
-  else if(y==0 && m_dYvel < 0){
+  else if(y==0 && m_dYvel < -DRIFT){
     m_dYvel += SLOW;
   }
   else if(y==0 && m_dYvel == 0){
-    m_dYvel = 0;
+    m_dYvel -= DRIFT;
   }
-
+  
   if(y==-1){
-
+    
     if(m_dYvel > -MAXSPEED){
       m_dYvel -= ACCEL;
     }
   }
+
+
+
 
 
   this->tilt(m_dXvel, m_dYvel);
