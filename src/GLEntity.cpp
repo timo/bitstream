@@ -90,31 +90,31 @@ GLEntity::drawAll()const{
 /////////////////////// XYZ Set Functions ////////////////////
 
 GLint 
-GLEntity::shift(const GLdouble &xvel,const GLdouble &yvel, const GLdouble &zvel )
+GLEntity::shift(const GLint &xvel,const GLint &yvel, const GLint &zvel )
 {
   if(m_idraw==1){
 
-    // Bad hack because I'm getting 0 draw time wish SDL_GetTicks()
+    // Bad hack because I'm getting 0 draw time with SDL_GetTicks()
 
     if(m_dThisTime >= SDL_GetTicks())
       {
-	m_dThisTime += 11;
+    	m_dThisTime += 11;
       }
     else{
-
+      
       m_dThisTime = SDL_GetTicks();
     }
 
     if(m_dX < 5 && m_dX > -5 || (m_dX >= 5 && xvel <=0) 
        || (m_dX <= -5 && xvel >=0)){ 
-      m_dX += (m_dThisTime-m_dLastTime)/1000 * xvel;
+      m_dX += ((double)m_dThisTime-m_dLastTime)/1000 * (double)xvel/10;
     }
   
     if(m_dY < 4 && m_dY > -2.5 || (m_dY >= 4 && yvel <=0) 
        || (m_dY <= -2.5 && yvel >=0)){ 
-      m_dY += (m_dThisTime-m_dLastTime)/1000 * yvel;
+      m_dY += ((double)m_dThisTime-m_dLastTime)/1000 * (double)yvel/10;
     }
-    m_dZ += (m_dThisTime-m_dLastTime)/1000 * zvel;
+    m_dZ += ((double)m_dThisTime-m_dLastTime)/1000 * (double)zvel/10;
   
     m_dLastTime = m_dThisTime;
     
@@ -129,10 +129,10 @@ GLEntity::shift(const GLdouble &xvel,const GLdouble &yvel, const GLdouble &zvel 
 }
 
 void 
-GLEntity::tilt(const GLdouble &x, const GLdouble &y){
+GLEntity::tilt(const GLint &x, const GLint &y){
 
-  m_dXtilt = x;
-  m_dYtilt = -y*(0.5);
+  m_dXtilt = (double)x/10;
+  m_dYtilt = -(double)y*(0.05);
 
 }
 

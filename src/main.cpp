@@ -33,7 +33,7 @@ int main(int argc,char * argv[])
 {
 
   GLint width, height, bpp, n, die = 0;
-  GLdouble fps, time, cleartime;
+  //  GLdouble fps, time, cleartime;
   SDL_Surface *Surface;
 
   GLPlayer Player1(0, 0, -10);

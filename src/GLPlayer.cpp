@@ -22,9 +22,9 @@
 
 //============================= Lifecycle ====================================
 
-static const GLdouble ACCEL = 0.1;
-static const GLdouble SLOW = 0.1;
-static const GLdouble MAXSPEED = 8.0;
+static const GLint ACCEL = 1;
+static const GLint SLOW = 1;
+static const GLint MAXSPEED = 80;
 
 GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
   :GLEntity(x, y, z)
@@ -74,15 +74,15 @@ GLvoid FindNormal(GLuint indices[42], GLuint i, GLfloat *normals);
 
 
 static GLfloat vdata[27] = {
-   0.0, 0.0, 0.0   ,          // 0
+   0.0, 0.2, 0.0   ,          // 0
    0.5, 0.125, -1.0,          // 1
   -0.5, 0.125, -1.0,          // 2
   -0.5,-0.125, -1.0,          // 3
    0.5,-0.125, -1.0,          // 4
-   0.5, 0.0, -2.0  ,          // 5
-  -0.5, 0.0, -2.0  ,          // 6
-  -1.5, 0.0, -0.5  ,          // 7
-   1.5, 0.0, -0.5             // 8
+   0.2, 0.0, -3.0  ,          // 5
+  -0.2, 0.0, -3.0  ,          // 6
+  -2, -0.5, -0.5  ,          // 7
+   2, -0.5, -0.5             // 8
 };
 
 static GLuint tindices[42] = {
@@ -112,9 +112,9 @@ GLPlayer::draw()const{
   GLuint i=0;
   GLfloat normal[3];
   GLfloat *ntemp;
-  glColor3f(0.0f, 0.4f, 0.8f);
-  glRotatef(-m_dXvel*2, 0.0f, 0.0f, 1.0f);
-  glRotatef(m_dYvel*2, 1.0f, 0.0f, 0.0f);
+  glColor3f(0.2f, 0.2f, 0.3f);
+  glRotatef(-(double)m_dXvel*0.3, 0.0f, 0.0f, 1.0f);
+  glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
 
   glBegin(GL_TRIANGLES);
   for (i=0; i<42; i=i+3){
@@ -184,6 +184,8 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
 
   if(x==1){
 
+    //FIXME acceleration may be different on some machines
+
     if(m_dXvel < MAXSPEED){
     m_dXvel += ACCEL;
     }
@@ -235,6 +237,7 @@ GLPlayer::move(const GLint &x=0, const GLint &y=0, const GLint &z=0){
       m_dYvel -= ACCEL;
     }
   }
+
 
   this->tilt(m_dXvel, m_dYvel);
   this->shift(m_dXvel, m_dYvel);
