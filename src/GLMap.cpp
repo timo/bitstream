@@ -97,7 +97,7 @@ GLMap::draw(GLdouble speed)const{
   dSky += speed*(double)(thistime-lasttime)/100000;
   if(dZ > 1){ dZ = 0; }
   if(dSky > 10){ dSky = 0; }
-  cout << dZ << endl;
+  // cout << dZ << endl;
 
       glEnable(GL_TEXTURE_2D);
       //   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
