@@ -155,7 +155,7 @@ int GLDraw(GLPlayer &Player1){
   if(!(playerptr->isAlive())){
     glColor4f(1.0, 0.2, 0.2, 1.0);
     glPrint(320, 380, 0, "Press SPACE to fail again, loser");
-    glPrint(320, 360, 0, "     You scored %d kills", cubedeaths);
+    glPrint(320, 360, 0, "       You scored %d kills", cubedeaths);
   }
   
 
