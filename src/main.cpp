@@ -62,7 +62,7 @@ int main(int argc,char * argv[])
   //Initialize SDL
   if(  SDL_Init(SDL_INIT_EVERYTHING)< 0) 
     {
-#ifdef _linux_
+#ifdef __linux__
          fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
 #endif
       exit(1);
@@ -112,7 +112,7 @@ int main(int argc,char * argv[])
   SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
-#ifdef _linux_ // Default to windowed on linux, for me. I'm selfish
+#ifdef __linux__ // Default to windowed on linux, for me. I'm selfish
   *flags = SDL_OPENGL;
 #else
   *flags = SDL_OPENGL | SDL_FULLSCREEN;
@@ -122,7 +122,7 @@ int main(int argc,char * argv[])
   Surface = SDL_SetVideoMode(width, height, bpp, *flags);
 
   if ( Surface == NULL ) {
-#ifdef _linux_
+#ifdef __linux__
     fprintf(stderr, "Unable to create OpenGL screen: %s\n", SDL_GetError());
 #endif
     SDL_Quit();
@@ -146,9 +146,11 @@ int main(int argc,char * argv[])
       die = process_events(Player1);
       
       if(die == 2){
-#ifdef _linux_
+
+	//#ifdef __linux__
 	SDL_WM_ToggleFullScreen(Surface);
-#endif
+	//#endif
+
 	die=0;
       }
     }

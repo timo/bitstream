@@ -115,7 +115,7 @@ int explosion(const position&pos, const double &radius, const double&duration, i
     gluSphere(qobj[index], e_radius[index], 15, 15);
     
     glPopMatrix(); 
-    
+     
   }
 
   return index;

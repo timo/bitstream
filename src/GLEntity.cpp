@@ -51,7 +51,7 @@ GLEntity::GLEntity(const GLdouble &x, const GLdouble &y, const GLdouble &z)
    m_dZ(z)
 {
 
-#ifdef DEBUG
+#ifdef VERBOSE
   cout << "GLEntity created" << endl;
 #endif
 
@@ -66,7 +66,7 @@ GLEntity::GLEntity(const position& pos)
    m_dZ(pos.z)
 {
 
-#ifdef DEBUG
+#ifdef VERBOSE
   cout << "GLEntity created" << endl;
 #endif
 
@@ -86,7 +86,7 @@ GLEntity::GLEntity(const GLEntity&)
 GLEntity::~GLEntity()
 {
 
-#ifdef DEBUG
+#ifdef VERBOSE
   cout << "GLEntity destroyed" << endl;
 #endif
 

@@ -389,7 +389,9 @@ GLPlayer::GetLongestRadius(){
 
 void 
 GLPlayer::ApplyDamage(const GLdouble &hit){
+#ifdef VERBOSE
   cout << "About to damage model" << endl;
+#endif
   m_model.hit(hit);
 
 }

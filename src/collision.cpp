@@ -22,7 +22,9 @@ GLdouble LongestRadius(BSM &bsm){
       LongestRad = Rad;
     }
   }
+#ifdef VERBOSE
   cout << LongestRad << endl;
+#endif
   return LongestRad;
 
 }
@@ -38,9 +40,7 @@ bool SphericalHit(GLEntity &object1, GLEntity &object2){
 
   distance = sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
   maxradius = object1.GetLongestRadius() + object2.GetLongestRadius();
-//   if (distance < 20){
-//     cout << distance << endl;
-//   }
+
   if (distance < maxradius){
 
       return true;
