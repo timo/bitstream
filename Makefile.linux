@@ -6,7 +6,7 @@ SRCDIR = src
 SRCS = src/main.cpp src/GLEntity.cpp src/GLPlayer.cpp src/events.cpp src/GLMap.cpp src/gl.cpp src/Texture.cpp src/BSM.cpp src/BSMPiece.cpp src/GLShot.cpp src/GLEnemy.cpp src/en_cube.cpp src/physics.cpp src/effects.cpp src/hud.cpp src/collision.cpp src/text.cpp
 
 CXX     = g++
-CFLAGS  = -g   -ggdb -Wall  -ansi -DDEBUG 
+CFLAGS  = -g -ggdb -Wall  -ansi -DDEBUG 
 INCLUDE = -I. -Iinclude
 LDFLAGS = -Llib  -lGL -lGLU -lm `sdl-config --libs`
 
