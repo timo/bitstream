@@ -98,7 +98,7 @@ GLEntity::shift(const GLint &xvel,const GLint &yvel, const GLint &zvel )
 
     if(m_dThisTime >= SDL_GetTicks())
       {
-    	m_dThisTime += 11;
+      	m_dThisTime += 11;
       }
     else{
       
