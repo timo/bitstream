@@ -57,7 +57,7 @@ int main(int argc,char * argv[])
   SDL_Surface *Surface;
   const SDL_VideoInfo* info = NULL;
   bool fullscreen=false;
- 
+  Uint32 *flags = new Uint32;
 
   //Initialize SDL
   if(  SDL_Init(SDL_INIT_EVERYTHING)< 0) 
@@ -130,6 +130,8 @@ int main(int argc,char * argv[])
   GLPlayer Player1(0,0,-11);
   Player1.setVel(0);
 
+  *flags = SDL_OPENGL;
+
   while(!die)
     {
       
@@ -141,7 +143,7 @@ int main(int argc,char * argv[])
 
 	//	if(!SDL_WM_ToggleFullScreen(Surface)){
 
-		  attempt_fullscreen_toggle(&Surface, 0);
+		  attempt_fullscreen_toggle(&Surface, flags);
 // 	   if(fullscreen == false){
 // 	     SDL_SetVideoMode(width, height, bpp, SDL_OPENGL | SDL_FULLSCREEN);
 // 	     fullscreen = true;
