@@ -55,7 +55,7 @@ int main(int argc,char * argv[])
   //  GLdouble fps, time, cleartime;
   SDL_Surface *Surface;
   const SDL_VideoInfo* info = NULL;
-
+  bool fullscreen=false;
  
 
   //Initialize SDL
@@ -137,8 +137,16 @@ int main(int argc,char * argv[])
       die = process_events(Player1);
       
       if(die == 2){
-
-	SDL_WM_ToggleFullScreen(Surface);
+	if(fullscreen == false){
+	  SDL_SetVideoMode(width, height, bpp, SDL_OPENGL | SDL_FULLSCREEN);
+	  fullscreen = true;
+	}
+	else{
+	  SDL_SetVideoMode(width, height, bpp, SDL_OPENGL );
+	  fullscreen = false;
+	}
+	  
+	//	SDL_WM_ToggleFullScreen(Surface);
 
 	die=0;
       }
