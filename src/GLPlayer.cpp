@@ -29,8 +29,8 @@ static const GLint ACCEL = 1;
 static const GLint SLOW = 1;
 static const GLint MAXSPEED = 80;
 
-extern MD2 hobgoblin;
-extern TEXTURE hobgoblinSkin;
+extern MD2 player;
+extern TEXTURE playerSkin;
 
 GLPlayer::GLPlayer(const GLdouble &x, const GLdouble &y, const GLdouble &z)
   :GLEntity(x, y, z)
@@ -121,9 +121,11 @@ GLPlayer::draw()const{
   glRotatef((double)m_dYvel*0.3, 1.0f, 0.0f, 0.0f);
 
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, hobgoblinSkin.ID);
+  glBindTexture(GL_TEXTURE_2D, playerSkin.ID);
+
   glScalef(0.05f, 0.05f, 0.05f);
-  hobgoblin.Animate(hobgoblin.stateStart, hobgoblin.stateEnd, 0.00f);
+  glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+  player.Animate(player.stateStart, player.stateEnd, 0.00f);
 
   glDisable(GL_TEXTURE_2D);
 

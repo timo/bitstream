@@ -20,8 +20,8 @@ static GLfloat fogColor []= {0.67f, 0.70f, 0.76f, 1.0f};
 
 GLvoid LoadGLTextures();
 
-MD2 hobgoblin;
-TEXTURE hobgoblinSkin;
+MD2 player;
+TEXTURE playerSkin;
 
 GLuint texture[3];
 GLuint sky[3];
@@ -113,8 +113,8 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   glFogf(GL_FOG_END, 95.0);
   glEnable(GL_FOG);
 
-  hobgoblinSkin.LoadTGA ("data/hobgoblin/hobgoblin.tga", GL_LINEAR, GL_LINEAR);
-  hobgoblin.Load ("data/hobgoblin/tris.md2");
+  playerSkin.LoadBMP ("data/player/player.bmp", GL_LINEAR, GL_LINEAR);
+  player.Load ("data/player/tris.md2");
 
 
 

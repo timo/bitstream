@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <iostream>
 #include <GL/gl.h>
 #include <SDL/SDL.h>
 
@@ -31,16 +31,24 @@ bool TEXTURE::LoadBMP (char *filename, GLfloat minFilter, GLfloat maxFilter) {
   }
 
   /* GL surfaces are upsidedown and RGB, not BGR :-) */
-  tmpbuf = (Uint8 *)malloc(image->pitch);
+
+
+  tmpbuf = new unsigned char[image->pitch];
+
   if ( tmpbuf == NULL ) {
     fprintf(stderr, "TEXTURE::LoadBMP: could not allocate buffer\n");
     return false;
   }
+  else
+    {
+      cout << "Alloc succeeded" << endl;
+    }
 
   rowhi = (Uint8 *)image->pixels;
   rowlo = rowhi + (image->h * image->pitch) - image->pitch;
-  for ( i=0; i<image->h/2; ++i ) {
-    for ( j=0; j<image->w; ++j ) {
+
+  for ( i=0; i<(image->h)/2; ++i ) {
+    for ( j=0; j<(image->w); ++j ) {
       tmpch = rowhi[j*3];
       rowhi[j*3] = rowhi[j*3+2];
       rowhi[j*3+2] = tmpch;
@@ -48,20 +56,27 @@ bool TEXTURE::LoadBMP (char *filename, GLfloat minFilter, GLfloat maxFilter) {
       rowlo[j*3] = rowlo[j*3+2];
       rowlo[j*3+2] = tmpch;
     }
+
     memcpy(tmpbuf, rowhi, image->pitch);
     memcpy(rowhi, rowlo, image->pitch);
     memcpy(rowlo, tmpbuf, image->pitch);
+
     rowhi += image->pitch;
     rowlo -= image->pitch;
   }
-  free(tmpbuf);
+
+  delete tmpbuf;
 
   // Create Texture
+
   glGenTextures (1, &ID);
   
   //Filtering for if texture is bigger than should be
+
   glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+
   //Filtering for if texture is smaller than it should be
+
   glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, maxFilter);
 
   //Bind the texture to a texture object 
