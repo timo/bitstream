@@ -76,6 +76,13 @@ int main(int argc,char * argv[])
 
   SDL_JoystickEventState(SDL_ENABLE);
 
+
+  SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
+  SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
+  SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
+  SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, bpp );
+  SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+
   //Initialize window
   Surface = SDL_SetVideoMode(width, height, 0, SDL_OPENGL);
 
@@ -113,7 +120,7 @@ int main(int argc,char * argv[])
 
 
   cout << "\nEnd of main()" << endl;
-  SDL_FreeSurface(Surface);
+
   SDL_Quit();
   return 0;
 
