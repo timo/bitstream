@@ -49,11 +49,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 {
 
 
-  SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
-  SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
-  SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
-  SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, bpp );
-  SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+
 
  
   LoadGLTextures();
