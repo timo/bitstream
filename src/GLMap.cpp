@@ -32,6 +32,8 @@ jm@icculus.org
 #include <iostream>
 #include <SDL/SDL.h>
 #include "Texture.h"
+
+using namespace std;
 //extern GLuint texture[];
 //extern GLuint sky[];
 

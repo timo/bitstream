@@ -36,7 +36,7 @@ jm@icculus.org
 #include "GLShot.h"
 #include "Texture.h"
 #include "BSM.h"
-
+using namespace std;
 
 //static GLfloat mat_amb[]=          { 0.1, 0.5, 0.8, 1.0};
 

@@ -23,6 +23,7 @@ jm@icculus.org
 #include <fstream>
 #include "Texture.h"
 
+using namespace std;
 //Default Constructor
 
 Texture::Texture ()

@@ -100,7 +100,7 @@ GLShot::draw(){
     m_yAngle = -2.2*(playerptr->getXtilt()) ;
   }
 
-  cout << m_xBase << "," << m_yBase << endl;
+  // cout << m_xBase << "," << m_yBase << endl;
 
     m_rho += (SDL_GetTicks() - m_lastTime)/20.0 * m_Vel;
 

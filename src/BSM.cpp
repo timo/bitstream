@@ -43,6 +43,8 @@ jm@icculus.org
 
 //============================= Lifecycle ====================================
 
+using namespace std;
+
 BSM::BSM()
   :m_mainDamage(100)
 {

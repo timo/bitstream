@@ -29,6 +29,8 @@ jm@icculus.org
 #include "GLMap.h"
 #include "GLShot.h"	
 
+using namespace std;
+
 extern list < GLEntity * > entityptr;
 extern list <GLEntity * >::iterator entityiter;
 extern unsigned entitysize;
