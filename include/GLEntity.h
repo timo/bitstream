@@ -31,7 +31,7 @@ jm@icculus.org
 #include <GL/gl.h>
 // Project Includes
 //
-
+#include "physics.h"
 // Local Includes
 //
 
@@ -49,6 +49,7 @@ public:
 // Lifecycle
 
    GLEntity(const GLdouble &x=0, const GLdouble &y=0, const GLdouble &z=0);
+   GLEntity(const position &);
    GLEntity(const GLEntity&);            // copy constructor
    virtual ~GLEntity();
 
@@ -79,7 +80,7 @@ protected:
 private:
 // Private Methods
 
-	GLdouble m_dLastTime, m_dThisTime;
+   GLdouble m_dLastTime, m_dThisTime;
 	GLdouble m_dX;
 	GLdouble m_dY;
 	GLdouble m_dZ;

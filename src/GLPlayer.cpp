@@ -123,7 +123,7 @@ GLPlayer::draw()const{
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, playerSkin.getID());
 
-  glColor4f(0.2f, 0.2f, 0.2f, 1.0f);
+  glColor4f(0.2f, 0.2f, 0.2f, 0.6f);
 
   player.draw();
 
@@ -217,9 +217,7 @@ GLPlayer::move(const GLint &x, const GLint &y, const GLint &z){
   // X Speed manipulation
 
   if(x==1){
-    
-    //FIXME acceleration may be different on some machines
-    //FIXED
+
 
     if(m_dXvel < MAXSPEED){
       m_dXvel += ACCEL*deltatime;

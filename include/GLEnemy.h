@@ -34,6 +34,8 @@ jm@icculus.org
 //
 #include "GLEntity.h"
 #include "BSM.h"
+#include "physics.h"
+
 // Local Includes
 //
 
@@ -50,8 +52,8 @@ public:
 
 // Lifecycle
 
-   GLEnemy();
-	GLEnemy(const GLdouble &x, const GLdouble &x, const GLdouble &x);
+	GLEnemy(const GLdouble &x=0, const GLdouble &y=0, const GLdouble &z=0);
+	GLEnemy(const position &);
    GLEnemy(const GLEnemy&);            // copy constructor
    virtual ~GLEnemy();
 
@@ -69,6 +71,17 @@ public:
 // Access
 
 // Inquiry
+
+//    virtual void SetPosition(const position &);
+//    virtual void SetVelocity(const velocity &);
+//    virtual void SetAcceleration(const acceleration &);
+//    virtual void SetRotation(const rotation &);
+// // Inquiry
+
+//    virtual position GetPosition(void);
+//    virtual velocity GetVelocity(void);
+//    virtual acceleration GetAcceleration(void);
+//    virtual rotation GetRotation(void);
 
 protected:
 // Protected Methods

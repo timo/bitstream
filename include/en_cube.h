@@ -15,8 +15,11 @@
 
 // Project Includes
 //
+
 #include "BSM.h"
 #include "GLEnemy.h"
+#include "physics.h"
+
 // Local Includes
 //
 
@@ -32,8 +35,8 @@ class en_cube : public GLEnemy
 public:
 
 // Lifecycle
-
-   en_cube(const GLdouble&x, const GLdouble&y, const GLdouble&z);
+   en_cube(const double &x=0, const double &y=0, const double &z=0);
+   en_cube(const position &);
    en_cube(const en_cube&);            // copy constructor
    ~en_cube();
 
@@ -42,7 +45,7 @@ public:
    en_cube&   operator=(const en_cube&);     // assignment operator
 
 // Operations
-
+	void build();  // Common constructor code
 	void en_attack();
    void en_idle();
 	void en_move();
@@ -50,26 +53,19 @@ public:
 
 // Access
 
-// Inquiry
+
 
 protected:
 // Protected Methods
 private:
 // Private Methods
 	BSM m_model;
-	GLdouble m_xVel;
-	GLdouble m_yVel;
-	GLdouble m_zVel;
-	GLdouble m_xTilt;
-	GLdouble m_yTilt;
-	GLdouble m_zTilt;
-	GLdouble m_xAcc;
-	GLdouble m_yAcc;
-	GLdouble m_zAcc;
-	GLdouble m_xPos;
-	GLdouble m_yPos;
-	GLdouble m_zPos;
-   Uint32 m_dLasttime;
+   velocity m_Velocity;
+   acceleration m_Acceleration;
+   position m_Position;
+   rotation m_Rotation;
+   Uint32 m_LastTime;
+   double m_IdleTime;
 
 //////////////////Removed
 };

@@ -59,6 +59,21 @@ GLEntity::GLEntity(const GLdouble &x, const GLdouble &y, const GLdouble &z)
 
 }// GLEntity
 
+
+GLEntity::GLEntity(const position& pos)
+  :m_dX(pos.x),
+   m_dY(pos.y),
+   m_dZ(pos.z)
+{
+
+#ifdef DEBUG
+  cout << "GLEntity created" << endl;
+#endif
+
+  m_uTotal += 1;
+
+}// GLEntity
+
 GLEntity::GLEntity(const GLEntity&)
 {
 

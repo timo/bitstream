@@ -73,8 +73,9 @@ int GLDraw(GLPlayer &Player1){
   static Uint32 lasttime;
   GLfloat seconds;
   static GLfloat fps;
+  static int once = 0;
 
-  static en_cube firstcube(0, 0, -40);
+  //  static en_cube firstcube(0, 0, -40);
 
   playerptr = &Player1;
 
@@ -87,7 +88,13 @@ int GLDraw(GLPlayer &Player1){
   glPushMatrix();  // Things affected by perspective
   map1.draw();
 
-  firstcube.draw();
+  //   firstcube.draw();
+   if(once==0){
+     entityiter=entityptr.end();
+     *entityiter = new en_cube(0, 0, -40);
+     entityptr.push_back(*entityiter);
+     once = 1;
+   }
 
   for (entityiter=entityptr.begin();entityiter!=entityptr.end();entityiter++){
     (*entityiter)->draw();
@@ -203,7 +210,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
   // glMatrixMode(GL_MODELVIEW);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-  // glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+  glBlendFunc(GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA);
 
   glPolygonMode (GL_FRONT, GL_FILL);
   glPolygonMode (GL_BACK, GL_FILL);
