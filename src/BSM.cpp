@@ -43,12 +43,18 @@ jm@icculus.org
 //============================= Lifecycle ====================================
 
 BSM::BSM()
-  :m_mainDamage(100)
+  :m_mainDamage(100),
+   foundnormals(0)
 {
+  cout << "In BSM Constructor" << endl;
+  foundnormals = 0;
 }// BSM
 
 BSM::BSM(const BSM&)
+  :m_mainDamage(100),
+   foundnormals(0)
 {
+  cout << "In BSM Copy Constructor" << endl;
 }// BSM
 
 BSM::~BSM()
@@ -66,10 +72,10 @@ BSM::operator=(const BSM&rhs)
     }
 
     //superclass::operator =(rhs);
-
+  cout << "In BSM Assignment Operator" << endl;
     //add local assignments
-
-    return *this;
+   foundnormals=false;
+   return *this;
 
 }// =
 
@@ -112,22 +118,32 @@ BSM::draw(){
     
     m_ptrPoints = *(m_vBSM[j].get_vec());
 
-
-    GLfloat normal[3];
-    GLfloat *ntemp = new GLfloat[3];
-
     if(m_vBSM[j].isAlive()){
+
+
+      //Normal calculations, only runs on first draw
+      if(foundnormals != 1){
+
+	m_normals.resize(m_ptrPoints.size()+1);
+	GLfloat *ntemp = new GLfloat[3];
+	
+	for (unsigned i=0; i<m_ptrPoints.size(); i=i+3){	  
+	  FindNormal(i, ntemp);
+	  m_normals[i+0] = *ntemp;
+	  m_normals[i+1] = *(ntemp + sizeof(GLfloat));
+	  m_normals[i+2] = *(ntemp + 2*sizeof(GLfloat));
+	}
+
+	foundnormals = 1;
+	delete ntemp;
+      }
+
 
       glBegin(GL_TRIANGLES);
       for (unsigned i=0; i<m_ptrPoints.size(); i=i+3){
 	
-	
-	FindNormal(i, ntemp);
-	normal[0] = *ntemp;
-	normal[1] = *(ntemp + sizeof(GLfloat));
-	normal[2] = *(ntemp + 2*sizeof(GLfloat));
-	glNormal3fv(normal);
-	
+	glNormal3fv(&m_normals[i]);
+	  
 	glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+0]-1)*3]);
 	glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+1]-1)*3]);
 	glVertex3fv(&m_ptrVertex[(m_ptrPoints[i+2]-1)*3]);
@@ -135,7 +151,7 @@ BSM::draw(){
       }
       glEnd();
     }
-      delete ntemp;
+
   }
 }
 
@@ -263,8 +279,12 @@ BSM::LoadBSM(char *filename){
   
   }
 
+GLdouble 
+BSM::getDamage(){
 
+  return m_mainDamage;
 
+}
 // //============================= Operations ===================================
 // //============================= Access      ==================================
 // //============================= Inquiry    ===================================

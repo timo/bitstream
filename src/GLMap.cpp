@@ -128,7 +128,7 @@ GLMap::draw()const{
       
       glEnd();
 
-      // glBindTexture(GL_TEXTURE_2D, sky[2]);
+
       glBindTexture(GL_TEXTURE_2D, skySkin.getID());
       glBegin(GL_QUADS);
 

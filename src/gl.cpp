@@ -113,6 +113,10 @@ int GLDraw(GLPlayer &Player1){
 
   glRasterPos2f( 0.4f, 0.36f );
   glPrint("fps: %3.2f", fps);
+
+  glRasterPos2f( -0.5f, -0.4f );
+  glColor3f(1.0f, 1.0f, 1.0f);
+  glPrint("Health: %3.0f", player.getDamage());
   SDL_GL_SwapBuffers();
 
   return 0;
@@ -179,6 +183,7 @@ void setup_opengl( const int &Width, const int &Height , const int &bpp)
 
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
   glEnable(GL_COLOR_MATERIAL);
+
   // Fog stuff
 
   glFogi(GL_FOG_MODE, GL_LINEAR);

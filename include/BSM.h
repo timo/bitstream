@@ -74,14 +74,19 @@ public:
 
 // Inquiry
 
+	GLdouble getDamage();
+
 protected:
 // Protected Methods
 private:
 
-	vector< float > m_ptrVertex;        //Vertex array
-	vector< BSMPiece > m_vBSM;
-	vector < int > m_ptrPoints;
+	vector < GLfloat > m_ptrVertex;        //Vertex array
+	vector < BSMPiece > m_vBSM;
+	vector < GLint > m_ptrPoints;
+	vector < GLfloat > m_normals;
+
 	GLdouble m_mainDamage;
+	GLint foundnormals;
 
 // Private Methods
 

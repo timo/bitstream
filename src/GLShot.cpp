@@ -104,7 +104,7 @@ GLShot::draw(){
   glRotatef(m_yAngle, 0.0f, 1.0f, 0.0f);
   glTranslatef(0.0f, 0.0f, -m_rho);
 
-  glColor3f(0.2f, 0.0f, 0.5f);
+  glColor3f(0.4f, 0.0f, 0.0f);
   shot.draw();
 
   glTranslatef(0.0f, 0.0f, m_rho);
