@@ -3,7 +3,7 @@
 BIN = bitstream
 CYGWIN_DIR=  
 SRCDIR = src
-SRCS = src/main.cpp src/GLEntity.cpp src/GLPlayer.cpp src/events.cpp src/GLMap.cpp src/gl.cpp src/Texture.cpp src/Math.cpp src/BSM.cpp
+SRCS = src/main.cpp src/GLEntity.cpp src/GLPlayer.cpp src/events.cpp src/GLMap.cpp src/gl.cpp src/Texture.cpp src/Math.cpp src/BSM.cpp src/BSMPiece.cpp
 
 CXX     = g++
 CFLAGS  = -g   -Wall  -ansi -DDEBUG
