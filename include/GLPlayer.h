@@ -39,7 +39,7 @@ public:
 // Operator
    
    GLPlayer&   operator=(const GLPlayer&);     // assignment operator
-	void draw()const;
+	void draw();
 
 // Operations
 
@@ -57,7 +57,7 @@ private:
 
    GLdouble m_dLasttime, m_dThistime;
 	GLdouble m_dXvel, m_dYvel;
-
+   GLdouble m_dOverrideX, m_dOverrideY;
 
 
 //////////////////Removed
