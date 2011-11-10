@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdarg.h>
+#include <cstring>
 #include "text.h"
 #include "Texture.h"
 
@@ -12,7 +13,7 @@ static GLuint  base;
 
 using namespace std;
 /* function to build our font list */
-GLvoid BuildFont( GLvoid )
+GLvoid BuildFont( )
 {
     GLuint loop;
     float cx;    // Holds Our X Character Coord 
@@ -52,7 +53,7 @@ GLvoid BuildFont( GLvoid )
 }
 
 /* function to recover memory form our list of characters */
-GLvoid KillFont( GLvoid )
+GLvoid KillFont( )
 {
     glDeleteLists( base, 256 ); /* Delete All 256 Display Lists */
 

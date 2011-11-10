@@ -4,7 +4,7 @@
 #define _text_h_
 
 GLvoid glPrint( GLint x, GLint y, int set, char *string, ... );
-GLvoid KillFont( GLvoid );
-GLvoid BuildFont( GLvoid );
+GLvoid KillFont( );
+GLvoid BuildFont( );
 
 #endif // _text_h_
