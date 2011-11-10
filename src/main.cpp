@@ -59,9 +59,9 @@ int main(int argc,char * argv[])
   Uint32 *flags = new Uint32;
 
   // Defaults
-  fullscreen=true;
-  width = 1024;
-  height = 768;
+  fullscreen=false;
+  width = 800;
+  height = 600;
 
   if(argc>1){
 
