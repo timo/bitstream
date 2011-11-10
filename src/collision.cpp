@@ -15,18 +15,23 @@ GLdouble LongestRadius(BSM &bsm){
   GLfloat* V;
   V = new GLfloat[3];
 
-  for(int i = 0; i < bsm.GetNumVertices(); i++){
-    V = bsm.GetVert(i);
+  for(int i = 0; i < bsm.GetNumVertices(); i+=3) {
+    V[0] = bsm.GetVert(i+0);
+    V[1] = bsm.GetVert(i+1);
+    V[2] = bsm.GetVert(i+2);
     Rad = sqrt(V[0]*V[0] + V[1]*V[1] + V[2]*V[2]);
     if(Rad > LongestRad){
       LongestRad = Rad;
     }
   }
+
+  delete[] V;
+
+
 #ifdef VERBOSE
   cout << LongestRad << endl;
 #endif
   return LongestRad;
-
 }
 
 bool SphericalHit(GLEntity &object1, GLEntity &object2){

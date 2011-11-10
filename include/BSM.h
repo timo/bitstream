@@ -75,7 +75,7 @@ public:
 // Inquiry
 	GLint GetNumPieces();
 	GLint GetNumVertices();
-	GLfloat* GetVert(GLint i);
+	GLfloat GetVert(GLint i);
 	GLdouble getDamage();
 	void setDamage(const GLdouble &);
 	GLdouble GetLongestRadius();

@@ -291,10 +291,10 @@ BSM::GetNumVertices(){
   return m_vertices.size();
 }
 
-GLfloat* 
+GLfloat 
 BSM::GetVert(GLint i){
 
-    return &m_vertices[i];
+    return m_vertices[i];
 }
 
 GLdouble 
