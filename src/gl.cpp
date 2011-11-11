@@ -82,13 +82,8 @@ int GLDraw(GLPlayer &Player1){
   playerptr = &Player1;
 
   if(once_really == 0){
-    entityiter=entityptr.end();
-    *entityiter = playerptr;
-    entityptr.push_back(*entityiter);
-
+    entityptr.push_back(playerptr);
     once_really = 1;
-
-
   }
 
   if((SDL_GetTicks() - cubetime)/1000*(playerptr->GetVelocity()) > 100){
@@ -96,21 +91,19 @@ int GLDraw(GLPlayer &Player1){
   }
   
    if(once==0){
-     entityiter=entityptr.end();
      switch(rand()%3){
      case 0:
-       *entityiter = new en_cube(0, 0, -200);
+                entityptr.push_back(new en_cube(0, 0, -200));
        break;
      case 1:
-       *entityiter = new en_hornet(0, 0, -200);
+                entityptr.push_back(new en_hornet(0, 0, -200));
        break;
      case 2:
-       *entityiter = new en_turret(0, -5, -200);
+                entityptr.push_back(new en_turret(0, -5, -200));
        break;
      default:
        break;
      }
-     entityptr.push_back(*entityiter);
      cubetime = SDL_GetTicks();
      once = 1;
 

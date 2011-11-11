@@ -150,9 +150,7 @@ int process_events()
 	    break;
 	  case SDLK_SPACE:
 	    if(playerptr->isAlive()){
-	      entityiter=entityptr.end();
-	      *entityiter = new GLShot;
-	      entityptr.push_back(*entityiter);
+	      entityptr.push_back(new GLShot);
  	    }else{
 	      glLoadIdentity();
 	      entityiter=entityptr.end();
