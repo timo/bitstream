@@ -38,7 +38,7 @@ jm@icculus.org
 #include <math.h>
 #include <ctype.h>	// for isdigit()
 
-#define MAXDIG 5
+#define MAXDIG 10
 #define COMMENT 150
 /////////////////////////////// Public ///////////////////////////////////////
 
@@ -185,7 +185,7 @@ BSM::LoadBSM(char *filename){
 	}
 	cTemp[MAXDIG-1]='\0';
 	counter = 0;
-	while(file.peek() != ',' && file.peek() != '>' && counter < MAXDIG){
+            while(file.peek() != ',' && file.peek() != '>' && counter < MAXDIG-1){
 	  cTemp[counter] = file.get();
 	  counter++;
 	}
@@ -251,8 +251,8 @@ BSM::LoadBSM(char *filename){
 
     file.close();
 
-    delete cTemp;
-    delete comment;
+    delete[] cTemp;
+    delete[] comment;
 
     // Setup the vertex array
     glEnableClientState(GL_VERTEX_ARRAY);
